@@ -77,7 +77,7 @@ gsnchk<- function(XYdt,Xm,Ym,Vt,Vb,dyt,dyb){
 #'   \item{YC}{Fraction of PEG}
 #'   ...
 #' }
-#' @source \url{http://eqipe.me}
+#' @source \url{http://diegofcoelho.github.io/code/}
 #' @examples
 #' #
 #' XYdt <- peg4kslt[,1:2]

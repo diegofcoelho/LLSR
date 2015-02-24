@@ -5,9 +5,9 @@
 \title{This functions plot a curve based in the chosen model and its parameters.}
 \usage{
 plotll(model, param, xlbl = "Salt Fraction (w/w)",
-  ylbl = "PEG Fraction (w/w)", main = "Title", col = "blue", type = "p",
-  cex = 2.5, cexlab = 2.5, cexaxis = 2.5, cexmain = 2.5, cexsub = 2.5,
-  xmax = 0.4, mpl = FALSE)
+  ylbl = "PEG Fraction (w/w)", main = "Title", col = "black",
+  type = "p", cex = 2.5, cexlab = 2.5, cexaxis = 2.5, cexmain = 2.5,
+  cexsub = 2.5, xmax = 0.4, mpl = FALSE)
 }
 \arguments{
 \item{model}{- Model chosen to be used: merchuk, murugesan [type:string]}
