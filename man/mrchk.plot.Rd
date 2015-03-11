@@ -43,7 +43,7 @@
 \item{...}{Additional optional arguments. None are used at present.}
 }
 \value{
-A plot containing the experimental data and the correspondent curve for the binodal in study.
+A plot containing the experimental data, the correspondent curve for the binodal in study and the curve's raw XY data.
 }
 \description{
 The function returns a plot after fitting a dataset to the equation described by Merchuk.

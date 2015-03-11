@@ -68,7 +68,7 @@ mrchk.default <- function(XYdt,P1=10,P2=1,P3=0,...){
 #' @param ymax - Maximum value for the Vertical axis' value
 #' @param HR - Magnify Plot's text to be compatible with High Resolution size [type:Boulean]
 #' @param NP - Number of points used to build the fitted curve. Default is 100. [type:Integer]
-#' @return A plot containing the experimental data and the correspondent curve for the binodal in study.
+#' @return A plot containing the experimental data, the correspondent curve for the binodal in study and the curve's raw XY data.
 #' @examples
 #' #Populating variable XYdt with binodal data
 #' XYdt <- peg4kslt[,1:2] 
@@ -96,23 +96,25 @@ mrchk.plot <- function  (XYdt, xlbl="Salt Fraction (w/w)", ylbl="PEG Fraction (w
       cexsub=1
     }
     #
-    plot(XYdt, xlab=xlbl,ylab=ylbl,main=main,col=col, type=type,
-         cex=cex,cex.lab=cexlab, cex.axis=cexaxis, cex.main=cexmain,
-         cex.sub=cexsub,xlim=c(0,xmax),ylim=c(0,ymax))  
+    plot(XYdt, xlab = xlbl, ylab = ylbl, main = main, col = col, type = type,
+         cex = cex, cex.lab = cexlab, cex.axis = cexaxis, cex.main = cexmain,
+         cex.sub = cexsub, xlim = c(0,xmax), ylim = c(0,ymax))  
     #Test if summary exists
-    Smmry<-summary(mrchk(XYdt))
+    Smmry <- summary(mrchk(XYdt))
     #
-    x<-sort(runif(NP,0.001,xmax))
+    x <- sort(runif(NP,0.001,xmax))
     #
     Fn <- function(P1,P2,P3,SALT){
       P1*exp(P2*(SALT^(0.5))-P3*(SALT^3))
     }
     #
-    rawdt<-curve(Fn(Smmry$coefficients[1],
+    rawdt <- curve(Fn(Smmry$coefficients[1],
                     Smmry$coefficients[2],
                     Smmry$coefficients[3],x),
           add=TRUE, n = NP)
-    rawdt
+    names(rawdt)<-c("XC","YC")
+    rawdt<-as.data.frame(rawdt)
+    invisible(rawdt)
 }
 #' @rdname mrchk.tielines
 #' @title Merchuk's Method - Tieline's Composition Calculation

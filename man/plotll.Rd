@@ -7,7 +7,7 @@
 plotll(model, param, xlbl = "Salt Fraction (w/w)",
   ylbl = "PEG Fraction (w/w)", main = "Title", col = "black",
   type = "p", cex = 1, cexlab = 1, cexaxis = 1, cexmain = 1,
-  cexsub = 1, xmax = 0.4, mpl = FALSE, HR = FALSE)
+  cexsub = 1, xmax = 0.4, mpl = FALSE, HR = FALSE, NP = 100)
 }
 \arguments{
 \item{model}{- Model chosen to be used: merchuk, murugesan [type:string]}
@@ -39,9 +39,11 @@ plotll(model, param, xlbl = "Salt Fraction (w/w)",
 \item{mpl}{- You can overlay curves in a single plot. Default is FALSE. [type::LOGIC]}
 
 \item{HR}{- Magnify Plot's text to be compatible with High Resolution size [type:Boulean]}
+
+\item{NP}{- Number of points used to build the fitted curve. Default is 100. [type:Integer]}
 }
 \value{
-A plot using the input model within the chosen interval. If no interval is selected, xmax=0.4.
+A plot using the input model within the chosen interval and the curve's raw XY data. If no interval is selected, xmax=0.4.
 }
 \description{
 The function returns a plot after using the parameters and model given by the user.

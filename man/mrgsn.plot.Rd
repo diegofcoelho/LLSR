@@ -7,7 +7,7 @@
 \method{mrgsn}{plot}(XYdt, xlbl = "Salt Fraction (w/w)",
   ylbl = "PEG Fraction (w/w)", main = "Title", col = "blue", type = "p",
   cex = 1, cexlab = 1, cexaxis = 1, cexmain = 1, cexsub = 1,
-  xmax = 0.4, ymax = 0.5, HR = FALSE, ...)
+  xmax = 0.4, ymax = 0.5, HR = FALSE, NP = 100, ...)
 }
 \arguments{
 \item{XYdt}{- Standard bidimensional data.frame used in most of functions available in this package. [type::data.frame]}
@@ -38,10 +38,12 @@
 
 \item{HR}{- Magnify Plot's text to be compatible with High Resolution size [type:Boulean]}
 
+\item{NP}{- Number of points used to build the fitted curve. Default is 100. [type:Integer]}
+
 \item{...}{Additional optional arguments. None are used at present.}
 }
 \value{
-A plot containing the experimental data and the correspondent curve for the binodal in study.
+A plot containing the experimental data, the correspondent curve for the binodal in study and the curve's raw XY data.
 }
 \description{
 The function returns a plot after fitting a dataset to the equation described by Murugesan.

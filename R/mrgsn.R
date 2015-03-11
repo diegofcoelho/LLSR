@@ -36,7 +36,7 @@ mrgsn <- function(...) UseMethod("mrgsn")
 #' mrgsn(XYdt)
 mrgsn.default <- function(XYdt,...){
   names(XYdt)<-c("XC","YC")
-  controll<-nls.control(maxiter=50, tol=1e-10, minFactor = 1/1024, printEval = FALSE, warnOnly = FALSE)
+  #controll<-nls.control(maxiter=50, tol=1e-10, minFactor = 1/1024, printEval = FALSE, warnOnly = FALSE)
   FFn <- nls(
     YC~ A+B*(XC)^0.5+C*XC,
     start=list(A=50,B=1,C=0),
@@ -144,7 +144,8 @@ mrgsn.bancroft <- function(TLdt,...){
 #' @param xmax - Maximum value for the Horizontal axis' value  [type:double]
 #' @param ymax - Maximum value for the Vertical axis' value  [type:double]
 #' @param HR - Magnify Plot's text to be compatible with High Resolution size [type:Boulean]
-#' @return A plot containing the experimental data and the correspondent curve for the binodal in study.
+#' @param NP - Number of points used to build the fitted curve. Default is 100. [type:Integer]
+#' @return A plot containing the experimental data, the correspondent curve for the binodal in study and the curve's raw XY data.
 #' @examples 
 #' #Populating variable XYdt with binodal data
 #' XYdt <- peg4kslt[,1:2] 
@@ -153,7 +154,7 @@ mrgsn.bancroft <- function(TLdt,...){
 #' mrgsn.plot(XYdt)
 #' #
 mrgsn.plot <- function  (XYdt, xlbl="Salt Fraction (w/w)", ylbl="PEG Fraction (w/w)", main="Title", col="blue", type="p",
-                         cex=1, cexlab=1, cexaxis=1, cexmain=1, cexsub=1,xmax=0.4,ymax=0.5,HR=FALSE,...)
+                         cex=1, cexlab=1, cexaxis=1, cexmain=1, cexsub=1,xmax=0.4,ymax=0.5,HR=FALSE, NP=100,...)
   {
   #
   if (HR==TRUE){
@@ -172,23 +173,26 @@ mrgsn.plot <- function  (XYdt, xlbl="Salt Fraction (w/w)", ylbl="PEG Fraction (w
     cexsub=1
   }
   #
-  plot(XYdt, xlab=xlbl,ylab=ylbl,main=main,col=col, type=type,
-       cex=cex,cex.lab=cexlab, cex.axis=cexaxis, cex.main=cexmain,
-       cex.sub=cexsub,xlim=c(0,xmax),ylim=c(0,ymax))  
+  plot(XYdt, xlab = xlbl, ylab = ylbl, main = main, col = col, type = type,
+       cex = cex, cex.lab = cexlab, cex.axis = cexaxis, cex.main = cexmain,
+       cex.sub = cexsub, xlim = c(0,xmax), ylim = c(0,ymax)) 
   #
   Smmry<-summary(mrgsn(XYdt))
   print(Smmry$coefficients[1])
   print(Smmry$coefficients[2])
   print(Smmry$coefficients[3])
   #
-  x<-sort(runif(500,0.001,xmax))
+  x <- sort(runif(NP,0.001,xmax))
   #
   Fn <- function(A,B,C,XC){
     A+B*(XC)^0.5+C*XC
   }
   #
-  curve(Fn(Smmry$coefficients[1],
+  rawdt <- curve(Fn(Smmry$coefficients[1],
                 Smmry$coefficients[2],
                 Smmry$coefficients[3],x),
-        add=TRUE)
+        add=TRUE, n = NP)
+  names(rawdt)<-c("XC","YC")
+  rawdt<-as.data.frame(rawdt)
+  invisible(rawdt)
 }
