@@ -6,8 +6,8 @@
 \usage{
 plotll(model, param, xlbl = "Salt Fraction (w/w)",
   ylbl = "PEG Fraction (w/w)", main = "Title", col = "black",
-  type = "p", cex = 2.5, cexlab = 2.5, cexaxis = 2.5, cexmain = 2.5,
-  cexsub = 2.5, xmax = 0.4, mpl = FALSE)
+  type = "p", cex = 1, cexlab = 1, cexaxis = 1, cexmain = 1,
+  cexsub = 1, xmax = 0.4, mpl = FALSE, HR = FALSE)
 }
 \arguments{
 \item{model}{- Model chosen to be used: merchuk, murugesan [type:string]}
@@ -37,12 +37,14 @@ plotll(model, param, xlbl = "Salt Fraction (w/w)",
 \item{xmax}{- Maximum value for the Horizontal axis' value (bottom-rich component)  [type:double]}
 
 \item{mpl}{- You can overlay curves in a single plot. Default is FALSE. [type::LOGIC]}
+
+\item{HR}{- Magnify Plot's text to be compatible with High Resolution size [type:Boulean]}
 }
 \value{
 A plot using the input model within the chosen interval. If no interval is selected, xmax=0.4.
 }
 \description{
-The function returns a plot after using the parameters ans model given by the user.
+The function returns a plot after using the parameters and model given by the user.
 }
 \details{
 The function owns predefined set of equations that can be seen below and must be used, with adequated parameters,
@@ -50,7 +52,7 @@ to return a plot which represent the chosen model.
 }
 \examples{
 \dontrun{
-plotll("merugesan",as.data.frame(c(0.90,-3.48,2.92)),mpl=TRUE,col="red")
+plotll("murugesan",as.data.frame(c(0.90,-3.48,2.92)),mpl=TRUE,col="red")
 }
 }
 

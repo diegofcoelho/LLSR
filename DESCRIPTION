@@ -1,7 +1,7 @@
 Package: LLSR
 Type: Package
 Title: Data Analysis of Liquid-Liquid Systems
-Version: 0.0.1.9000
+Version: 0.0.1.9010
 Date: 2015-02-24
 Author: Diego F Coelho <diegofcoelho@gmail.com>
 Maintainer: Diego F Coelho <diegofcoelho@gmail.com>

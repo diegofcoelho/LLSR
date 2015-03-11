@@ -51,7 +51,7 @@ mrgsn.default <- function(XYdt,...){
 #' @method mrgsn othmer
 #' @param ... Additional optional arguments. None are used at present.
 #' @param TLdt - Tieline Experimental data that will be used in the nonlinear fit
-#' @export
+#' @export mrgsn.othmer
 #' @return Parameters K, n and Statistical data
 #' @examples 
 #' # TLdt is a data.frame which contains series of Tieline's mass fraction
@@ -87,7 +87,7 @@ mrgsn.othmer <- function(TLdt,...){
 #' @references Othmer, D.F. and P.E. Tobias, Liquid-Liquid Extraction Data -Toluene and Acetaldehyde Systems.
 #'  Industrial & Engineering Chemistry, 1942. 34(6): p. 690-692.
 #' @method mrgsn bancroft
-#' @export
+#' @export mrgsn.bancroft
 #' @param ... Additional optional arguments. None are used at present.
 #' @param TLdt - Tieline Experimental data that will be used in the nonlinear fit
 #' @return Parameters K1, r and Statistical data
@@ -128,7 +128,7 @@ mrgsn.bancroft <- function(TLdt,...){
 #' @details This version uses the plot function and return a regular bidimensional plot. Future versions will
 #'  include a ternary diagram and more formal formatting.
 #' @method mrgsn plot
-#' @export
+#' @export mrgsn.plot
 #' @param ... Additional optional arguments. None are used at present.
 #' @param XYdt - Standard bidimensional data.frame used in most of functions available in this package. [type::data.frame]
 #' @param xlbl - Plot's Horizontal axis label. If not set, It will admit the system under study is a PEG-Salt System.   [type:string]
@@ -143,25 +143,43 @@ mrgsn.bancroft <- function(TLdt,...){
 #' @param cexsub - Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param xmax - Maximum value for the Horizontal axis' value  [type:double]
 #' @param ymax - Maximum value for the Vertical axis' value  [type:double]
+#' @param HR - Magnify Plot's text to be compatible with High Resolution size [type:Boulean]
 #' @return A plot containing the experimental data and the correspondent curve for the binodal in study.
 #' @examples 
 #' #Populating variable XYdt with binodal data
 #' XYdt <- peg4kslt[,1:2] 
 #' #Plot XYdt using Murugesan's function
-#' \dontrun{
+#' #
 #' mrgsn.plot(XYdt)
-#' }
+#' #
 mrgsn.plot <- function  (XYdt, xlbl="Salt Fraction (w/w)", ylbl="PEG Fraction (w/w)", main="Title", col="blue", type="p",
-                         cex=2.5, cexlab=2.5, cexaxis=2.5, cexmain=2.5, cexsub=2.5,xmax=0.4,ymax=0.5,...)
+                         cex=1, cexlab=1, cexaxis=1, cexmain=1, cexsub=1,xmax=0.4,ymax=0.5,HR=FALSE,...)
   {
   #
-  par(mar = c(6,6,6,4) + 0.1)
+  if (HR==TRUE){
+    par(mar = c(6,6,6,4) + 0.1)
+    cex=2.5
+    cexlab=2.5
+    cexaxis=2.5
+    cexmain=2.5
+    cexsub=2.5
+  }else{
+    par(mar = c(5, 4, 4, 2) + 0.1)
+    cex=1
+    cexlab=1
+    cexaxis=1
+    cexmain=1
+    cexsub=1
+  }
   #
   plot(XYdt, xlab=xlbl,ylab=ylbl,main=main,col=col, type=type,
        cex=cex,cex.lab=cexlab, cex.axis=cexaxis, cex.main=cexmain,
        cex.sub=cexsub,xlim=c(0,xmax),ylim=c(0,ymax))  
   #
   Smmry<-summary(mrgsn(XYdt))
+  print(Smmry$coefficients[1])
+  print(Smmry$coefficients[2])
+  print(Smmry$coefficients[3])
   #
   x<-sort(runif(500,0.001,xmax))
   #
