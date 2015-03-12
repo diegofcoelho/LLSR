@@ -48,10 +48,11 @@ mrgsn.default <- function(XYdt,...){
 #' @description Othmer's equation to correlate tieline's data applying the lever's rule.
 #' @references Othmer, D.F. and P.E. Tobias, Liquid -Liquid Extraction Data -Toluene and Acetaldehyde Systems.
 #' Industrial & Engineering Chemistry, 1942. 34(6): p. 690-692.
-#' @method mrgsn othmer
 #' @param ... Additional optional arguments. None are used at present.
 #' @param TLdt - Tieline Experimental data that will be used in the nonlinear fit
+#' @method mrgsn othmer
 #' @export mrgsn.othmer
+#' @export
 #' @return Parameters K, n and Statistical data
 #' @examples 
 #' # TLdt is a data.frame which contains series of Tieline's mass fraction
@@ -88,6 +89,7 @@ mrgsn.othmer <- function(TLdt,...){
 #'  Industrial & Engineering Chemistry, 1942. 34(6): p. 690-692.
 #' @method mrgsn bancroft
 #' @export mrgsn.bancroft
+#' @export 
 #' @param ... Additional optional arguments. None are used at present.
 #' @param TLdt - Tieline Experimental data that will be used in the nonlinear fit
 #' @return Parameters K1, r and Statistical data
@@ -129,6 +131,7 @@ mrgsn.bancroft <- function(TLdt,...){
 #'  include a ternary diagram and more formal formatting.
 #' @method mrgsn plot
 #' @export mrgsn.plot
+#' @export 
 #' @param ... Additional optional arguments. None are used at present.
 #' @param XYdt - Standard bidimensional data.frame used in most of functions available in this package. [type::data.frame]
 #' @param xlbl - Plot's Horizontal axis label. If not set, It will admit the system under study is a PEG-Salt System.   [type:string]

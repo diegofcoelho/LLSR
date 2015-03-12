@@ -52,6 +52,7 @@ mrchk.default <- function(XYdt,P1=10,P2=1,P3=0,...){
 #' @note \deqn{ y = P1\times{} \exp{(P2*x^1/2-P3*x^3) }}
 #' @method mrchk plot
 #' @export mrchk.plot
+#' @export
 #' @param ... Additional optional arguments. None are used at present.
 #' @param XYdt - Binodal Experimental data that will be used in the nonlinear fit
 #' @param xlbl = Plot's Horizontal axis label. If not set, It will admit the system under study is a PEG-Salt System.
@@ -124,6 +125,7 @@ mrchk.plot <- function  (XYdt, xlbl="Salt Fraction (w/w)", ylbl="PEG Fraction (w
 #' phase density and volume)
 #' @method mrchk tielines
 #' @export mrchk.tielines
+#' @export
 #' @param XYdt - Binodal Experimental data that will be used in the nonlinear fit
 #' @param Xm - Component X's concentration in the tieline's global composition.
 #' @param Ym - Component Y's concentration in the tieline's global composition.
@@ -181,6 +183,7 @@ mrchk.tielines<- function(XYdt,Xm,Ym,Vt,Vb,dyt,dyb,...){
 #' calculate the critical composition.
 #' @method mrchk crpt
 #' @export mrchk.crpt
+#' @export
 #' @param tldata - A data.frame with two columns containing a set of Tieline's Slopes (S)
 #' and its bottom-rich component composition in the bottom phase (XB).
 #' @param XYdt - Binodal Experimental data that will be used in the nonlinear fit
