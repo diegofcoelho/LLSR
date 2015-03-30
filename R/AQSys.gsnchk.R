@@ -1,8 +1,8 @@
 #' @import rootSolve
 require(rootSolve)
 #'Merchuk's Method of calculating phase's composition in a Tieline applied to Murugesan Binodal Function
-#' @rdname gsnchk
-#' @name gsnchk
+#' @rdname AQSys.gsnchk
+#' @name AQSys.gsnchk
 #' @title Merchuk's Method of calculating phase's composition in a Tieline applied to Murugesan Binodal Function
 #' @description Merchuk et al. described a very straightforward method to calculate the concentration of each
 #'component in the tieline giving only its global composition and phase's properties (such as volume and density).
@@ -11,7 +11,7 @@ require(rootSolve)
 #' @details Using the binodal data, the global composition of a chosen tieline and its phases properties (more precisely
 #'each phase density and volume). Using the data included in LLSR package the function couldn't achieve steady-state and
 #'consecutively have a poor convergence tolerance. Use for your own risk.
-#' @export gsnchk
+#' @export AQSys.gsnchk
 #' @param XYdt - Standard bidimensional data.frame used in most of functions available in this package.
 #' @param Xm - Component X's concentration in the tieline's global composition.
 #' @param Ym - Component Y's concentration in the tieline's global composition.
@@ -19,6 +19,7 @@ require(rootSolve)
 #' @param Vb - Tieline's BOTTOM phase volume.
 #' @param dyt - Tieline's TOP phase density
 #' @param dyb - Tieline's BOTTOM phase density
+#' @param ... Additional optional arguments. None are used at present.
 #' @return sysres - The function returns the Critical Point (X,Y), Tieline Length (TLL), Tieline's Equivolume point (xVRe2o,yVRe2o),
 #'and Tieline's Slope.
 #' @examples
@@ -32,8 +33,8 @@ require(rootSolve)
 #' dyt <- peg4kslt[2,7]
 #' dyb <- peg4kslt[2,8]
 #' #
-#' gsnchk(XYdt,Xm,Ym,Vt,Vb,dyt,dyb)
-gsnchk<- function(XYdt,Xm,Ym,Vt,Vb,dyt,dyb){
+#' AQSys.gsnchk(XYdt,Xm,Ym,Vt,Vb,dyt,dyb)
+AQSys.gsnchk<- function(XYdt,Xm,Ym,Vt,Vb,dyt,dyb,...){
   #
   Smmry<-summary(mrgsn(XYdt))
   #
