@@ -1,15 +1,13 @@
 #' @import rootSolve
 require(rootSolve)
-#' @rdname AQSys.othmer
+#' @rdname AQSysOthmer
 #' @title Othmer's Equation - Tieline's correlation
 #' @description Othmer's equation to correlate tieline's data applying the lever's rule.
 #' @references Othmer, D.F. and P.E. Tobias, Liquid -Liquid Extraction Data -Toluene and Acetaldehyde Systems.
 #' Industrial & Engineering Chemistry, 1942. 34(6): p. 690-692.
 #' @param ... Additional optional arguments. None are used at present.
 #' @param TLdt - Tieline Experimental data that will be used in the nonlinear fit
-#' @method AQSys othmer
-#' @export AQSys.othmer
-#' @export
+#' @export AQSysOthmer
 #' @return Parameters K, n and Statistical data
 #' @examples 
 #' # TLdt is a data.frame which contains series of Tieline's mass fraction
@@ -24,9 +22,9 @@ require(rootSolve)
 #' # bottom phases and W for water.
 #' # Then you just need to load the data.frame in the function:
 #' \dontrun{
-#' AQSys.othmer(TLdt)
+#' AQSysOthmer(TLdt)
 #'}
-AQSys.othmer <- function(TLdt,...){
+AQSysOthmer <- function(TLdt,...){
   #
   TLdt<-as.data.frame(TLdt)
   names(TLdt)<-c("mfXt","mfYt","mfXb","mfYb","mfWt","mfWb")
@@ -39,14 +37,12 @@ AQSys.othmer <- function(TLdt,...){
     data=TLdt,na.exclude))
   FFn
 }
-#' @name AQSys.bancroft
+#' @name AQSysBancroft
 #' @title Bancroft's Potential Equation - Tieline's correlation
 #' @description Bancroft's equation to correlate tieline's data.
 #' @references Othmer, D.F. and P.E. Tobias, Liquid-Liquid Extraction Data -Toluene and Acetaldehyde Systems.
 #'  Industrial & Engineering Chemistry, 1942. 34(6): p. 690-692.
-#' @method AQSys bancroft
-#' @export AQSys.bancroft
-#' @export 
+#' @export AQSysBancroft
 #' @param ... Additional optional arguments. None are used at present.
 #' @param TLdt - Tieline Experimental data that will be used in the nonlinear fit
 #' @return Parameters K1, r and Statistical data
@@ -63,9 +59,9 @@ AQSys.othmer <- function(TLdt,...){
 #' # bottom phases and W for water.
 #' # Then you just need to load the data.frame in the function:
 #' \dontrun{
-#' AQSys.bancroft(TLdt)
+#' AQSysBancroft(TLdt)
 #'}
-AQSys.bancroft <- function(TLdt,...){
+AQSysBancroft <- function(TLdt,...){
   #
   TLdt<-as.data.frame(TLdt)
   names(TLdt)<-c("mfXt","mfYt","mfXb","mfYb","mfWt","mfWb")

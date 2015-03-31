@@ -16,3 +16,19 @@ AQSysHR <- function (HR){
   }
   
 }
+
+.onAttach <- function(libname, pkgname){
+  #suppressPackageStartupMessages
+  packageStartupMessage('
+    Be aware that LLSR is a collaborative package that still in
+    development and your help is essential.\n
+    If you found any bugs or have a suggestion, do not hesitate and
+    contact us on https://github.com/eqipehub/LLSR/issues.\n
+    You also can fork this project directly from github and commit
+    improvements to us (https://github.com/eqipehub/LLSR).\n
+    The information used in the database was obtained free of charge
+    but it might be copyrighted by third parties and references must
+    be included appropriately.\n
+    Please use LLSR.info() to read more details about the current
+    package version.', domain = NULL, appendLF = TRUE)
+}
