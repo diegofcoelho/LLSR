@@ -9,7 +9,7 @@ Description: The methods implemented here were based in the protocol proposed by
 License: GPL-3
 LazyData: TRUE
 Depends: R (>= 2.10)
-Imports: rootSolve
+Imports: rootSolve, XLConnect
 URL: http://diegofcoelho.github.io/code/
 BugReports: https://github.com/eqipehub/LLSR/issues
 Suggests: testthat

@@ -20,3 +20,8 @@ AQSys.mathDesc <- function(mathDesc){
   )
   return(Fn)
 }
+
+AQSys.List <- function(){
+  updte <- c("merchuk","murugesan")
+  return(updte)
+}

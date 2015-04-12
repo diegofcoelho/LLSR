@@ -1,7 +1,6 @@
 #' @import rootSolve
 require(rootSolve)
 #'Merchuk's Equation to fit Binodal Experimental Data
-#'@export
 #' @rdname AQSys
 #' @name AQSys
 #' @description .
