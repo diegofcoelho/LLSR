@@ -38,6 +38,9 @@ AQSys.default <- function(XYdt,mathDesc="merchuk",...){
          murugesan={
            ans<-mrgsn(XYdt)
          },
+         tello={
+           ans<-tello(XYdt)
+         },
          AQSys.err("0")
   )
   return(ans)

@@ -16,12 +16,20 @@ AQSys.mathDesc <- function(mathDesc){
              P1+P2*(XC)^0.5+P3*XC
            }
          },
+         "tello"={
+           Fn <- function(CoefSET,XC){
+             P1<-CoefSET[1]
+             P2<-CoefSET[2]
+             P3<-CoefSET[3]
+             P1*log(P2+XC)+P3
+           }
+         },
          AQSys.err("0")
   )
   return(Fn)
 }
 
 AQSys.List <- function(){
-  updte <- c("merchuk","murugesan")
+  updte <- c("merchuk", "murugesan", "tello")
   return(updte)
 }

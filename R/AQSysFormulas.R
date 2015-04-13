@@ -23,3 +23,31 @@ mrgsn <- function(XYdt,...){
     data=XYdt,na.exclude)    
   FFn
 }
+
+tello <- function(XYdt,...){
+  #
+  S <- diff(XYdt[,1])/diff(XYdt[,2])
+  nX <- nrow(XYdt)
+  XC <- XYdt[1:nX-1,1]
+  #
+  A1 <- LLSRxy(XC,S)
+  names(A1)<-c("XC","S")
+  #
+  FFnEst <- nls(
+    S ~ (P2/P1)+XC/P1,
+    start=list(P1=-.1,P2=.001),
+    data=A1,na.exclude)
+  #
+  coefEst <- summary(FFnEst)
+  coef.1 <- coefEst$coefficients[1]
+  coef.2 <- coefEst$coefficients[2]
+  coef.3 <- mean(log(abs(exp(XYdt[,2])*(-exp(coef.1)-exp(coef.2 + XYdt[,1])))))
+  #
+  names(XYdt)<-c("XC","YC")
+  FFn <- nls(
+    XC~ exp((YC - P3)/P1) - P2,
+    start=list(P1=coef.1,P2=coef.2,P3=coef.3),
+    #start=list(P1=-.1,P2=.001,P3=-.1),
+    data=XYdt,na.exclude)    
+  FFn
+}

@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.3
-RVersion: 3.1.2
+RVersion: 3.1.3
 Repos: CRAN=http://cran.rstudio.com
 
 Package: R6
@@ -67,8 +67,8 @@ Requires: R6, RCurl, digest, jsonlite, mime, stringr
 
 Package: jsonlite
 Source: CRAN
-Version: 0.9.14
-Hash: 1e949c7f0f926734e2ff498eddb2309a
+Version: 0.9.16
+Hash: d96313db22c1ea2028538db1fc96fe5a
 
 Package: memoise
 Source: CRAN
@@ -78,8 +78,8 @@ Requires: digest
 
 Package: mime
 Source: CRAN
-Version: 0.2
-Hash: 9179db921fcb2e5be44e217042ed06bc
+Version: 0.3
+Hash: 843fd754c122f266d910a04642e0703d
 
 Package: packrat
 Source: CRAN
@@ -110,8 +110,8 @@ Requires: Rcpp, brew, digest, stringr
 
 Package: rstudioapi
 Source: CRAN
-Version: 0.2
-Hash: aa27b6b62b335717db16cb1de6336860
+Version: 0.3.1
+Hash: ee415a4fe305c6222630d8e5572781e7
 
 Package: stringr
 Source: CRAN

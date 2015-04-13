@@ -4,7 +4,12 @@
 \alias{AQSysDB}
 \title{AQSysDB}
 \usage{
-AQSysDB(path)
+AQSysDB(path, order = "xy")
+}
+\arguments{
+\item{path}{1}
+
+\item{order}{2}
 }
 \description{
 AQSysDB

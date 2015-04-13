@@ -1,8 +1,3 @@
-#setwd("/Users/dfcoelho/R HUB/db")
-#rfile <<- "/Users/dfcoelho/R HUB/db/othersDATA.xlsx"
-#
-#"C:/Users/dfcoelho/Downloads/concept.xls"
-#
 options(digits=14)
 require(XLConnect)
 #
@@ -12,13 +7,15 @@ require(XLConnect)
 #' @name AQSysDB
 #' @title AQSysDB
 #' @export
-AQSysDB <- function(path,order="xy"){
-  if (grepl(".xlsx",path) | grepl(".xls",path)){
+#' @param path 1
+#' @param order 2
+AQSysDB <- function(path, order = "xy"){
+  if (grepl(".xlsx",path) | grepl(".xls", path)){
     #
-    wrbk <-loadWorkbook(path)
+    wrbk <- loadWorkbook(path)
     sheets <- getSheets(wrbk)
-    nSh <-length(sheets)  
-    wsdt <-readWorksheet(wrbk,1,header = FALSE)
+    nSh <- length(sheets)  
+    wsdt <- readWorksheet(wrbk, 1, header = FALSE)
     #
     nSys <- as.numeric(wsdt[1,1])
     llsrdb <- data.frame()
@@ -30,24 +27,26 @@ AQSysDB <- function(path,order="xy"){
     AQSys.err("1")
   }
   #
+  cat('\014')
+  cat(paste("Analysing ",nSys," systems. \n\n", collapse = NULL))
+  #
   for (i in AQSys.List()){
     #
-    cat(i,": ")
-    cat(paste("Analysing ",nSys," systems. ", collapse=NULL))
+    cat(i,": ", sep = "")
     #
     db.n.row <- nrow(llsrdb)
-    if(db.n.row==0){
+    if(db.n.row == 0){
       db.first.row <- 1
       db.last.row <- nSys
     }else{
-      db.first.row <- db.n.row+1
-      db.last.row <- db.n.row+nSys
+      db.first.row <- db.n.row + 1
+      db.last.row <- db.n.row + nSys
     }
     #
     for (j in db.first.row:db.last.row){
       #
-      c1<-2*(j - db.n.row)-1
-      c2<-c1+1
+      c1 <- 2*(j - db.n.row) - 1
+      c2 <- c1 + 1
       lSys<-length(wsdt[,c1])
       #
       llsrdb[j,1] <- "REF"
@@ -58,7 +57,7 @@ AQSysDB <- function(path,order="xy"){
       llsrdb[j,6] <- wsdt[4,c2]
       llsrdb[j,7] <- wsdt[4,c1]
       #
-      rawSys<-wsdt[rowSYS:lSys,c1:c2]
+      rawSys <- wsdt[rowSYS:lSys, c1:c2]
       #
       dataSys <- as.data.frame(na.exclude(rawSys))
       #
@@ -68,8 +67,12 @@ AQSysDB <- function(path,order="xy"){
         dataSys[,2] <- as.numeric(sub(",", ".", dataSys[,2], fixed = TRUE))
       }
       #
-      if (order=="xy") resSys<-summary(AQSys(dataSys,mathDesc=i))
-      else resSys<-summary(AQSys(dataSys[2:1],mathDesc=i))
+      if (order=="xy"){
+        resSys<-summary(AQSys(dataSys,mathDesc=i))
+      }
+      else{
+        resSys<-summary(AQSys(dataSys[2:1],mathDesc=i))
+      }
       #
       llsrdb[j,8] <- resSys$parameters[1,1]
       llsrdb[j,9] <- resSys$parameters[2,1]
@@ -91,7 +94,6 @@ AQSysDB <- function(path,order="xy"){
     #
   }
   #
-  #rSqrd
   names(llsrdb) <- c("REF", "UpperRich", "BottomRich", "pHSys", "addSys",
                      "addSysC", "tSys","P1", "P2", "P3",  "ResStdErr",
                      "SSR",	"P1_StdErr",	"P2_StdErr",	"P3_StdErr",

@@ -12,6 +12,8 @@ Encoding: ASCII
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
+AutoAppendNewline: Yes
+
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --with-keep.source
