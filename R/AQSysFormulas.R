@@ -26,22 +26,29 @@ mrgsn <- function(XYdt,...){
 
 tello <- function(XYdt,...){
   #
-  S <- diff(XYdt[,1])/diff(XYdt[,2])
-  nX <- nrow(XYdt)
-  XC <- XYdt[1:nX-1,1]
+  df.sys <- diff(XYdt[,1])/diff(XYdt[,2])
+  nrow.sys <- nrow(XYdt)
+  S<-smooth.spline(df.sys)$fit$coef[1:nrow.sys]
+  #XC <- XYdt[1:nX-1,1]
+  XC <- XYdt[,1]
   #
-  A1 <- LLSRxy(XC,S)
-  names(A1)<-c("XC","S")
+  coef.est <- LLSRxy(XC,S)
+  names(coef.est)<-c("XC","S")
   #
   FFnEst <- nls(
     S ~ (P2/P1)+XC/P1,
     start=list(P1=-.1,P2=.001),
-    data=A1,na.exclude)
+    data=coef.est,na.exclude)
   #
   coefEst <- summary(FFnEst)
   coef.1 <- coefEst$coefficients[1]
   coef.2 <- coefEst$coefficients[2]
-  coef.3 <- mean(log(abs(exp(XYdt[,2])*(-exp(coef.1)-exp(coef.2 + XYdt[,1])))))
+  #
+  x <- mean(XYdt[,1])
+  y <- mean(XYdt[,2])
+  coef.3 <- log(exp(y)*((x+coef.2)^(-coef.1)))
+  #coef.3 <- log(mean(exp(XYdt[,2])*((XYdt[,1]+coef.2)^(-coef.1))))
+  #if (coef.3 == "NaN") coef.3 <- -.1
   #
   names(XYdt)<-c("XC","YC")
   FFn <- nls(
