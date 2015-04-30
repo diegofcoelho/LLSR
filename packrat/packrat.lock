@@ -55,8 +55,8 @@ Hash: 89dc4c8734dad5322bb3c5c2af09056f
 
 Package: evaluate
 Source: CRAN
-Version: 0.5.5
-Hash: 20881970e590ee68de97a468694db7b0
+Version: 0.6
+Hash: 1dff379afa4a41ca703a24d50aa69f64
 Requires: stringr
 
 Package: httr
@@ -104,8 +104,8 @@ Hash: 163c4b251e5409434cf036f3b0e092c5
 
 Package: roxygen2
 Source: CRAN
-Version: 4.1.0
-Hash: 271ed55984feccbfac9a4c3a95e79fdf
+Version: 4.1.1
+Hash: e030acbd1526c09f7b74315c40f87480
 Requires: Rcpp, brew, digest, stringr
 
 Package: rstudioapi

@@ -29,7 +29,6 @@ tello <- function(XYdt,...){
   df.sys <- diff(XYdt[,1])/diff(XYdt[,2])
   nrow.sys <- nrow(XYdt)
   S<-smooth.spline(df.sys)$fit$coef[1:nrow.sys]
-  #XC <- XYdt[1:nX-1,1]
   XC <- XYdt[,1]
   #
   coef.est <- LLSRxy(XC,S)
@@ -47,14 +46,19 @@ tello <- function(XYdt,...){
   x <- mean(XYdt[,1])
   y <- mean(XYdt[,2])
   coef.3 <- log(exp(y)*((x+coef.2)^(-coef.1)))
-  #coef.3 <- log(mean(exp(XYdt[,2])*((XYdt[,1]+coef.2)^(-coef.1))))
-  #if (coef.3 == "NaN") coef.3 <- -.1
+  #
+  #if (coef.2 < 0) coef.2 <- -coef.2
+  if (coef.2 < -min(XYdt[,1])) coef.2 <- -(min(XYdt[,1])-0.001)
+  #
+  #cat(coef.1," ",coef.2," ",coef.3," ")
   #
   names(XYdt)<-c("XC","YC")
   FFn <- nls(
-    XC~ exp((YC - P3)/P1) - P2,
-    start=list(P1=coef.1,P2=coef.2,P3=coef.3),
-    #start=list(P1=-.1,P2=.001,P3=-.1),
-    data=XYdt,na.exclude)    
+    #XC ~ exp((YC - P3)/P1) - P2,
+    YC ~ P1*log(XC + P2) + P3,
+    start = list(P1 = coef.1, P2 = coef.2, P3 = coef.3),
+    #algorithm = "port",
+    #lower = c(P1 = -Inf, P2 = -(min(XYdt[,1])-0.001), P3 = -Inf),
+    data = XYdt, na.action = na.exclude) 
   FFn
 }

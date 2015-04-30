@@ -17,23 +17,24 @@
 #' @param cexmain - Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param cexsub - Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param xmax - Maximum value for the Horizontal axis' value (bottom-rich component)  [type:double]
-#' @param mpl -Multiples curves overlayed in a single plot. Default is FALSE. [type::LOGIC]
+#' @param mpl - Multiples curves overlayed in a single plot. Default is FALSE. [type::LOGIC]
 #' @param HR - Magnify Plot's text to be compatible with High Resolution size [type:Boulean]
 #' @param NP - Number of points used to build the fitted curve. Default is 100. [type:Integer]
-#' @return A plot using the input model within the chosen interval and the curve's raw XY data. If no interval is selected, xmax=0.4.
+#' @return A plot using the input model within the chosen interval and the curve's raw XY data.
+#' If no interval is selected, xmax = 0.4.
 #' @examples
 #' \dontrun{
-#' AQSysCurve("murugesan",as.data.frame(c(0.90,-3.48,2.92)),mpl=TRUE,col="red")
+#' AQSysCurve("murugesan", as.data.frame(c(0.90, -3.48, 2.92)), mpl = TRUE, col = "red")
 #' }
 AQSysCurve <- function  (mathDesc, param, xlbl = "", ylbl = "", main = NULL, col = "black", type = "p",
                      cex = 1, cexlab = 1, cexaxis = 1, cexmain = 1, cexsub = 1, xmax = 0.4, mpl = FALSE, HR = FALSE, NP = 100)
 {
   #
-  AQSysHR(TRUE)
+  AQSysHR(HR)
   #
   param<-as.double(unlist(param))
   #
-  x<-sort(runif(NP,0.001,xmax))
+  x<-sort(runif(NP, 0.001, xmax))
   #
   switch(mathDesc,
          merchuk={
@@ -42,13 +43,16 @@ AQSysCurve <- function  (mathDesc, param, xlbl = "", ylbl = "", main = NULL, col
          murugesan={
            Fn <- AQSys.mathDesc("murugesan")
          },
+         tello={
+           Fn <- AQSys.mathDesc("tello")
+         },
          AQSys.err("0")
   )
   #
   rawdt <- curve( Fn(param, x), col = col, add = mpl,
                  xlim = c(0, xmax), xlab = xlbl, ylab = ylbl)
   #
-  names(rawdt)<-c("XC","YC")
+  names(rawdt)<-c("XC", "YC")
   rawdt<-as.data.frame(rawdt)
   invisible(rawdt)
 }

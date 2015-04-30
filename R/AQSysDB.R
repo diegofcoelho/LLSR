@@ -1,21 +1,43 @@
+####################################################################################################################
 options(digits=14)
 require(XLConnect)
-#
+require(digest)
+####################################################################################################################
 #' @import XLConnect
-#
+#' @import digest
+####################################################################################################################
 #' @rdname AQSysDB
 #' @name AQSysDB
 #' @title AQSysDB
 #' @export
-#' @param path 1
-#' @param order 2
-AQSysDB <- function(path, order = "xy"){
+#' @param path String containing the full path to the XLS or XLSX file.
+#' @param order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
+#' @param CAS The user has the option to identify the component's cells in the worksheet with the CAS (CAS = TRUE) or with the row number that matches a CAS entry in the CASDB worksheet (CAS = FALSE)
+#' @examples 
+#' \dontrun{
+#' AQSysDB("C:/data.xls", order = "xy", CAS = FALSE)
+#'}
+####################################################################################################################
+AQSysDB <- function(path, order = "xy", CAS = FALSE){
   if (grepl(".xlsx",path) | grepl(".xls", path)){
     #
     wrbk <- loadWorkbook(path)
     sheets <- getSheets(wrbk)
     nSh <- length(sheets)  
-    wsdt <- readWorksheet(wrbk, 1, header = FALSE)
+    #
+    refdb <- data.frame()
+    refdb <- readWorksheet(wrbk, 1, header = FALSE)
+    refdb[,2] <- NA
+    names(refdb) <- c("REF.NAME","REF.MD5")
+    refdb[,2] <- sapply(refdb[,1], digest, algo="md5")
+    #
+    casdb <- data.frame()
+    casdb <- readWorksheet(wrbk, 2, header = FALSE)
+    names(casdb) <- c("CAS.CODE", "CHEM.NAME", "CHEM.COMMON")
+    #
+    #CONSIDER FIND OTHERS SHEETS FOLLOWING A PATTERN AND EVALUATE ALL OF THEM
+    #
+    wsdt <- readWorksheet(wrbk, 3, header = FALSE)
     #
     if (is.odd(ncol(wsdt))) AQSys.err("2")
     #
@@ -51,13 +73,20 @@ AQSysDB <- function(path, order = "xy"){
       c2 <- c1 + 1
       lSys<-length(wsdt[,c1])
       #
-      llsrdb[j,1] <- wsdt[db.info + 3,c1]
-      llsrdb[j,2] <- wsdt[db.info + 2,c1]
-      llsrdb[j,3] <- wsdt[db.info + 2,c2]
-      llsrdb[j,4] <- wsdt[db.info,c1]
-      llsrdb[j,5] <- wsdt[db.info,c2]
-      llsrdb[j,6] <- wsdt[db.info + 1,c2]
-      llsrdb[j,7] <- wsdt[db.info + 1,c1]
+      llsrdb[j,1] <- refdb[wsdt[db.info + 3, c1],2]
+      #
+      if (CAS == TRUE) {
+        llsrdb[j,2] <- wsdt[db.info + 2, c1]
+        llsrdb[j,3] <- wsdt[db.info + 2, c2]
+      } else{
+        llsrdb[j,2] <- casdb[wsdt[db.info + 2, c1], 1]
+        llsrdb[j,3] <- casdb[wsdt[db.info + 2, c2], 1]
+      }
+      #
+      llsrdb[j,4] <- wsdt[db.info, c1]
+      llsrdb[j,5] <- wsdt[db.info, c2]
+      llsrdb[j,6] <- wsdt[db.info + 1, c2]
+      llsrdb[j,7] <- wsdt[db.info + 1, c1]
       #
       rawSys <- wsdt[db.data:lSys, c1:c2]
       #
@@ -69,7 +98,7 @@ AQSysDB <- function(path, order = "xy"){
         db.second.col <- as.numeric(sub(",", ".", db.Sys[,2], fixed = TRUE))
       }
       #
-      if (order=="xy"){
+      if (tolower(order)=="xy"){
         resSys<-summary(AQSys(LLSRxy(db.first.col,db.second.col),mathDesc=i))
       }
       else{
@@ -96,12 +125,12 @@ AQSysDB <- function(path, order = "xy"){
     #
   }
   #
-  names(llsrdb) <- c("REF", "UpperRich", "BottomRich", "pHSys", "addSys",
-                     "addSysC", "tSys","P1", "P2", "P3",  "ResStdErr",
-                     "SSR",	"P1_StdErr",	"P2_StdErr",	"P3_StdErr",
-                    "P1_tValue",	"P2_tValue",	"P3_tValue", "AchConvTol",
-                    "nPoints", "mathDesc")
-  invisible(llsrdb)
+  names(llsrdb) <- c("REF.MD5", "UP.Rich", "LP.Rich", "Sys.pH", "Sys.Additive",
+                     "Sys.Additive.Conc", "Sys.Temp","P1", "P2", "P3",  "Res.Std.Err",
+                     "SSR",	"P1.Std.Err",	"P2.Std.Err",	"P3.Std.Err",
+                    "P1.tValue",	"P2.tValue",	"P3.tValue", "Ach.Conv.Tol",
+                    "n.Points", "math.Desc")
+  invisible(list("db.ref" = refdb, "db.sys" = llsrdb, "db.cas" = casdb))
 }
 
 

@@ -1,3 +1,4 @@
+####################################################################################################################
 AQSys.mathDesc <- function(mathDesc){
   switch(mathDesc,
          "merchuk"={
@@ -28,7 +29,15 @@ AQSys.mathDesc <- function(mathDesc){
   )
   return(Fn)
 }
-
+####################################################################################################################
+#'@rdname AQSysList
+#'@export AQSysList
+#'@title Aqueous Systems Descriptors already implemented
+#'@description The function returns a list of all mathematical descriptors available at the time.
+AQSysList <- function(){
+  AQSys.List()
+}
+####################################################################################################################
 AQSys.List <- function(){
   updte <- c("merchuk", "murugesan", "tello")
   return(updte)

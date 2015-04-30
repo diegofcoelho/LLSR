@@ -1,5 +1,8 @@
+####################################################################################################################
 #' @import rootSolve
+####################################################################################################################
 require(rootSolve)
+####################################################################################################################
 #'Merchuk's Equation to fit Binodal Experimental Data
 #' @rdname AQSys
 #' @name AQSys
@@ -10,27 +13,31 @@ require(rootSolve)
 #' \item \code{\link{AQSys.plot}}
 #' \item \code{\link{AQSys.tielines}} 
 #' \item \code{\link{AQSys.crpt}}
-# \item \code{\link{gsnchk}}
+#' \item \code{\link{AQSysOthmer}}
+#' \item \code{\link{AQSysBancroft}}
 #' }
-
+####################################################################################################################
 AQSys <- function(XYdt,...) UseMethod("AQSys")
-
+####################################################################################################################
 #' @rdname AQSys
 #' @title Merchuk's nonlinear Equation
-#' @description Perform a nonlinear regression fit in order to determine the equation's parameters.
-#' @details The function returns three parameters after fitting experimental data to the equation proposed by Merchuk et al.
-#' @param mathDesc - Character String specifying the nonlinear empirical equation to fit data. The default method uses Merchuk's equation. Other possibilities are:
+#' @description Perform a nonlinear regression fit using several mathemmatical descriptors in order to determine the
+#' equation's parameters.
+#' @details The function returns functions parameters after fitting experimental data to the equations listed in AQSysList().
+#' @param mathDesc - Character String specifying the nonlinear empirical equation to fit data.
+#' The default method uses Merchuk's equation. Other mathematical descriptors can be listed using AQSysList().
 #' @param XYdt - Binodal Experimental data that will be used in the nonlinear fit
 #' @param ... Additional optional arguments. None are used at present.
 #' @method AQSys default
 #' @export
-#' @return Parameters P and Statistical data
+#' @return A list containing three data.frame variables with all data parsed from the worksheet and parameters calculated
+#' through the available mathematical descriptions.
 #' @examples
 #' #Populating variable XYdt with binodal data
 #' XYdt <- peg4kslt[,1:2] 
 #' #Fitting XYdt using Merchuk's function
 #' AQSys(XYdt)
-AQSys.default <- function(XYdt,mathDesc="merchuk",...){
+AQSys.default <- function(XYdt, mathDesc="merchuk",...){
   switch(mathDesc,
          merchuk={
            ans<-mrchk(XYdt)
@@ -45,6 +52,7 @@ AQSys.default <- function(XYdt,mathDesc="merchuk",...){
   )
   return(ans)
 }
+####################################################################################################################
 # MERCHUK PLOT TEST FUNCTION
 #' @rdname AQSys.plot
 #' @title Dataset and Fitted Function plot
@@ -53,7 +61,8 @@ AQSys.default <- function(XYdt,mathDesc="merchuk",...){
 #' @method AQSys plot
 #' @export AQSys.plot
 #' @export
-#' @param mathDesc - Character String specifying the nonlinear empirical equation to fit data. The default method uses Merchuk's equation. Other possibilities are:
+#' @param mathDesc - Character String specifying the nonlinear empirical equation to fit data. The default method uses
+#' Merchuk's equation. Other possibilities can be seen in AQSysList().
 #' @param ... Additional optional arguments. None are used at present.
 #' @param XYdt - Binodal Experimental data that will be used in the nonlinear fit
 #' @param xlbl = Plot's Horizontal axis label.
@@ -87,12 +96,16 @@ AQSys.plot <- function  (XYdt, xlbl = "", ylbl = "", main = NULL, col = "blue", 
   #
   switch(mathDesc,
          merchuk={
-           CoefSET <- summary(mrchk(XYdt))$coefficients[,1]
+           CoefSET <- summary(mrchk(XYdt))$coefficients[, 1]
            Fn <- AQSys.mathDesc("merchuk")
          },
          murugesan={
-           CoefSET <- summary(mrgsn(XYdt))$coefficients[,1]
+           CoefSET <- summary(mrgsn(XYdt))$coefficients[, 1]
            Fn <- AQSys.mathDesc("murugesan")
+         },
+         tello={
+           CoefSET <- summary(tello(XYdt))$coefficients[, 1]
+           Fn <- AQSys.mathDesc("tello")
          },
         AQSys.err("0")
   )
@@ -114,3 +127,4 @@ AQSys.plot <- function  (XYdt, xlbl = "", ylbl = "", main = NULL, col = "blue", 
   rawdt<-as.data.frame(rawdt)
   invisible(rawdt)
 }
+####################################################################################################################
