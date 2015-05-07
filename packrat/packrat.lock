@@ -41,6 +41,12 @@ Source: CRAN
 Version: 1.0-6
 Hash: 9d92cc5ac60123fdb7b0daa3ae83bf99
 
+Package: crayon
+Source: CRAN
+Version: 1.2.0
+Hash: add05e935f8c0bfa8010dc710ba3406a
+Requires: memoise
+
 Package: devtools
 Source: CRAN
 Version: 1.7.0
@@ -69,6 +75,11 @@ Package: jsonlite
 Source: CRAN
 Version: 0.9.16
 Hash: d96313db22c1ea2028538db1fc96fe5a
+
+Package: magrittr
+Source: CRAN
+Version: 1.5
+Hash: 38d492cf072bc9f3c73bda2aee3d0e23
 
 Package: memoise
 Source: CRAN
@@ -113,16 +124,25 @@ Source: CRAN
 Version: 0.3.1
 Hash: ee415a4fe305c6222630d8e5572781e7
 
+Package: stringi
+Source: CRAN
+Version: 0.4-1
+Hash: 955e96fc5961bf9f7b3ca916f9b1e606
+
 Package: stringr
 Source: CRAN
 Version: 0.6.2
 Hash: cdde0cfa0f52cffeaca23a11a3899779
 
 Package: testthat
-Source: CRAN
-Version: 0.9.1
-Hash: 8b05e97c7401ae4f8b5dfbaa44cfcf20
-Requires: digest
+Source: github
+Version: 0.9.1.9001
+Hash: 48c231b1408a72963f65bc0b41c680c988839c78
+Requires: crayon, digest
+GithubRepo: testthat
+GithubUsername: hadley
+GithubRef: master
+GithubSha1: 48c231b1408a72963f65bc0b41c680c988839c78
 
 Package: whisker
 Source: CRAN
