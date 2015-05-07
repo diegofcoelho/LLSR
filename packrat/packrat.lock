@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.3
-RVersion: 3.1.3
+RVersion: 3.2.0
 Repos: CRAN=http://cran.rstudio.com
 
 Package: R6
@@ -10,14 +10,14 @@ Hash: 9a3ac4e5fd8059af0fc5156bcb019bbc
 
 Package: RCurl
 Source: CRAN
-Version: 1.95-4.5
-Hash: 1187c1ea73013abf25f362a7e6da1046
+Version: 1.95-4.6
+Hash: a4d86df231587d1eae56f29c278bad0d
 Requires: bitops
 
 Package: Rcpp
 Source: CRAN
-Version: 0.11.5
-Hash: 3e452cb48f3ec8a7cf27fb9ab8624639
+Version: 0.11.6
+Hash: 004f4ffa4d0f4a3d177f2090799225e8
 
 Package: XLConnect
 Source: CRAN
@@ -61,8 +61,8 @@ Hash: 89dc4c8734dad5322bb3c5c2af09056f
 
 Package: evaluate
 Source: CRAN
-Version: 0.6
-Hash: 1dff379afa4a41ca703a24d50aa69f64
+Version: 0.7
+Hash: 96c38894bf65a2e890f7c6ec840a6466
 Requires: stringr
 
 Package: httr
@@ -97,11 +97,11 @@ Source: CRAN
 Version: 0.4.3
 Hash: 16c72d5c802629fae5a4abca901e0199
 
-Package: rChoiceDialogs
+Package: pander
 Source: CRAN
-Version: 1.0.6
-Hash: 916dfb4ddebb9bb45d685ce3e3a5da72
-Requires: rJava
+Version: 0.5.1
+Hash: e8d4ecca4703b4680ebad779465eb608
+Requires: Rcpp, digest
 
 Package: rJava
 Source: CRAN
@@ -116,7 +116,7 @@ Hash: 163c4b251e5409434cf036f3b0e092c5
 Package: roxygen2
 Source: CRAN
 Version: 4.1.1
-Hash: e030acbd1526c09f7b74315c40f87480
+Hash: bf0325183fa7f6e9cdd9f82b8e6c50b4
 Requires: Rcpp, brew, digest, stringr
 
 Package: rstudioapi
@@ -131,18 +131,15 @@ Hash: 955e96fc5961bf9f7b3ca916f9b1e606
 
 Package: stringr
 Source: CRAN
-Version: 0.6.2
-Hash: cdde0cfa0f52cffeaca23a11a3899779
+Version: 1.0.0
+Hash: 513045488dcf8019cc2f4305dc7d1f90
+Requires: magrittr, stringi
 
 Package: testthat
-Source: github
-Version: 0.9.1.9001
-Hash: 48c231b1408a72963f65bc0b41c680c988839c78
-Requires: crayon, digest
-GithubRepo: testthat
-GithubUsername: hadley
-GithubRef: master
-GithubSha1: 48c231b1408a72963f65bc0b41c680c988839c78
+Source: CRAN
+Version: 0.9.1
+Hash: 8b05e97c7401ae4f8b5dfbaa44cfcf20
+Requires: digest
 
 Package: whisker
 Source: CRAN

@@ -4,6 +4,7 @@
 #' @title Search CAS codes in Chemical database.
 #' @method AQSearch CAS
 #' @export AQSearch.CAS
+#' @export
 #' @param db A list of three data.frame variables within all systems data are stored.
 #' @param ChemString A String with a text fragment of the chemical name the user want to search the correspondent CAS.
 #' @param ... Additional optional arguments. None are used at present.

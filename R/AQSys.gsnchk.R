@@ -12,6 +12,7 @@ require(rootSolve)
 #'each phase density and volume). Using the data included in LLSR package the function couldn't achieve steady-state and
 #'consecutively have a poor convergence tolerance. Use for your own risk.
 #' @export AQSys.gsnchk
+#' @export
 #' @param XYdt - Standard bidimensional data.frame used in most of functions available in this package.
 #' @param Xm - Component X's concentration in the tieline's global composition.
 #' @param Ym - Component Y's concentration in the tieline's global composition.
