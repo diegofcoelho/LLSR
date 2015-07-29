@@ -54,8 +54,8 @@ tello <- function(XYdt,...){
   #
   names(XYdt)<-c("XC","YC")
   FFn <- nls(
-    #XC ~ exp((YC - P3)/P1) - P2,
-    YC ~ P1*log(XC + P2) + P3,
+    XC ~ exp((YC - P3)/P1) - P2,
+    #YC ~ P1*log(XC + P2) + P3,
     start = list(P1 = coef.1, P2 = coef.2, P3 = coef.3),
     #algorithm = "port",
     #lower = c(P1 = -Inf, P2 = -(min(XYdt[,1])-0.001), P3 = -Inf),
