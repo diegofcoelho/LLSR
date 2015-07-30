@@ -1,7 +1,7 @@
 ####################################################################################################################
 #' @rdname AQSearch
 #' @name AQSearch
-#' @description This function allow the user to search the package database to find any ATPS that matches the used criteria.
+#' @description This function allow the user to search the LLSR database to find any ATPS that matches the used criteria.
 #' @export
 ####################################################################################################################
 AQSearch <- function(db, ...) UseMethod("AQSearch")
@@ -29,34 +29,34 @@ AQSearch <- function(db, ...) UseMethod("AQSearch")
 AQSearch.default <- function(db = NULL, db.ph = NULL, db.upper = NULL, db.lower = NULL,
                              db.temp = NULL, db.additive = NULL, subset = FALSE, ...){
   #
+  #inialize db.ans
   db.ans <- data.frame()
-  #
+  # create and initialise a list using the function's parameters
   db.params <- c(db.ph, db.upper, db.lower, db.temp, db.additive)
-  #
+  # Checks if variable db is corretly formatted. See AQSearchUtils.R for more details.
   db.check(db)
-  #
+  # if all parameters are null, the search is not valid and it triggers an error (check AQSys.err.R for details)
   if (all(unlist(lapply(db.params, is.null)))) AQSys.err("6")
-  #
-  #CHECKING IF WHICH PARAMETER IS NULL AND EVALUATING IF NECESSARY
-  #
+  # output variable is initialised with data from db.
   db.grep <- db$db.sys
-  #
+  # each conditional will return a result set that excludes no match data.
+  # search a system that matchs the upper-phase component, if search parameter is not null.
   if (is.null(db.upper) == FALSE){
     db.grep <- db.grep[grep(db.upper, db.grep[,2]), ]
   }
-  #
+  # search a system that matchs the lower-phase component, if search parameter is not null.
   if (is.null(db.lower) == FALSE){
     db.grep <- db.grep[grep(db.lower, db.grep[,3]), ]
   }
-  #
+  # search a system that matchs the system's pH, if search parameter is not null.
   if (is.null(db.ph) == FALSE){
     db.grep <- db.grep[grep(db.ph, db.grep[,4]), ]
   }
-  #
+  # search a system that matchs the additive component, if search parameter is not null.
   if (is.null(db.additive) == FALSE){
     db.grep <- db.grep[grep(db.additive, db.grep[,5]), ]
   }
-  #
+  # search a system that matchs the system's temperature, if search parameter is not null.
   if (is.null(db.temp) == FALSE){
     db.grep <- db.grep[grep(db.temp, db.grep[,7]), ]
   }

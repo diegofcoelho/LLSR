@@ -152,8 +152,8 @@ Requires: Rcpp
 
 Package: rJava
 Source: CRAN
-Version: 0.9-6
-Hash: 9dbbee37bd08546ea0ed6d3dab821952
+Version: 0.9-7
+Hash: bf541ef2ee8a6515eba35256566e64cf
 
 Package: rootSolve
 Source: CRAN

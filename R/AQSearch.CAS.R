@@ -31,11 +31,11 @@ AQSearch.CAS <- function(db, ChemString, ...){
       # if yes, store in the output variable
       ans <- db$db.cas[db.grep, ]
     }else{
-      # if no result was found, trig error (check AQSys.err.R for details)
+      # if no result was found, it triggers an error (check AQSys.err.R for details)
       AQSys.err("8")
     }
   } else {
-    # if string isn't valid, trig error (check AQSys.err.R for details)
+    # if string isn't valid, it triggers an error (check AQSys.err.R for details)
     AQSys.err("4")
   }
   invisible(ans)
