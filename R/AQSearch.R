@@ -60,10 +60,11 @@ AQSearch.default <- function(db = NULL, db.ph = NULL, db.upper = NULL, db.lower 
   if (is.null(db.temp) == FALSE){
     db.grep <- db.grep[grep(db.temp, db.grep[,7]), ]
   }
-  #
+  # If search isn't null, evaluate data
  if(length(rownames(db.grep)) != 0){
-  #
+  # If subset parameter is true, return a db with the matched data
   if (subset == TRUE) {
+    # transfer headers to output datalist
     db.ans <- db.grep[rownames(db.grep),]
     for (k in 1:nrow(db.ans)){
       db.ans[k,1] <- undigest(db, db.ans[k,1])
@@ -71,10 +72,12 @@ AQSearch.default <- function(db = NULL, db.ph = NULL, db.upper = NULL, db.lower 
     #invisible(db.grep[rownames(db.grep),])
     names(db.ans)[1] <- "REFERENCE"
     invisible(db.ans)
-  }
+  } 
+  # otherwise return indexes of matched data
   else invisible(rownames(db.grep))
   #
  }else{
+   # Triggers an "no results" error
    AQSys.err("5")
  }
  #
