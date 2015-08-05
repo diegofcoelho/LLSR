@@ -64,15 +64,17 @@ AQSearch.default <- function(db = NULL, db.ph = NULL, db.upper = NULL, db.lower 
  if(length(rownames(db.grep)) != 0){
   # If subset parameter is true, return a db with the matched data
   if (subset == TRUE) {
-    # transfer headers to output datalist
+    # use result's indexes to populate output datalist
     db.ans <- db.grep[rownames(db.grep),]
     for (k in 1:nrow(db.ans)){
+      # undigest reference entry
       db.ans[k,1] <- undigest(db, db.ans[k,1])
     }
     #invisible(db.grep[rownames(db.grep),])
-    names(db.ans)[1] <- "REFERENCE"
+    #Add bibliographic reference of system's data
+    names(db.ans)[1] <- "Bibliographyc Reference"
     invisible(db.ans)
-  } 
+} 
   # otherwise return indexes of matched data
   else invisible(rownames(db.grep))
   #

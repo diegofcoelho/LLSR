@@ -36,15 +36,17 @@ require(rootSolve)
 #' #
 #' AQSys.gsnchk(XYdt,Xm,Ym,Vt,Vb,dyt,dyb)
 AQSys.gsnchk<- function(XYdt,Xm,Ym,Vt,Vb,dyt,dyb,...){
-  #
-  Smmry<-summary(mrgsn(XYdt))
-  #
-  A<-Smmry$coefficients[1]
-  B<-Smmry$coefficients[2]
-  C<-Smmry$coefficients[3]
-  #
-  alfa<-Vt*dyt/(Vt*dyt+Vb*dyb)
-  #
+  # Fit XYdt data to mrgsn's mathematical descriptor and get the store in Smmry
+  Smmry <- summary(mrgsn(XYdt))
+  # extract regression parameters from Smmry
+  A <- Smmry$coefficients[1]
+  B <- Smmry$coefficients[2]
+  C <- Smmry$coefficients[3]
+  # Calculate alfa for a given system composition
+  alfa <- Vt*dyt/(Vt*dyt+Vb*dyb)
+  # the system of equations below was described by Merchuk in the manuscript below:
+  # Merchuk, J.C., B.A. Andrews, and J.A. Asenjo. (1998), Aqueous two-phase systems for protein separation: Studies on phase inversion. Journal of Chromatography B: Biomedical Sciences and Applications. 711(1???2): p. 285-293.
+  # the lines below set the equation's system
   sys <- function(x) {
     F1 <- A+B*(x[2])^0.5+C*x[2] - x[1]
     F2 <- A+B*(x[4])^0.5+C*x[4] - x[3]
@@ -53,18 +55,18 @@ AQSys.gsnchk<- function(XYdt,Xm,Ym,Vt,Vb,dyt,dyb,...){
     #
     c(F1 = F1, F2 = F2, F3 = F3, F4 = F4)
   }
-  #
+  # solve the system of equation for a given set of guess and restricting of positive only results
   (sysres <- multiroot(f = sys, start = c(1,0,0,1),positive=TRUE))
-  #
-  sysres$TLL<-sqrt((sysres$root[1]-sysres$root[3])^2+(sysres$root[2]-sysres$root[4])^2)
-  #
+  # Calculate the tieline length and store it in sysres under the TLL alias
+  sysres$TLL <- sqrt((sysres$root[1]-sysres$root[3])^2+(sysres$root[2]-sysres$root[4])^2)
+  # set alfa to 0.5 to calculate concentration at equivolume point
   alfaVRe2o <- 0.5
-  #
+  # calculate the system composition at equivolume
   sysres$yVRe2o <- alfaVRe2o*(sysres$root[1]+sysres$root[3]*((1-alfaVRe2o)/alfaVRe2o))
   sysres$xVRe2o <- alfaVRe2o*(sysres$root[2]+sysres$root[4]*((1-alfaVRe2o)/alfaVRe2o))
   #
-  names(sysres$root)<-c("YT","XT","YB","XB")
+  names(sysres$root) <- c("YT","XT","YB","XB")
   sysres$S <- (sysres$root["YT"]-sysres$root["YB"])/(sysres$root["XT"]-sysres$root["XB"])
-  names(sysres$S)<-NULL
+  names(sysres$S) <- NULL
   sysres
 }
