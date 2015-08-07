@@ -26,8 +26,8 @@ require(rootSolve)
 #'}
 AQSysOthmer <- function(TLdt,...){
   #
-  TLdt<-as.data.frame(TLdt)
-  names(TLdt)<-c("mfXt","mfYt","mfXb","mfYb","mfWt","mfWb")
+  TLdt <- as.data.frame(TLdt)
+  names(TLdt) <- c("mfXt","mfYt","mfXb","mfYb","mfWt","mfWb")
   #
   suppressWarnings(FFn <- nls(
     log((1-mfYt)/mfYt) ~ log(K*(((1-mfXb)/mfXb))^n),
@@ -63,8 +63,8 @@ AQSysOthmer <- function(TLdt,...){
 #'}
 AQSysBancroft <- function(TLdt,...){
   #
-  TLdt<-as.data.frame(TLdt)
-  names(TLdt)<-c("mfXt","mfYt","mfXb","mfYb","mfWt","mfWb")
+  TLdt <- as.data.frame(TLdt)
+  names(TLdt) <- c("mfXt","mfYt","mfXb","mfYb","mfWt","mfWb")
   #
   #suppressWarnings(
     FFn <- nls(

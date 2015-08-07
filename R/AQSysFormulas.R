@@ -28,14 +28,14 @@ tello <- function(XYdt,...){
   #
   df.sys <- diff(XYdt[,1])/diff(XYdt[,2])
   nrow.sys <- nrow(XYdt)
-  S<-smooth.spline(df.sys)$fit$coef[1:nrow.sys]
+  S <- smooth.spline(df.sys)$fit$coef[1:nrow.sys]
   XC <- XYdt[,1]
   #
   coef.est <- LLSRxy(XC,S)
-  names(coef.est)<-c("XC","S")
+  names(coef.est) <- c("XC","S")
   #
   FFnEst <- nls(
-    S ~ (P2/P1)+XC/P1,
+    S ~ (P2/P1) + XC/P1,
     start=list(P1=-.1,P2=.001),
     data=coef.est,na.exclude)
   #
@@ -45,14 +45,14 @@ tello <- function(XYdt,...){
   #
   x <- mean(XYdt[,1])
   y <- mean(XYdt[,2])
-  coef.3 <- log(exp(y)*((x+coef.2)^(-coef.1)))
+  coef.3 <- log(exp(y)*((x + coef.2)^(-coef.1)))
   #
   #if (coef.2 < 0) coef.2 <- -coef.2
   if (coef.2 < -min(XYdt[,1])) coef.2 <- -(min(XYdt[,1])-0.001)
   #
   #cat(coef.1," ",coef.2," ",coef.3," ")
   #
-  names(XYdt)<-c("XC","YC")
+  names(XYdt) <- c("XC","YC")
   FFn <- nls(
     XC ~ exp((YC - P3)/P1) - P2,
     #YC ~ P1*log(XC + P2) + P3,

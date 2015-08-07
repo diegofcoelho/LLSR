@@ -18,6 +18,9 @@ require(digest)
 #' AQSysDB("C:/data.xls", order = "xy", CAS = FALSE)
 #'}
 ####################################################################################################################
+# AQSysDB() is a simple approach that is ready to use any three-parameter equation
+# and thus
+#
 AQSysDB <- function(path, order = "xy", CAS = FALSE){
   if (grepl(".xlsx",path) | grepl(".xls", path)){
     #

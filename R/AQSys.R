@@ -123,8 +123,8 @@ AQSys.plot <- function  (XYdt, xlbl = "", ylbl = "", main = NULL, col = "blue", 
   #
   rawdt <- curve(Fn(CoefSET,x),
                  add=TRUE, n = NP)
-  names(rawdt)<-c("XC","YC")
-  rawdt<-as.data.frame(rawdt)
+  names(rawdt) <- c("XC","YC")
+  rawdt <- as.data.frame(rawdt)
   invisible(rawdt)
 }
 ####################################################################################################################
