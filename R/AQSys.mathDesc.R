@@ -33,6 +33,8 @@ AQSys.mathDesc <- function(mathDesc){
              P1*log(P2 + XC) + P3
            } 
          },
+         # if user selects an option not available, it triggers an error
+         # (check AQSys.err.R for details)
          AQSys.err("0")
   )
   # return chosen function
