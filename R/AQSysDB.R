@@ -130,7 +130,7 @@ AQSysDB <- function(path, order = "xy", CAS = FALSE){
       # When calling AQSysDB the user can use as input the order the data is in the sheet
       # if XY, analyse it normally
       if (tolower(order)=="xy"){
-        resSys<-summary(AQSys(LLSRxy(db.first.col,db.second.col),mathDesc=i))
+        resSys <- summary(AQSys(LLSRxy(db.first.col,db.second.col),mathDesc=i))
       }
       else{
         # if YX, invert columns

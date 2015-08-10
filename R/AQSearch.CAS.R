@@ -38,5 +38,6 @@ AQSearch.CAS <- function(db, ChemString, ...){
     # if string isn't valid, it triggers an error (check AQSys.err.R for details)
     AQSys.err("4")
   }
+  # return search results
   invisible(ans)
 }

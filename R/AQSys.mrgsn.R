@@ -83,5 +83,6 @@ AQSysBancroft <- function(TLdt,...){
     lower=10^-2,
     data=TLdt,na.exclude)
   #)
+  # return all calculated parameters
   FFn
 }

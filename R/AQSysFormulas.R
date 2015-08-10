@@ -46,11 +46,11 @@ tello <- function(XYdt,...){
     S ~ (P2/P1) + XC/P1,
     start=list(P1=-.1,P2=.001),
     data=coef.est,na.exclude)
-  # obtain parameters
+  # obtain 1st and 2nd coefficients
   coefEst <- summary(FFnEst)
   coef.1 <- coefEst$coefficients[1]
   coef.2 <- coefEst$coefficients[2]
-  #
+  # calculate third coefficient
   x <- mean(XYdt[,1])
   y <- mean(XYdt[,2])
   coef.3 <- log(exp(y)*((x + coef.2)^(-coef.1)))
