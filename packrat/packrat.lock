@@ -69,8 +69,8 @@ Requires: memoise
 
 Package: curl
 Source: CRAN
-Version: 0.9.1
-Hash: 19b1413ddc86eb2b09d02d8b230d054a
+Version: 0.9.2
+Hash: 3a65388ecdf91db2721031499fa7fbc8
 
 Package: devtools
 Source: CRAN
