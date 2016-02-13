@@ -1,7 +1,4 @@
 #### CHECK --as-cran
-#### -- Packrat Autoloader (version 0.4.2) -- ####
-source("packrat/init.R")
-#### -- End Packrat Autoloader -- ####
 #(x <- strptime(c("2006-01-08 10:07:52", "2006-08-07 19:33:02"),
 #               "%Y-%m-%d %H:%M:%S", tz = "America/Sao_Paulo"))
 #
@@ -14,3 +11,6 @@ source("packrat/init.R")
 #concentration and phase's composition). The package will include (every other
 #update) new functions in order to comprise useful functions in liquid-liquid
 #analysis
+#### -- Packrat Autoloader (version 0.4.6-12) -- ####
+source("packrat/init.R")
+#### -- End Packrat Autoloader -- ####

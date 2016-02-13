@@ -1,21 +1,28 @@
 # Set plot area to export high resolution pictures
 AQSysHR <- function (HR){
+  par.defaults <- par(no.readonly=TRUE)
+  par(par.defaults)
   if (HR == TRUE){
-    par(mar = c(6,6,6,4) + 0.1)
-    cex = 2.5
-    cexlab = 2.5
-    cexaxis = 2.5
-    cexmain = 2.5
-    cexsub = 2.5
+    clwd = 10
+    par(mar = c(5,6,5,3) + 0.5,
+        cex = 2.5,
+        cex.lab = 2.5,
+        cex.axis = 2.5,
+        cex.main = 2.5,
+        cex.sub = 2.5,
+        lwd = clwd,
+        mgp=c(4,2,0))
   }else{
-    par(mar = c(5, 4, 4, 2) + 0.1)
-    cex = 1
-    cexlab = 1
-    cexaxis = 1
-    cexmain = 1
-    cexsub = 1
+    clwd = 1
+    par(mar = c(5,4,4,2) + 0.1,
+        cex = 1,
+        cex.lab = 1,
+        cex.axis = 1,
+        cex.main = 1,
+        cex.sub = 1,
+        lwd = clwd)
   }
-  
+  return(clwd)
 }
 # Display message when package is loaded
 .onAttach <- function(libname, pkgname){

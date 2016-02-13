@@ -9,6 +9,7 @@ require(digest)
 #' @rdname AQSysDB
 #' @name AQSysDB
 #' @title AQSysDB
+#' @description Import DB data from an Excel Worksheet.
 #' @export
 #' @param path String containing the full path to the XLS or XLSX file.
 #' @param order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.

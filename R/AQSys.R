@@ -2,8 +2,10 @@
 #' @import rootSolve
 #' @import graphics
 #' @import stats
+#' @import svDialogs
 ####################################################################################################################
 require(rootSolve)
+require(svDialogs)
 ####################################################################################################################
 #'Merchuk's Equation to fit Binodal Experimental Data
 #' @rdname AQSys
@@ -69,21 +71,23 @@ AQSys.default <- function(XYdt, mathDesc="merchuk",...){
 #' @param mathDesc - Character String specifying the nonlinear empirical equation to fit data. The default method uses
 #' Merchuk's equation. Other possibilities can be seen in AQSysList().
 #' @param ... Additional optional arguments. None are used at present.
-#' @param XYdt - Binodal Experimental data that will be used in the nonlinear fit
-#' @param xlbl = Plot's Horizontal axis label.
-#' @param ylbl = Plot's Vertical axis label. 
-#' @param main - Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' @param col - Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' @param type - Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' @param cex - Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' @param cexlab - Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' @param cexaxis - Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' @param cexmain - Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' @param cexsub - Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' @param xmax - Maximum value for the Horizontal axis' value
-#' @param ymax - Maximum value for the Vertical axis' value
-#' @param HR - Magnify Plot's text to be compatible with High Resolution size [type:Boulean]
-#' @param NP - Number of points used to build the fitted curve. Default is 100. [type:Integer]
+#' @param XYdt Binodal Experimental data that will be used in the nonlinear fit
+#' @param xlbl Plot's Horizontal axis label.
+#' @param ylbl Plot's Vertical axis label. 
+#' @param main Legacy from plot package. For more details, see \code{\link{plot.default}}
+#' @param col Legacy from plot package. For more details, see \code{\link{plot.default}}
+#' @param type Legacy from plot package. For more details, see \code{\link{plot.default}}
+#' @param cex Legacy from plot package. For more details, see \code{\link{plot.default}}
+#' @param cexlab Legacy from plot package. For more details, see \code{\link{plot.default}}
+#' @param cexaxis Legacy from plot package. For more details, see \code{\link{plot.default}}
+#' @param cexmain Legacy from plot package. For more details, see \code{\link{plot.default}}
+#' @param cexsub Legacy from plot package. For more details, see \code{\link{plot.default}}
+#' @param xmax Maximum value for the Horizontal axis' value
+#' @param ymax Maximum value for the Vertical axis' value
+#' @param HR Magnify Plot's text to be compatible with High Resolution size [type:Boulean]
+#' @param NP Number of points used to build the fitted curve. Default is 100. [type:Integer]
+#' @param clwd Plot's axis line width
+#' @param save Optimize Plot's elements to be compatible with High Resolution size [type:Boulean]
 #' @return A plot containing the experimental data, the correspondent curve for the binodal in study and the curve's raw XY data.
 #' @examples
 #' #Populating variable XYdt with binodal data
@@ -94,10 +98,39 @@ AQSys.default <- function(XYdt, mathDesc="merchuk",...){
 #' #
 AQSys.plot <- function  (XYdt, xlbl = "", ylbl = "", main = NULL, col = "blue", type = "p",
                          cex = 1, cexlab = 1, cexaxis = 1, cexmain = 1, cexsub = 1,
-                         xmax = 0.4, ymax = 0.5, HR = FALSE, NP = 100, mathDesc = "merchuk",...)
+                         xmax = 0.4, ymax = 0.5, HR = FALSE, NP = 100, mathDesc = "merchuk",
+                         clwd = NULL, save = FALSE, ...)
 {
+  #
+  if (save == TRUE){
+    # Open dialog to get filename string
+    filename <- paste(dlgInput(message = "Enter the figure filename:")$res, ".png", sep = "")
+    # Check if filename is invalid and quite if so
+    if (filename == ".png"){
+      stop("Filename is NULL or INVALID.", call. = TRUE)
+    }
+    # Get user choice for a directory to save the plot
+    savePath <- dlgDir()$res
+    # Check if path is invalid and quite if so
+    if (savePath == ""){
+      stop("Path is NULL or INVALID.", call. = TRUE)
+    }else{
+      savePath <- paste(savePath, filename, sep=.Platform$file.sep)
+    }
+    # set plot resolution based on user choice
+    if (HR == TRUE){
+      png(savePath, width = 5235, height = 3240, units = "px")
+    }else{
+      png(savePath, width = 1745, height = 1080, units = "px")
+    }
+  }
+  #
   # set graph parameters to export plots in High Quality
-  AQSysHR(TRUE)
+  if (is.null(clwd)){
+    clwd <- AQSysHR(HR)
+  }else{
+    AQSysHR(HR)
+  }
   # select which model will be used to generate the plot
   switch(mathDesc,
          merchuk={
@@ -141,5 +174,13 @@ AQSys.plot <- function  (XYdt, xlbl = "", ylbl = "", main = NULL, col = "blue", 
   # make available data from fitted curve to user. Function returns it silently
   # but user can get data using simple assign '<-'
   invisible(rawdt)
+  # Set ticks Thickness
+  axis(side = 1, lwd = clwd)
+  axis(side = 2, lwd = clwd)
+  #
+  if (save == TRUE){
+    invisible(dev.off())
+  }
+  #
 }
 ####################################################################################################################

@@ -1,6 +1,7 @@
 ####################################################################################################################
 #' @rdname AQSearch.CAS
 #' @name AQSearch.CAS
+#' @description Search CAS codes in LLSR's Chemical database.
 #' @title Search CAS codes in Chemical database.
 #' @method AQSearch CAS
 #' @export AQSearch.CAS

@@ -8,7 +8,7 @@
 #'   \item{YC}{Fraction of PEG}
 #'   ...
 #' }
-#' @source \url{http://diegofcoelho.github.io/code/}
+#' @source \url{https://github.com/hutchr/LLSR}
 #' @examples
 #' #
 #' XYdt <- peg4kslt[,1:2]
