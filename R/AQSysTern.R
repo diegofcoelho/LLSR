@@ -50,7 +50,8 @@ AQSysTern <-
       geom_point <-
       element_line <-
       element_line <-
-      scale_shape_manual <- scale_colour_manual <- element_text <- NULL
+      scale_shape_manual <-
+      scale_colour_manual <- element_text <- NULL
     #
     #
     #

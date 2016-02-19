@@ -1,7 +1,7 @@
 Package: LLSR
 Type: Package
 Title: Data Analysis of Liquid-Liquid Systems
-Version: 0.0.2.9000
+Version: 0.0.2.0
 Date: 2016-03-01
 Author: Diego F Coelho <diegofcoelho@gmail.com>
 Maintainer: Diego F Coelho <diegofcoelho@gmail.com>
@@ -12,15 +12,9 @@ Description: Analyses experimental data from liquid-liquid phase diagrams and
     analysis.
 License: GPL-3
 LazyData: TRUE
-Depends:
-    R (>= 2.10),
-    rootSolve,
-    XLConnect,
-    digest,
-    svDialogs,
-    ggtern
+Depends: R (>= 2.10), rootSolve, XLConnect, digest, svDialogs, ggtern
 URL: http://hutchr.github.io/LLSR/
 BugReports: https://github.com/hutchr/LLSR/issues
-Suggests:
-    testthat
+Suggests: testthat
 RoxygenNote: 5.0.1
+NeedsCompilation: no
