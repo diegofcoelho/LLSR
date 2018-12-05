@@ -3,18 +3,18 @@
 \name{AQSys}
 \alias{AQSys}
 \alias{AQSys.default}
-\title{Merchuk's Equation to fit Binodal Experimental Data}
+\title{Merchuk's nonlinear Equation}
 \usage{
-AQSys(XYdt, ...)
+AQSys(dataSET, ...)
 
-\method{AQSys}{default}(XYdt, mathDesc = "merchuk", ...)
+\method{AQSys}{default}(dataSET, modelName = "merchuk", ...)
 }
 \arguments{
-\item{XYdt}{- Binodal Experimental data that will be used in the nonlinear fit}
+\item{dataSET}{- Binodal Experimental data that will be used in the nonlinear fit}
 
 \item{...}{Additional optional arguments. None are used at present.}
 
-\item{mathDesc}{- Character String specifying the nonlinear empirical equation to fit data.
+\item{modelName}{- Character String specifying the nonlinear empirical equation to fit data.
 The default method uses Merchuk's equation. Other mathematical descriptors can be listed using AQSysList().}
 }
 \value{
@@ -24,26 +24,39 @@ through the available mathematical descriptions.
 \description{
 .
 
-Perform a nonlinear regression fit using several mathemmatical descriptors in order to determine the
-equation's parameters.
+Perform a nonlinear regression fit using several mathematical descriptors in order to calculate the equation's parameters.
 }
 \details{
 The function returns functions parameters after fitting experimental data to the equations listed in AQSysList().
 }
 \examples{
-#Populating variable XYdt with binodal data
-XYdt <- peg4kslt[,1:2] 
-#Fitting XYdt using Merchuk's function
-AQSys(XYdt)
+#Populating variable dataSET with binodal data
+dataSET <- llsr_data$db.data[6:23,1:2]
+#Fitting dataSET using Merchuk's function
+AQSys(dataSET)
+}
+\references{
+MURUGESAN, T.; PERUMALSAMY, M. Liquid-Liquid Equilibria of Poly(ethylene glycol) 2000 + Sodium Citrate + Water at (25, 30, 35, 40, and 45) C. Journal of Chemical & Engineering Data, v. 50, n. 4, p. 1392-1395, 2005/07/01 2005. ISSN 0021-9568. 
+(\href{https://www.doi.org/10.1021/je050081k}{ACS Publications})
+
+MERCHUK, J. C.; ANDREWS, B. A.; ASENJO, J. A. Aqueous two-phase systems for protein separation: Studies on phase inversion. Journal of Chromatography B: Biomedical Sciences and Applications, v. 711, n. 1-2, p. 285-293,  1998. ISSN 0378-4347.
+(\href{https://www.doi.org/10.1016/s0378-4347(97)00594-x}{ScienceDirect})
+
+TANG, X.  et al. The study of phase behavior of aqueous two-phase system containing [Cnmim] BF 4 (n=2, 3, 4)+(NH4)2SO4 + H2O at different temperatures. Fluid Phase Equilibria, v. 383, p. 100-107,  2014. ISSN 0378-3812. 
+(\href{https://doi.org/10.1016/j.fluid.2014.09.029}{ScienceDirect})
+
+GONZALEZ-TELLO, P.  et al. Liquid-Liquid Equilibrium in the System Poly(ethylene glycol) + MgSO4 + H2O at 298 K. Journal of Chemical & Engineering Data, v. 41, n. 6, p. 1333-1336, 1996/01/01 1996. ISSN 0021-9568. 
+(\href{https://www.doi.org/10.1021/je960075b}{ACS Publications})
+
+CHEN, Y.  et al. Liquid-liquid equilibria of aqueous biphasic systems composed of 1-butyl-3-methyl imidazolium tetrafluoroborate+ sucrose/maltose+ water. Journal of Chemical & Engineering Data, v. 55, n. 9, p. 3612-3616,  2010. ISSN 0021-9568. 
+(\href{https://pubs.acs.org/doi/ipdf/10.1021/je100212p}{ACS Publications})
 }
 \seealso{
 \itemize{
 \item \code{\link{AQSys.default}}
 \item \code{\link{AQSys.plot}}
-\item \code{\link{AQSys.tielines}} 
-\item \code{\link{AQSys.crpt}}
+\item \code{\link{AQSys.tielines}}
 \item \code{\link{AQSysOthmer}}
 \item \code{\link{AQSysBancroft}}
 }
 }
-

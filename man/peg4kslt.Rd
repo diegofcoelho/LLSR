@@ -2,7 +2,8 @@
 % Please edit documentation in R/datasets.R
 \name{peg4kslt}
 \alias{peg4kslt}
-\title{Dataset of experimental binodal data of an ATPS}
+\title{Dataset of experimental binodal data of an ATPS
+A dataset containing the experimental binodal data for a PEG/SALT Aqueous Two-Phases System (ATPS)}
 \format{A data.frame with 116 rows and 2 variables:
 \describe{
   \item{XC}{Fraction of Salt}
@@ -13,6 +14,7 @@
 \url{https://github.com/hutchr/LLSR}
 }
 \description{
+Dataset of experimental binodal data of an ATPS
 A dataset containing the experimental binodal data for a PEG/SALT Aqueous Two-Phases System (ATPS)
 }
 \examples{
@@ -23,4 +25,3 @@ Xdt<-peg4kslt[,1]
 #
 Ydt<-peg4kslt[,1]
 }
-

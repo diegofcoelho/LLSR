@@ -7,15 +7,18 @@ AlwaysSaveHistory: No
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
 NumSpacesForTab: 2
-Encoding: ASCII
+Encoding: UTF-8
 
 RnwWeave: Sweave
-LaTeX: pdfLaTeX
+LaTeX: XeLaTeX
 
 AutoAppendNewline: Yes
+LineEndingConversion: Native
 
 BuildType: Package
 PackageUseDevtools: Yes
-PackageInstallArgs: --with-keep.source
+PackageInstallArgs: --no-multiarch --with-keep.source
 PackageCheckArgs: --as-cran
 PackageRoxygenize: rd,collate,namespace,vignette
+
+QuitChildProcessesOnExit: Yes

@@ -2,11 +2,16 @@
 % Please edit documentation in R/LLSRUtils.R
 \name{LLSR.info}
 \alias{LLSR.info}
-\title{.}
+\title{@rdname LLSR.info
+ @export LLSR.info
+ @title .
+ @description .}
 \usage{
 LLSR.info()
 }
 \description{
-.
+@rdname LLSR.info
+ @export LLSR.info
+ @title .
+ @description .
 }
-

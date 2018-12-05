@@ -2,12 +2,12 @@
 % Please edit documentation in R/AQSys.gsnchk.R
 \name{AQSys.gsnchk}
 \alias{AQSys.gsnchk}
-\title{Merchuk's Method of calculating phase's composition in a Tieline applied to Murugesan Binodal Function}
+\title{Merchuk's Method of calculating phase's composition in a tie-line applied to Murugesan's bimodal function}
 \usage{
-\method{AQSys}{gsnchk}(XYdt, Xm, Ym, Vt, Vb, dyt, dyb, ...)
+\method{AQSys}{gsnchk}(dataSET, Xm, Ym, Vt, Vb, dyt, dyb, ...)
 }
 \arguments{
-\item{XYdt}{- Standard bidimensional data.frame used in most of functions available in this package.}
+\item{dataSET}{- Standard bidimensional data.frame used in most of functions available in this package.}
 
 \item{Xm}{- Component X's concentration in the tieline's global composition.}
 
@@ -29,20 +29,18 @@ and Tieline's Slope.
 }
 \description{
 Merchuk et al. described a very straightforward method to calculate the concentration of each
-component in the tieline giving only its global composition and phase's properties (such as volume and density).
+component in the tie-line giving only its global composition and phase's properties (such as volume and density).
 However, other researchers relate to have achieved better fitting results using Murugesan's functions.
-This method offers Merchul's ways o calculate Tieline's composition but using the equation proposed by Murugesan.
+This method offers Merchuk's methodology to calculate tie-line's composition but using the equation proposed by Murugesan.
 }
 \details{
-Merchuk's Method of calculating phase's composition in a Tieline applied to Murugesan Binodal Function
-
-Using the binodal data, the global composition of a chosen tieline and its phases properties (more precisely
+Using the bimodal data, the global composition of a chosen tieline and its phases properties (more precisely
 each phase density and volume). Using the data included in LLSR package the function couldn't achieve steady-state and
 consecutively have a poor convergence tolerance. Use for your own risk.
 }
 \examples{
 #
-XYdt <- peg4kslt[,1:2]
+dataSET <- peg4kslt[,1:2]
 #
 Xm <- peg4kslt[2,3]
 Ym <- peg4kslt[2,4]
@@ -51,6 +49,12 @@ Vb <- peg4kslt[2,6]
 dyt <- peg4kslt[2,7]
 dyb <- peg4kslt[2,8]
 #
-AQSys.gsnchk(XYdt,Xm,Ym,Vt,Vb,dyt,dyb)
+AQSys.gsnchk(dataSET,Xm,Ym,Vt,Vb,dyt,dyb)
 }
+\references{
+MURUGESAN, T.; PERUMALSAMY, M. Liquid-Liquid Equilibria of Poly(ethylene glycol) 2000 + Sodium Citrate + Water at (25, 30, 35, 40, and 45) C. Journal of Chemical & Engineering Data, v. 50, n. 4, p. 1392-1395, 2005/07/01 2005. ISSN 0021-9568. 
+(\href{https://www.doi.org/10.1021/je050081k}{ACS Publications})
 
+MERCHUK, J. C.; ANDREWS, B. A.; ASENJO, J. A. Aqueous two-phase systems for protein separation: Studies on phase inversion. Journal of Chromatography B: Biomedical Sciences and Applications, v. 711, n. 1-2, p. 285-293,  1998. ISSN 0378-4347.
+(\href{https://www.doi.org/10.1016/s0378-4347(97)00594-x}{ScienceDIrect})
+}

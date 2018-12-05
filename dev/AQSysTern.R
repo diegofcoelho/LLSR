@@ -1,6 +1,5 @@
 ####################################################################################################################
-#' @import svDialogs
-#' @import ggtern
+#' @import ggtern svDialogs
 ####################################################################################################################
 #' @rdname AQSysTern
 #' @title This functions plot a ternary plot based in the chosen model and its parameters.
@@ -13,6 +12,7 @@
 #' @param shape Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or \code{\link[ggplot2]{aes_}}.
 #' @param title Plot's Title. Default is NULL, for no title. [type:string]
 #' @param style Plot's Style.
+#' @param showArrows Show variable's arrow along the axes [type:boolean]
 #' @param xlbl Plot's Bottom-enriched Component axis label. [type:string]
 #' @param ylbl Plot's Upper-enriched Component axis label. [type:string]
 #' @param zlbl Plot's Water Fraction axis label. [type:string]
@@ -22,7 +22,7 @@
 #' @param HR Magnify Plot's text to be compatible with High Resolution size [type:Boulean]
 #' @param silent Perform functions taks without returning variables or requesting Input. If TRUE, wdir and filename are mandatory. [type:Boulean]
 #' @param save Magnify Plot's text to be compatible with High Resolution size [type:Boulean]
-#' @param single TRUE if a single series will be plot and FALSE if otherwise. If FALSE, series variable must be provided. [type:Boulean]
+#' @param single TRUE if a single series will be plot and FALSE if otherwise. If FALSE, series variable must be provided. [type:Boolean]
 #' @param wdir Set working directory in which plot's file will be saved. Set as "" to save in the current working directory. [type:string]
 #' @param filename Set a name for the plot's file. [type:string]
 #' @param series A data.frame containin series names in the first columns and its respective colors in the second column. [type:data.frame]
@@ -38,20 +38,40 @@
 #' }
 ####################################################################################################################
 AQSysTern <-
-  function  (XYdt, color = "black", shape = 1, title = NULL, style = "bw", wlabel = "(%, m/m)",
-             xlbl = "X", ylbl = "Y", zlbl = "Z", tcolor = "red2", lcolor = "darkgoldenrod2", rcolor = "blue4",
-             x_arrow_lbl = xlbl, y_arrow_lbl = ylbl, z_arrow_lbl = zlbl,
-             HR = FALSE, silent = FALSE, save = silent, single = TRUE,
-             wdir = NULL, filename = NULL, series = NULL, ltitle = NULL)
+  function  (XYdt,
+             color = "black",
+             shape = 8,
+             title = NULL,
+             style = "bw",
+             wlabel = "(%, m/m)",
+             xlbl = names(XYdt)[1],
+             ylbl = "Water",
+             zlbl = names(XYdt)[2],
+             tcolor = "red2",
+             lcolor = "darkgoldenrod2",
+             rcolor = "blue4",
+             showArrows = TRUE,
+             x_arrow_lbl = xlbl,
+             y_arrow_lbl = ylbl,
+             z_arrow_lbl = zlbl,
+             HR = FALSE,
+             silent = FALSE,
+             save = FALSE,
+             single = TRUE,
+             wdir = NULL,
+             filename = NULL,
+             series = NULL,
+             ltitle = NULL)
   {
     # Solution for "no visible binding for global variable VAR" and "no visible global function definition for"
     x <- y <- z <- serie <- NULL
-    labs <-
-      geom_point <-
-      element_line <-
-      element_line <-
-      scale_shape_manual <-
-      scale_colour_manual <- element_text <- NULL
+    labs <- NULL
+    geom_point <- NULL
+    element_line <- NULL
+    element_line <- NULL
+    scale_shape_manual <- NULL
+    scale_colour_manual <- NULL
+    element_text <- NULL
     #
     #
     #
@@ -61,7 +81,7 @@ AQSysTern <-
       #
       stop("Dataset parameter must be a data.frame, or list, with exactly two columns.")
       #
-    } else if ((silent == TRUE) &&
+    } else if ((save == TRUE) && (silent == TRUE) &&
                (is.null(wdir) || is.null(filename))) {
       #
       stop("Input parameters filename and wdir must be set if silent == TRUE.")
@@ -85,7 +105,10 @@ AQSysTern <-
         data.temp <- NULL
         data.melted <-
           data.frame(
-            x = double(), y = double(), z = double(), serie = character()
+            x = double(),
+            y = double(),
+            z = double(),
+            serie = character()
           )
         #
         if (is.null(series)) {
@@ -134,7 +157,7 @@ AQSysTern <-
     if (save == TRUE) {
       if (HR == TRUE) {
         image_format <- ".svg"
-      }else{
+      } else{
         image_format <- ".png"
       }
       #
@@ -160,12 +183,12 @@ AQSysTern <-
         #
         stop("Path is NULL or INVALID.", call. = TRUE)
         #
-      }else if ((wdir == "") && (silent == TRUE)) {
+      } else if ((wdir == "") && (silent == TRUE)) {
         #
         wdir <- getwd()
         wdir <- paste(wdir, filename, sep = .Platform$file.sep)
         #
-      }else{
+      } else{
         #
         wdir <- paste(wdir, filename, sep = .Platform$file.sep)
         #
@@ -174,24 +197,33 @@ AQSysTern <-
     #
     #
     #
+    CoefSET <- summary(mrchk(tern_data[1:2]))$coefficients[, 1]
+    Fn <- AQSys.mathDesc("merchuk")
+    xr <- tern_data[1]
+    yr <- Fn(CoefSET, tern_data[1])
+    zr <- (1 - (xr + yr))
+    fitted_data <- data.frame(xr, yr, zr)
+    names(fitted_data) <- c("x", "y", "z")
     #
     #
-    components_limits <- round(max(tern_data[2]) / .92, 2)
     #
+    axis_limit <- round(max(tern_data[2]) / 0.8, 1)
     tern_image <-
-      ggtern(tern_data, aes(z, x, y)) +
+      ggtern(tern_data, aes(z, x, y, color = Series)) +
+      #ggtern(tern_data, aes(z, x, y, color=Series))
       theme_light() +
-      tern_limits(T = components_limits,L = 1,R = components_limits) +
+      tern_limits(T = axis_limit, L = 1, R = axis_limit) +
       Tlab(xlbl) +
       Llab(ylbl) +
       Rlab(zlbl) +
       Tarrowlab(x_arrow_lbl) +
       Larrowlab(y_arrow_lbl) +
       Rarrowlab(z_arrow_lbl) +
-      theme_showarrows() +
-      Wlab(wlabel) +
       labs(title = title) +
       theme(legend.position = "bottom")
+    if (showArrows == TRUE) {
+      tern_image <- tern_image + theme_showarrows() + Wlab(wlabel)
+    }
     #
     if (single == FALSE) {
       tern_image <-
@@ -203,7 +235,19 @@ AQSysTern <-
       # scale_colour_manual(values = series_colors) +
       #theme(legend.title = element_blank())
     } else {
-      tern_image <- tern_image + geom_point(shape = shape, colour = color)
+      tern_image <- tern_image +
+        geom_point(data = tern_data,
+                   aes(z, x, y),
+                   shape = shape,
+                   size = 2,
+                   colour = color) +
+        geom_line(
+          data = fitted_data,
+          aes(z, x, y),
+          colour = 'red',
+          linetype = 2,
+          size = 1.1
+        )
     }
     #
     #
@@ -214,27 +258,43 @@ AQSysTern <-
       tern_image <- tern_image +
         theme(
           text = element_text(size = 18),
-          tern.axis.line = element_line(
-            size = 2, linetype = 1, color = "black"
+          tern.axis.line.R = element_line(
+            size = 2,
+            linetype = 1,
+            color = "black"
+          ),
+          tern.axis.line.L = element_line(
+            size = 2,
+            linetype = 1,
+            color = "black"
+          ),
+          tern.axis.line.T = element_line(
+            size = 2,
+            linetype = 1,
+            color = "black"
           ),
           tern.axis.arrow = element_line(color = "black"),
           tern.axis.ticks = element_line(color = "black"),
           tern.axis.title = element_text(color = "black"),
           tern.axis.arrow.text = element_text(color = "black"),
           tern.axis.text = element_text(color = "black"),
-          tern.panel.grid = element_line(
-            size = 1, linetype = 2, colour = "black"
-          ),
+          
+          #tern.panel.grid = element_line(
+          #  size = 1,
+          #  linetype = 2,
+          #  colour = "black"
+          #),
+          
           tern.panel.grid.major = element_line(color = "black"),
           tern.panel.grid.minor = element_line(color = "black")
         )
     } else if (style == "custom") {
       tern_image <- tern_image +
         theme(
-          tern.axis.line = element_line(size = 2, linetype = 1),
-          tern.axis.line.T = element_line(color = tcolor),
-          tern.axis.line.L = element_line(color = lcolor),
-          tern.axis.line.R = element_line(color = rcolor),
+          #tern.axis.line = element_line(size = 2, linetype = 1),
+          tern.axis.line.T = element_line(color = tcolor,size = 2, linetype = 1),
+          tern.axis.line.L = element_line(color = lcolor,size = 2, linetype = 1),
+          tern.axis.line.R = element_line(color = rcolor,size = 2, linetype = 1),
           
           tern.axis.title.T = element_text(color = tcolor),
           tern.axis.title.L = element_text(color = lcolor),
@@ -253,50 +313,72 @@ AQSysTern <-
           tern.axis.text.R = element_text(color = rcolor),
           
           tern.panel.grid.minor.T = element_line(
-            color = tcolor, size = .1, linetype = 2
+            color = tcolor,
+            size = .1,
+            linetype = 2
           ),
           tern.panel.grid.minor.L = element_line(
-            color = lcolor, size = .1, linetype = 2
+            color = lcolor,
+            size = .1,
+            linetype = 2
           ),
           tern.panel.grid.minor.R = element_line(
-            color = rcolor, size = .1, linetype = 2
+            color = rcolor,
+            size = .1,
+            linetype = 2
           ),
           
           tern.panel.grid.major.T = element_line(
-            color = tcolor, size = .1, linetype = 2
+            color = tcolor,
+            size = .1,
+            linetype = 2
           ),
           tern.panel.grid.major.L = element_line(
-            color = lcolor, size = .1, linetype = 2
+            color = lcolor,
+            size = .1,
+            linetype = 2
           ),
           tern.panel.grid.major.R = element_line(
-            color = rcolor, size = .1, linetype = 2
+            color = rcolor,
+            size = .1,
+            linetype = 2
           )
         )
     } else if (style == "rgbw") {
       tern_image <- tern_image + theme_rgbw() +
         theme(
-          tern.axis.line = element_line(size = 2, linetype = 1),
-          tern.panel.grid = element_line(size = 1, linetype = 2)
+          tern.axis.line.T = element_line(size = 2, linetype = 1),
+          tern.axis.line.L = element_line(size = 2, linetype = 1),
+          tern.axis.line.R = element_line(size = 2, linetype = 1),
+          tern.panel.grid.major = element_line(size = 1, linetype = 2),
+          tern.panel.grid.minor = element_line(size = 1, linetype = 2)
         )
     } else{
       tern_image <- tern_image + theme_bw() +
         theme(
-          tern.axis.line = element_line(size = 2, linetype = 1),
-          tern.panel.grid = element_line(size = 1, linetype = 2)
+          tern.axis.line.T = element_line(size = 2, linetype = 1),
+          tern.axis.line.L = element_line(size = 2, linetype = 1),
+          tern.axis.line.R = element_line(size = 2, linetype = 1),
+          tern.panel.grid.major = element_line(size = 1, linetype = 2),
+          tern.panel.grid.minor = element_line(size = 1, linetype = 2)
         )
     }
     #
     #
     #
-    #
+    if (save == TRUE) {
+      ggsave(
+        filename = wdir,
+        plot = tern_image,
+        width = 21.14 / 2,
+        height = 14.39 / 2
+      )
+    }
     #
     if (silent == FALSE) {
       print(tern_image)
-    }
-    if (save == TRUE) {
-      ggsave(
-        filename = wdir, plot = tern_image, width = 21.14 / 2, height = 14.39 / 2
-      )
+    } else {
+      invisible(tern_data)
     }
     #
   }

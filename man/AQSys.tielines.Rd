@@ -2,12 +2,12 @@
 % Please edit documentation in R/AQSys.mrchk.R
 \name{AQSys.tielines}
 \alias{AQSys.tielines}
-\title{Merchuk's Method - Tieline's Composition Calculation}
+\title{Merchuk's Method - tie-line's Composition Calculation}
 \usage{
-\method{AQSys}{tielines}(XYdt, Xm, Ym, Vt, Vb, dyt, dyb, ...)
+\method{AQSys}{tielines}(dataSET, Xm, Ym, Vt, Vb, dyt, dyb, ...)
 }
 \arguments{
-\item{XYdt}{- Binodal Experimental data that will be used in the nonlinear fit}
+\item{dataSET}{- Binodal Experimental data that will be used in the nonlinear fit}
 
 \item{Xm}{- Component X's concentration in the tieline's global composition.}
 
@@ -24,20 +24,23 @@
 \item{...}{Additional optional arguments. None are used at present.}
 }
 \value{
-The function returns the Critical Point (X,Y), Tieline Length (TLL), Tieline's Equivolume point (xVRe2o,yVRe2o), 
+The function returns the Critical Point (X,Y), Tieline Length (TLL), Tieline's Equivolume point (xVRe2o,yVRe2o),
 and Tieline's Slope.
 }
 \description{
-Merchuk et al. described a very straightforward method to calculate the concentration of each component in the 
+Merchuk et al. described a very straightforward method to calculate the concentration of each component in the
 tieline giving only its global composition and phase's properties (such as volume and density).
 }
 \details{
-Using the binodal data, the global composition of a chosen tieline and its phases properties (more precisely each 
+Using the binodal data, the global composition of a chosen tieline and its phases properties (more precisely each
 phase density and volume)
 }
 \examples{
 \dontrun{
-AQSys.tielines(XYdt,Xm,Ym,Vt,Vb,dyt,dyb)
+AQSys.tielines(dataSET, Xm, Ym, Vt, Vb, dyt, dyb)
 }
 }
-
+\references{
+MERCHUK, J. C.; ANDREWS, B. A.; ASENJO, J. A. Aqueous two-phase systems for protein separation: Studies on phase inversion. Journal of Chromatography B: Biomedical Sciences and Applications, v. 711, n. 1-2, p. 285-293,  1998. ISSN 0378-4347.
+(\href{https://www.doi.org/10.1016/s0378-4347(97)00594-x}{ScienceDIrect})
+}

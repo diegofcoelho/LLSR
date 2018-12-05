@@ -1,7 +1,9 @@
 if(getRversion() >= "3.5")
   utils::globalVariables(
     c(
+      "x",
       "Series",
+      "y",
       "xlab",
       "ylab",
       "geom_point",
@@ -29,61 +31,52 @@ if(getRversion() >= "3.5")
 #' \item \code{\link{AQSys.default}}
 #' \item \code{\link{AQSys.plot}}
 #' \item \code{\link{AQSys.tielines}}
+#' \item \code{\link{AQSys.crpt}}
 #' \item \code{\link{AQSysOthmer}}
 #' \item \code{\link{AQSysBancroft}}
 #' }
 ####################################################################################################################
-AQSys <- function(dataSET, ...)
+AQSys <- function(XYdt, ...)
   UseMethod("AQSys")
 ####################################################################################################################
 #' @rdname AQSys
 #' @title Merchuk's nonlinear Equation
-#' @description Perform a nonlinear regression fit using several mathematical descriptors in order to calculate the equation's parameters.
+#' @description Perform a nonlinear regression fit using several mathemmatical descriptors in order to determine the
+#' equation's parameters.
 #' @details The function returns functions parameters after fitting experimental data to the equations listed in AQSysList().
-#' @param modelName - Character String specifying the nonlinear empirical equation to fit data.
+#' @param mathDesc - Character String specifying the nonlinear empirical equation to fit data.
 #' The default method uses Merchuk's equation. Other mathematical descriptors can be listed using AQSysList().
-#' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit
+#' @param XYdt - Binodal Experimental data that will be used in the nonlinear fit
 #' @param ... Additional optional arguments. None are used at present.
 #' @method AQSys default
 #' @export
 #' @return A list containing three data.frame variables with all data parsed from the worksheet and parameters calculated
 #' through the available mathematical descriptions.
 #' @examples
-#' #Populating variable dataSET with binodal data
-#' dataSET <- llsr_data$db.data[6:23,1:2]
-#' #Fitting dataSET using Merchuk's function
-#' AQSys(dataSET)
-#' @references 
-#' MURUGESAN, T.; PERUMALSAMY, M. Liquid-Liquid Equilibria of Poly(ethylene glycol) 2000 + Sodium Citrate + Water at (25, 30, 35, 40, and 45) C. Journal of Chemical & Engineering Data, v. 50, n. 4, p. 1392-1395, 2005/07/01 2005. ISSN 0021-9568. 
-#' (\href{https://www.doi.org/10.1021/je050081k}{ACS Publications})
-#' 
-#' MERCHUK, J. C.; ANDREWS, B. A.; ASENJO, J. A. Aqueous two-phase systems for protein separation: Studies on phase inversion. Journal of Chromatography B: Biomedical Sciences and Applications, v. 711, n. 1-2, p. 285-293,  1998. ISSN 0378-4347.
-#' (\href{https://www.doi.org/10.1016/s0378-4347(97)00594-x}{ScienceDirect})
-#' 
-#' TANG, X.  et al. The study of phase behavior of aqueous two-phase system containing [Cnmim] BF 4 (n=2, 3, 4)+(NH4)2SO4 + H2O at different temperatures. Fluid Phase Equilibria, v. 383, p. 100-107,  2014. ISSN 0378-3812. 
-#' (\href{https://doi.org/10.1016/j.fluid.2014.09.029}{ScienceDirect})
-#' 
-#' GONZALEZ-TELLO, P.  et al. Liquid-Liquid Equilibrium in the System Poly(ethylene glycol) + MgSO4 + H2O at 298 K. Journal of Chemical & Engineering Data, v. 41, n. 6, p. 1333-1336, 1996/01/01 1996. ISSN 0021-9568. 
-#' (\href{https://www.doi.org/10.1021/je960075b}{ACS Publications})
-#' 
-#' CHEN, Y.  et al. Liquid-liquid equilibria of aqueous biphasic systems composed of 1-butyl-3-methyl imidazolium tetrafluoroborate+ sucrose/maltose+ water. Journal of Chemical & Engineering Data, v. 55, n. 9, p. 3612-3616,  2010. ISSN 0021-9568. 
-#' (\href{https://pubs.acs.org/doi/ipdf/10.1021/je100212p}{ACS Publications})
-# 
-# XUEQIAO, X.  et al. Measurement and Correlation of the Phase Diagram Data for PPG400 + (K3PO4, K2CO3, and K2HPO4) + H2O Aqueous Two-Phase Systems at T = 298.15 K. Journal of Chemical & Engineering Data, v. 55, n. 11, p. 4741-4745, 2010/11/11 2010. ISSN 0021-9568. 
-# (\href{https://pubs.acs.org/doi/full/10.1021/je100356s?src=recsys}{ACS Publications})
-# 
-# XIE, X.  et al. Liquid− liquid equilibrium of aqueous two-phase systems of PPG400 and biodegradable salts at temperatures of (298.15, 308.15, and 318.15) K. Journal of Chemical & Engineering Data, v. 55, n. 8, p. 2857-2861,  2010. ISSN 0021-9568. 
-# (\href{https://pubs.acs.org/doi/abs/10.1021/je901019t}{ACS Publications})
-AQSys.default <- function(dataSET, modelName = "merchuk", ...) {
-  # arrange data and guarantee R converted it to numbers but dont switch columns to prevent incompatibility with pre-existent functions 
-  dataSET <- toNumeric(dataSET, "xy")
-  # each switch option calls a correspondent equation to fit dataSET
+#' #Populating variable XYdt with binodal data
+#' XYdt <- peg4kslt[,1:2]
+#' #Fitting XYdt using Merchuk's function
+#' AQSys(XYdt)
+AQSys.default <- function(XYdt, mathDesc = "merchuk", ...) {
+  # each switch option calls a correspondent equation to fit XYdt
   # equations are functions declared in AQSysFormulas.R
-  if (modelName %in% names(AQSysList(TRUE))) {
-    ans <- do.call(modelName, list(dataSET))
-  } else{
+  #
+  switch(
+    mathDesc,
+    merchuk = {
+      ans <- mrchk(XYdt)
+    },
+    murugesan = {
+      ans <- mrgsn(XYdt)
+    },
+    tello = {
+      ans <- tello(XYdt)
+    },
+    tang = {
+      ans <- tang(XYdt)
+    },
     AQSys.err("0")
-  }
+  )
   # return fitting parameters ans statistical data
   return(ans)
 }
@@ -97,11 +90,13 @@ AQSys.default <- function(dataSET, modelName = "merchuk", ...) {
 #' @method AQSys plot
 #' @export AQSys.plot
 #' @export
-#' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit. It might hold multiple systems stacked side-by-side. [type:data.frame]
+#' @param mathDesc - Character String specifying the nonlinear empirical equation to fit data. The default method uses
+#' Merchuk's equation. Other possibilities can be seen in AQSysList().
+#' @param ... Additional optional arguments. None are used at present.
+#' @param XYdt Binodal Experimental data that will be used in the nonlinear fit
 #' @param xlbl Plot's Horizontal axis label.
 #' @param ylbl Plot's Vertical axis label.
 #' @param main Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' 
 #' @param col Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param type Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param cex Legacy from plot package. For more details, see \code{\link{plot.default}}
@@ -109,29 +104,25 @@ AQSys.default <- function(dataSET, modelName = "merchuk", ...) {
 #' @param cexaxis Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param cexmain Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param cexsub Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' 
-#' @param modelName - Character String specifying the nonlinear empirical equation to fit data. The default method uses
-#' Merchuk's equation. Other possibilities can be seen in AQSysList().
-#' @param NP Number of points used to build the fitted curve. Default is 100. [type:Integer]
 #' @param xmax Maximum value for the Horizontal axis' value
 #' @param ymax Maximum value for the Vertical axis' value
-#' @param colDis Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
-#' @param save Save the generated plot in the disk using path and filename provided by the user. [type:Boulean]
+#' @param filename A filename chosen by the user to save a given plot
+#' @param wdir A directory in which the plot file will be saved
+#' @param silent save the file without the user input
 #' @param HR Adjust Plot's text to be compatible with High Resolution size [type:Boulean]
-#' @param filename Filename provided by the user to save a given plot. [type:String]
-#' @param wdir The directory in which the plot file will be saved. [type:String]
-#' @param silent save plot file without actually showing it to the user. [type:Boulean]
-#' @param ... Additional optional arguments. None are used at present.
+#' @param NP Number of points used to build the fitted curve. Default is 100. [type:Integer]
+#' @param clwd Plot's axis line width
+#' @param save Save the generated plot in the disk using path and filename provided by the user. [type:Boulean]
 #' @return A plot containing the experimental data, the correspondent curve for the binodal in study and the curve's raw XY data.
 #' @examples
-#' #Populating variable dataSET with binodal data
-#' dataSET <- llsr_data$db.data[6:23,1:2]
-#' #Plot dataSET using Merchuk's function
+#' #Populating variable XYdt with binodal data
+#' XYdt <- peg4kslt[,1:2]
+#' #Plot XYdt using Merchuk's function
 #' #
-#' AQSys.plot(dataSET)
+#' AQSys.plot(XYdt)
 #' #
 AQSys.plot <-
-  function  (dataSET,
+  function  (XYdt,
              xlbl = "",
              ylbl = "",
              main = NULL,
@@ -142,46 +133,79 @@ AQSys.plot <-
              cexaxis = 1,
              cexmain = 1,
              cexsub = 1,
-             modelName = "merchuk",
-             NP = 100,
              xmax = "",
              ymax = "",
-             colDis = "xy",
-             save = FALSE,
              HR = FALSE,
+             NP = 100,
+             mathDesc = "merchuk",
+             clwd = NULL,
              filename = NULL,
              wdir = NULL,
+             save = FALSE,
              silent = FALSE,
              ...)
   {
     #
     plot_image = NULL
-    # verify and adjust data.frame names
+    #
     if (xlbl == "") {
-      xlbl <- names(dataSET)[1]
+      xlbl <- names(XYdt)[1]
     }
     if (ylbl == "") {
-      ylbl <- names(dataSET)[2]
+      ylbl <- names(XYdt)[2]
     }
-    # guarantee all lines are valid (non-na and numeric)
-    dataSET <- toNumeric(dataSET, colDis)
-    # Calculate aesthetically better xmax and ymax
-    if ((xmax == "") | (xmax > 1) | (xmax < round(max(dataSET[1]) / 0.92, 1))) {
-      xmax <- ceiling(round(max(dataSET[1]) / 0.92, 1)/5)*5
+    names(XYdt) <- c('x', 'y')
+    #
+    if ((xmax == "") | (xmax > 1) | (xmax < round(max(XYdt[1]) / 0.92, 1))) {
+      xmax <- ceiling(round(max(XYdt[1]) / 0.92, 1)/5)*5
     }
-    if ((ymax == "") | (ymax > 1) | (ymax < round(max(dataSET[2]) / 0.92, 1))) {
-      ymax <- ceiling(round(max(dataSET[2]) / 0.92, 1)/5)*5
+    if ((ymax == "") | (ymax > 1) | (ymax < round(max(XYdt[2]) / 0.92, 1))) {
+      ymax <- ceiling(round(max(XYdt[2]) / 0.92, 1)/5)*5
     }
-    # If save=TRUE adjust variables and parameters to save plot
+    #
     wdir <- saveConfig(save, HR, filename, wdir, silent)
-    # Select which model will be used to generate the plot. Function return list of plots and respective number of parameters
+    #
+    # Select which model will be used to generate the plot
     models_npars <- AQSysList(TRUE)
-    # calculate coefficients using the non-linear regression
-    CoefSET <- summary(AQSys(dataSET, modelName))$coefficients[, 1]
-    # choose model based in the user choice or standard value
-    Fn <- ifelse(modelName %in% names(models_npars), AQSys.mathDesc(modelName), AQSys.err("0"))
+    Fn <- ifelse(mathDesc %in% names(models_npars), AQSys.mathDesc(mathDesc), AQSys.err("0"))
+    # Select which model will be used to generate the plot
+    # SWITCH WORKS ONLY FOR THREE PARAMETER'S EQUATIONS.
+    # IF NECESSARY A HIGHER NUMBER, INSERT CONDITIONAL BELOW.
+    switch(
+      mathDesc,
+      merchuk = {
+        # fit data using chosen equation and get coefficients
+        CoefSET <- summary(mrchk(XYdt))$coefficients[, 1]
+        # set the equation that will be used to plot the phase diagram
+        Fn <- AQSys.mathDesc("merchuk")
+      },
+      murugesan = {
+        # fit data using chosen equation and get coefficients
+        CoefSET <- summary(mrgsn(XYdt))$coefficients[, 1]
+        # set the equation that will be used to plot the phase diagram
+        Fn <- AQSys.mathDesc("murugesan")
+      },
+      tello = {
+        # fit data using chosen equation and get coefficients
+        CoefSET <- summary(tello(XYdt))$coefficients[, 1]
+        # set the equation that will be used to plot the phase diagram
+        Fn <- AQSys.mathDesc("tello")
+      },
+      tang = {
+        # fit data using chosen equation and get coefficients
+        CoefSET <- summary(tang(XYdt))$coefficients[, 1]
+        # set the equation that will be used to plot the phase diagram
+        Fn <- AQSys.mathDesc("tang")
+      },
+      # if user selects an option not available, it triggers an error (check AQSys.err.R for details)
+      AQSys.err("0")
+    )
+    #
+    #
+    #
     #plot phase diagram using experimental data and with previously calculated parameters
-    plot_image <- ggplot(data = dataSET, aes_string(x = "XC", y = "YC")) + geom_point(shape = 8, size = 2) +
+    plot_image <-
+      ggplot(data = XYdt, aes(x, y)) + geom_point(shape = 8, size = 2) +
       theme_light() + xlab(paste(xlbl, "(%, m/m)")) + ylab(paste(ylbl, "(%, m/m)")) + theme(
         validate = FALSE,
         plot.margin = unit(c(1, 1, 1, 1), "cm"),
@@ -221,12 +245,12 @@ AQSys.plot <-
       )
     #
     # add curve generated using regression parameters
-    rawdt <- data.frame(dataSET[1], Fn(CoefSET, dataSET[1]))
-    names(rawdt) <- c("XC", "YC")
+    rawdt <- data.frame(XYdt[1], Fn(CoefSET, XYdt[1]))
+    names(rawdt) <- c("x", "y")
     plot_image <-
       plot_image + geom_line(
         data = rawdt,
-        aes_string(x = "XC", y = "YC"),
+        aes(x = x, y = y),
         color = "red",
         linetype = 2,
         size = 1.1
@@ -240,13 +264,16 @@ AQSys.plot <-
         height = 14.39 / 2
       )
     }
+    #
     # make available data from fitted curve to user. Function returns it silently
     # but user can get data using simple assign '<-'
+    #
     if (silent == FALSE) {
       print(plot_image)
       invisible(rawdt)
     } else {
       invisible(plot_image)
     }
+    #
   }
 ####################################################################################################################

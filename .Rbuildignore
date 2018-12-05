@@ -2,4 +2,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^packrat/
+^dev/
 ^\.Rprofile$

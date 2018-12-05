@@ -1,22 +1,3 @@
-#'
-#' DESCRIBE
-#' @name llsr_data
-#' @format DESCRIBE
-#' \describe{
-#'   \item{XC}{Fraction of the component enriched in the lower phase}
-#'   \item{YC}{Fraction of the component enriched in the upper phase}
-#'   ...
-#' }
-#' @source \url{https://github.com/hutchr/LLSR}
-#' @examples
-#' #
-#' XYdt <- llsr_data[["db.data"]][, 93:104]
-#' #
-#' Xdt <- llsr_data[["db.data"]][, 93]
-#' #
-#' Ydt <- llsr_data[["db.data"]][, 94]
-NULL
-#'
 #' Dataset of experimental binodal data of an ATPS
 #' A dataset containing the experimental binodal data for a PEG/SALT Aqueous Two-Phases System (ATPS)
 #' @name peg4kslt
