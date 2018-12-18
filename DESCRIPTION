@@ -1,9 +1,9 @@
 Package: LLSR
 Type: Package
 Title: Data Analysis of Liquid-Liquid Systems
-Version: 0.0.2.4
+Version: 0.0.2.5
 Date: 2018-12-04
-Author: Diego F Coelho <diegofcoelho@gmail.com>
+Author: Diego F Coelho <diegofcoelho@gmail.com> [aut, cre], Pedro V O Menezes <pedro7menezes@gmail.com> [dtc], Carla Corina <carlacorina@hotmail.com.br> [dtc], Jon G Huddleston <Jonathan.Huddleston@brunel.ac.uk> [rev]
 Maintainer: Diego F Coelho <diegofcoelho@gmail.com>
 Description: Analyses experimental data from liquid-liquid phase diagrams and
     provide a simple way to obtain its parameters, producing a simplified report. Designed
