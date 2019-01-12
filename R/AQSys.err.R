@@ -57,6 +57,14 @@ AQSys.err <- function (err, ...) {
       errmsg <- "Slope's database does not have entries for the systems provided in the dataset. Please input slope data."
       stop(errmsg, call. = FALSE)
     },
+    "13" = {
+      errmsg <- "The weight of each phase (Wt and Wb) must be provided when byW is TRUE."
+      stop(errmsg, call. = FALSE)
+    },
+    "14" = {
+      errmsg <- "Each Phase's volume and aparent density must be provided when byW is FALSE."
+      stop(errmsg, call. = FALSE)
+    },
     {
       errmsg <- "An Unknown error ocourred."
       stop(errmsg, call. = FALSE)

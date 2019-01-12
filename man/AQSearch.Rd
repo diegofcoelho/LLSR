@@ -10,7 +10,7 @@ AQSearch(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL,
 
 \method{AQSearch}{default}(db = LLSR::llsr_data, db.ph = NULL,
   db.upper = NULL, db.lower = NULL, db.temp = NULL,
-  db.additive = NULL, ...)
+  db.additive = NULL, db.uid = NULL, ...)
 }
 \arguments{
 \item{db}{A highly structure db containing data from previously analised data. LLSR database is used by default but user may input his own db if formatted properly.}
@@ -26,6 +26,8 @@ AQSearch(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL,
 \item{db.additive}{A String variable containing either the CAS, chemical formula or name of the additive component.}
 
 \item{...}{Additional optional arguments. None are used at present.}
+
+\item{db.uid}{An Unique md5 hash Identification. User can retrieve data for a specific system if in possesion of its UID.}
 }
 \value{
 Returns a data.frame containing system's parameters which match searched conditions
@@ -40,6 +42,6 @@ The function return the systems that matches the criteria submit by the user.
 }
 \examples{
 \dontrun{
-AQSearch(db.upper="85100-78-3")
+AQSearch(db.upper="Ammonium")
 }
 }

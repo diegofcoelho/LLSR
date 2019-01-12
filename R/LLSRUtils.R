@@ -1,15 +1,6 @@
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
 ##if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
-
-options(digits = 14)
-
-#'  @rdname LLSR.info
-#'  @export LLSR.info
-#'  @title .
-#'  @description .
-LLSR.info <- function() {
-  print("info Test")
-}
+#
 is.odd <- function(x)
   x %% 2 != 0
 #
@@ -163,7 +154,7 @@ seqTL <- function(minTL, maxTL, slope, BLFn, nTL = 3, nSYS = 3) {
     xRoots <- uniroot.all(function(x) (BLFn(x) - TLFn(x)), c(0, X*2), tol = 0.1) # REPLACE XMAX TO THE LIMIT OF SOLUBILITY?
     xTL <- c(min(xRoots), sum(xRoots) / 2)
     #
-    temp.TLC <- setNames(data.frame(xTL, TLFn(xTL), rep(oDATA[p, "System"], 2), c("U", "G")), dataNames)
+    temp.TLC <- setNames(data.frame(xTL, TLFn(xTL), rep(oDATA[p, "System"], 2), c("T", "M")), dataNames)
     #
     xSYS <- seq(min(xRoots), X, (X - min(xRoots)) / (nSYS + 1))
     #

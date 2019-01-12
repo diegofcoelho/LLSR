@@ -3,3 +3,4 @@
 packrat/lib*/
 *.lock
 packrat/
+packrat/src/

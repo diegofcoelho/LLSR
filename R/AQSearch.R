@@ -18,23 +18,23 @@ AQSearch <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL, db.low
 #' @param db.lower A String variable containing either the CAS, chemical formula or name of the lower phase component.
 #' @param db.temp A numeric variable containing the Temperature (in Kelvin) to be searched within DB.
 #' @param db.additive A String variable containing either the CAS, chemical formula or name of the additive component.
+#' @param db.uid An Unique md5 hash Identification. User can retrieve data for a specific system if in possesion of its UID.
 #' @param ... Additional optional arguments. None are used at present.
 #' @method AQSearch default
 #' @export
 #' @return Returns a data.frame containing system's parameters which match searched conditions
 #' @examples
 #' \dontrun{
-#' AQSearch(db.upper="85100-78-3")
+#' AQSearch(db.upper="Ammonium")
 #'}
 ####################################################################################################################
 AQSearch.default <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL, db.lower = NULL,
-           db.temp = NULL, db.additive = NULL, ...) {
-    #
-    #db <- LLSR::llsr_data
-    #inialize db.ans
+           db.temp = NULL, db.additive = NULL, db.uid = NULL, ...) {
+    # db <- LLSR::llsr_data
+    # initialize db.ans
     db.ans <- list()
     # create and initialise a list using the function's parameters
-    db.params <- c(db.ph, db.upper, db.lower, db.temp, db.additive)
+    db.params <- c(db.ph, db.upper, db.lower, db.temp, db.additive, db.uid)
     # if all parameters are null, the search is not valid and it triggers an error (check AQSys.err.R for details)
     if (all(unlist(lapply(db.params, is.null))))
       AQSys.err("6")
@@ -46,17 +46,17 @@ AQSearch.default <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL
       if (!is.null(db.upper)) {
           db.upper.altNames <- db$db.cas[grep(db.upper, db$db.cas$CHEM.COMMON, ignore.case = TRUE), "CHEM.NAME"]
           db.upper.cas <- db$db.cas[grep(db.upper, db$db.cas$CAS.CODE, ignore.case = TRUE), "CHEM.NAME"]
-          db.grep <- db.grep[unique(c(grep(db.upper, db.grep$UP.Rich, ignore.case = TRUE), 
-                                           which(tolower(db.grep$UP.Rich) %in% db.upper.altNames),
-                                           which(tolower(db.grep$UP.Rich) %in% db.upper.cas))),]
+          db.grep <- db.grep[unique(c(grep(db.upper, db.grep$A, ignore.case = TRUE), 
+                                           which(tolower(db.grep$A) %in% db.upper.altNames),
+                                           which(tolower(db.grep$A) %in% db.upper.cas))),]
       }
       # search a system that matchs the lower-phase component, if search parameter is not null.
       if (!is.null(db.lower)) {
         db.lower.altNames <- db$db.cas[grep(db.lower, db$db.cas$CHEM.COMMON, ignore.case = TRUE), "CHEM.NAME"]
         db.lower.cas <- db$db.cas[grep(db.lower, db$db.cas$CAS.CODE, ignore.case = TRUE), "CHEM.NAME"]
-        db.grep <- db.grep[unique(c(grep(db.lower, db.grep$LP.Rich, ignore.case = TRUE), 
-                                         which(tolower(db.grep$LP.Rich) %in% db.lower.altNames),
-                                         which(tolower(db.grep$LP.Rich) %in% db.lower.cas))),]
+        db.grep <- db.grep[unique(c(grep(db.lower, db.grep$B, ignore.case = TRUE), 
+                                         which(tolower(db.grep$B) %in% db.lower.altNames),
+                                         which(tolower(db.grep$B) %in% db.lower.cas))),]
       }
       # search a system that matchs the system's pH, if search parameter is not null.
       if (!is.null(db.ph)) {
@@ -66,18 +66,34 @@ AQSearch.default <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL
       if (!is.null(db.additive)) {
         db.additive.altNames <- db$db.cas[grep(db.additive, db$db.cas$CHEM.COMMON, ignore.case = TRUE), "CHEM.NAME"]
         db.additive.cas <- db$db.cas[grep(db.additive, db$db.cas$CAS.CODE, ignore.case = TRUE), "CHEM.NAME"]
-        db.grep <- db.grep[unique(c(grep(db.additive, db.grep$Additive, ignore.case = TRUE), 
-                                         which(tolower(db.grep$Additive) %in% db.additive.altNames),
-                                         which(tolower(db.grep$Additive) %in% db.additive.cas))),]
+        db.grep <- db.grep[unique(c(grep(db.additive, db.grep$C, ignore.case = TRUE), 
+                                         which(tolower(db.grep$C) %in% db.additive.altNames),
+                                         which(tolower(db.grep$C) %in% db.additive.cas))),]
       }
       # search a system that matchs the system's temperature, if search parameter is not null.
       if (!is.null(db.temp)) {
         db.grep <- db.grep[grep(db.temp, db.grep[,7]),]
       }
-      if (length(db.grep) != 0) {
-        db.grep[, 1] <- as.data.frame(sapply(db.grep[, 1], undigest))
-        names(db.grep)[1] <- "REFERENCE"
-        db.ans[[modelName]] <- db.grep
+      # search a system that matchs the system's UID, if search parameter is not null.
+      if (!is.null(db.uid)) {
+        db.grep <- db.grep[db.grep$UID == db.uid,]
+      }
+      if (nrow(db.grep) != 0) {
+        # db.grep[, 1] <- as.data.frame(sapply(db.grep[, 1], undigest))
+        # names(db.grep)[1] <- "REFERENCE"
+        db.ans[["Parameters"]][[modelName]] <- db.grep
+        #
+        db.ans.ext <- matchRefEntry(db, db.grep)
+        if (nrow(db.ans.ext$slopes)) {
+          db.ans[["Slopes"]] <- db.ans.ext$slopes
+        }
+        if (nrow(db.ans.ext$tielines)) {
+          db.ans[["Data"]][["TieLines"]] <- db.ans.ext$tielines
+        }
+        if (ncol(db.ans.ext$binodals)) {
+          db.ans[["Data"]][["Binodals"]] <- db.ans.ext$binodals
+        }
+        #
         print(paste("[", modelName, "] ", "Your search had [", nrow(db.grep), "] results.", sep = ""))
       } else {
         print(paste("[", modelName, "] ", "Your search had no results.", sep = ""))
