@@ -23,13 +23,13 @@ AQSys.err <- function (err, ...) {
       stop(errmsg, call. = FALSE)
     },
     "5" = {
-      errmsg <- "Your search had no results. Try removing a few parameters and search again."
-      print(errmsg)
+      errmsg <- "       Search had no results. Try removing a few parameters and search again.\n"
+      cat(errmsg)
       #stop(errmsg, call. = FALSE)
     },
     "6" = {
-      errmsg <- "At least one of the parameters (pH, Temp, additive, UP.Rich or LP.Rich) must be not NULL."
-      print(errmsg)
+      errmsg <- "      At least one of the parameters (pH, Temp, additive, UP.Rich or LP.Rich) must be not NULL.\n"
+      cat(errmsg)
       #stop(errmsg, call. = FALSE)
     },
     "7" = {
@@ -37,8 +37,8 @@ AQSys.err <- function (err, ...) {
       stop(errmsg, call. = FALSE)
     },
     "8" = {
-      errmsg <- "Your search had no results."
-      print(errmsg)
+      errmsg <- "Your search had no results.\n"
+      cat(errmsg)
       #stop(errmsg, call. = FALSE)
     },
     "9" = {

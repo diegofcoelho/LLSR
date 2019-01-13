@@ -5,25 +5,25 @@
 \alias{AQSearch.default}
 \title{Search function for ATPS Systems data}
 \usage{
-AQSearch(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL,
-  db.lower = NULL, db.temp = NULL, db.addtl = NULL, ...)
+AQSearch(db = LLSR::llsr_data, db.ph = NULL, db.CompA = NULL,
+  db.CompB = NULL, db.Temp = NULL, db.CompC = NULL, ...)
 
-\method{AQSearch}{default}(db = LLSR::llsr_data, db.ph = NULL,
-  db.upper = NULL, db.lower = NULL, db.temp = NULL,
-  db.addtl = NULL, db.uid = NULL, ...)
+\method{AQSearch}{default}(db = LLSR::llsr_data, db.CompA = NULL,
+  db.CompB = NULL, db.CompC = NULL, db.Temp = NULL, db.ph = NULL,
+  db.uid = NULL, ...)
 }
 \arguments{
 \item{db}{A highly structure db containing data from previously analised data. LLSR database is used by default but user may input his own db if formatted properly.}
 
 \item{db.ph}{A numeric variable containing the pH to be searched within DB.}
 
-\item{db.upper}{A String variable containing either the CAS, chemical formula or name of the upper phase enriched component..}
+\item{db.CompA}{A String variable containing either the CAS, chemical formula or name of the upper phase enriched component..}
 
-\item{db.lower}{A String variable containing either the CAS, chemical formula or name of the lower phase component.}
+\item{db.CompB}{A String variable containing either the CAS, chemical formula or name of the lower phase component.}
 
-\item{db.temp}{A numeric variable containing the Temperature (in Kelvin) to be searched within DB.}
+\item{db.Temp}{A numeric variable containing the Temperature (in Kelvin) to be searched within DB.}
 
-\item{db.addtl}{A String variable containing either the CAS, chemical formula or name of the additive component.}
+\item{db.CompC}{A String variable containing either the CAS, chemical formula or name of the additive component.}
 
 \item{...}{Additional optional arguments. None are used at present.}
 
@@ -42,6 +42,6 @@ The function return the systems that matches the criteria submit by the user.
 }
 \examples{
 \dontrun{
-AQSearch(db.upper="Ammonium")
+AQSearch(db.CompA="Ammonium")
 }
 }

@@ -48,6 +48,22 @@ AQSysHR <- function (HR) {
   )
 }
 #
+matchUID <- function(UIDList, UIDMatrix) {
+  uniqeUIDs <- as.character(unique(UIDList))
+  #
+  req_results <- sapply(uniqeUIDs, function(uid) {
+    unlist(which(UIDMatrix == uid, TRUE))
+  })
+  #
+  if (is.list(req_results)) {
+    db.binodals.index <- do.call(rbind, req_results)[, "row"]
+  } else {
+    db.binodals.index <- req_results[1:(length(req_results) / 2)]
+  }
+  #
+  return(db.binodals.index)
+}
+#
 matchBNDL <- function(matchingList, matchingMatrix) {
   matchingUIDs <- as.character(unique(matchingList))
   #
@@ -82,6 +98,12 @@ matchTpH<- function(TpH, BinodalMatrix, pH) {
   db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
   #
   return(db.binodals.index)
+}
+#
+matchSlope <- function(entries, db) {
+  db.slopes <- db$db.tielines$slopes
+  db.slopes <- db.slopes[db.slopes$UID %in% unique(entries), ]
+  db.slopes
 }
 #
 matchBNDL2<- function(compNameList, BinodalMatrix) {
