@@ -10,7 +10,7 @@ options(digits = 14)
 #' @export
 #' @param path String containing the full path to the XLS or XLSX file.
 # @ param ColDis Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
-#' @param CAS The user has the option to identify the component's cells in the worksheet with the CAS (CAS = TRUE) or with the row number that matches a CAS entry in the CASDB worksheet (CAS = FALSE)
+# @param CAS The user has the option to identify the component's cells in the worksheet with the CAS (CAS = TRUE) or with the row number that matches a CAS entry in the CASDB worksheet (CAS = FALSE)
 #' @examples
 #' \dontrun{
 #' AQSysDB("C:/data.xls", CAS = FALSE)

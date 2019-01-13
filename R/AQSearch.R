@@ -5,7 +5,7 @@
 #' @export
 ####################################################################################################################
 AQSearch <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL, db.lower = NULL,
-                     db.temp = NULL, db.additive = NULL, ...)
+                     db.temp = NULL, db.addtl = NULL, ...)
   UseMethod("AQSearch")
 ####################################################################################################################
 #' @rdname AQSearch
@@ -17,7 +17,7 @@ AQSearch <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL, db.low
 #' @param db.upper A String variable containing either the CAS, chemical formula or name of the upper phase enriched component..
 #' @param db.lower A String variable containing either the CAS, chemical formula or name of the lower phase component.
 #' @param db.temp A numeric variable containing the Temperature (in Kelvin) to be searched within DB.
-#' @param db.additive A String variable containing either the CAS, chemical formula or name of the additive component.
+#' @param db.addtl A String variable containing either the CAS, chemical formula or name of the additive component.
 #' @param db.uid An Unique md5 hash Identification. User can retrieve data for a specific system if in possesion of its UID.
 #' @param ... Additional optional arguments. None are used at present.
 #' @method AQSearch default
@@ -29,12 +29,13 @@ AQSearch <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL, db.low
 #'}
 ####################################################################################################################
 AQSearch.default <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL, db.lower = NULL,
-           db.temp = NULL, db.additive = NULL, db.uid = NULL, ...) {
+           db.temp = NULL, db.addtl = NULL, db.uid = NULL, ...) {
     # db <- LLSR::llsr_data
     # initialize db.ans
     db.ans <- list()
+    db.uids <- NULL
     # create and initialise a list using the function's parameters
-    db.params <- c(db.ph, db.upper, db.lower, db.temp, db.additive, db.uid)
+    db.params <- c(db.ph, db.upper, db.lower, db.temp, db.addtl, db.uid)
     # if all parameters are null, the search is not valid and it triggers an error (check AQSys.err.R for details)
     if (all(unlist(lapply(db.params, is.null))))
       AQSys.err("6")
@@ -63,12 +64,12 @@ AQSearch.default <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL
         db.grep <- db.grep[grep(db.ph, db.grep[,4]),]
       }
       # search a system that matchs the additive component, if search parameter is not null.
-      if (!is.null(db.additive)) {
-        db.additive.altNames <- db$db.cas[grep(db.additive, db$db.cas$CHEM.COMMON, ignore.case = TRUE), "CHEM.NAME"]
-        db.additive.cas <- db$db.cas[grep(db.additive, db$db.cas$CAS.CODE, ignore.case = TRUE), "CHEM.NAME"]
-        db.grep <- db.grep[unique(c(grep(db.additive, db.grep$C, ignore.case = TRUE), 
-                                         which(tolower(db.grep$C) %in% db.additive.altNames),
-                                         which(tolower(db.grep$C) %in% db.additive.cas))),]
+      if (!is.null(db.addtl)) {
+        db.addtl.altNames <- db$db.cas[grep(db.addtl, db$db.cas$CHEM.COMMON, ignore.case = TRUE), "CHEM.NAME"]
+        db.addtl.cas <- db$db.cas[grep(db.addtl, db$db.cas$CAS.CODE, ignore.case = TRUE), "CHEM.NAME"]
+        db.grep <- db.grep[unique(c(grep(db.addtl, db.grep$C, ignore.case = TRUE), 
+                                         which(tolower(db.grep$C) %in% db.addtl.altNames),
+                                         which(tolower(db.grep$C) %in% db.addtl.cas))),]
       }
       # search a system that matchs the system's temperature, if search parameter is not null.
       if (!is.null(db.temp)) {
@@ -82,22 +83,24 @@ AQSearch.default <- function(db = LLSR::llsr_data, db.ph = NULL, db.upper = NULL
         # db.grep[, 1] <- as.data.frame(sapply(db.grep[, 1], undigest))
         # names(db.grep)[1] <- "REFERENCE"
         db.ans[["Parameters"]][[modelName]] <- db.grep
-        #
-        db.ans.ext <- matchRefEntry(db, db.grep)
-        if (nrow(db.ans.ext$slopes)) {
-          db.ans[["Slopes"]] <- db.ans.ext$slopes
-        }
-        if (nrow(db.ans.ext$tielines)) {
-          db.ans[["Data"]][["TieLines"]] <- db.ans.ext$tielines
-        }
-        if (ncol(db.ans.ext$binodals)) {
-          db.ans[["Data"]][["Binodals"]] <- db.ans.ext$binodals
-        }
+        db.uids <- rbind(db.uids, db.grep[, c("UID", "REF.MD5")])
         #
         print(paste("[", modelName, "] ", "Your search had [", nrow(db.grep), "] results.", sep = ""))
       } else {
         print(paste("[", modelName, "] ", "Your search had no results.", sep = ""))
       }
+    }
+    #
+    db.ans.ext <- matchRefEntry(db, db.uids)
+    #
+    if (nrow(db.ans.ext$slopes)) {
+      db.ans[["Slopes"]] <- db.ans.ext$slopes
+    }
+    if (nrow(db.ans.ext$tielines)) {
+      db.ans[["Data"]][["TieLines"]] <- db.ans.ext$tielines
+    }
+    if (ncol(db.ans.ext$binodals)) {
+      db.ans[["Data"]][["Binodals"]] <- db.ans.ext$binodals
     }
     # If search isn't null, evaluate data
     if (length(db.ans) != 0)  {

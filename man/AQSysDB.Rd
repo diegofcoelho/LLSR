@@ -8,8 +8,6 @@ AQSysDB(path, CAS = FALSE)
 }
 \arguments{
 \item{path}{String containing the full path to the XLS or XLSX file.}
-
-\item{CAS}{The user has the option to identify the component's cells in the worksheet with the CAS (CAS = TRUE) or with the row number that matches a CAS entry in the CASDB worksheet (CAS = FALSE)}
 }
 \description{
 Import DB data from an Excel Worksheet.

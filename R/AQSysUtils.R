@@ -56,8 +56,56 @@ matchBNDL <- function(matchingList, matchingMatrix) {
       which(matchingMatrix == uid, TRUE)[2]
     })), NULL))
   #
+  db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
+  #
+  return(db.binodals.index)
+}
+#
+matchTpH<- function(TpH, BinodalMatrix, pH) {
+  #
+  if (pH){RowIdx <- 1} else {RowIdx <- 2}
+  #
+  db.TpH.results <- which(BinodalMatrix == TpH, TRUE)
+  db.TpH.check <- which(db.TpH.results[, "row"] == RowIdx)
+  #
+  db.binodals.index <- db.TpH.results[db.TpH.check, "col"]
+  #
   db.binodals.index <-
-    sort(c(db.binodals.index, db.binodals.index + 1))
+    sapply(db.binodals.index, function(idx) {
+      if (is.odd(idx)) {
+        idx
+      } else {
+        idx - 1
+      }
+    })
+  #
+  db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
+  #
+  return(db.binodals.index)
+}
+#
+matchBNDL2<- function(compNameList, BinodalMatrix) {
+  #
+  req_results <- sapply(compNameList, function(compName) {
+    unlist(which(BinodalMatrix == compName, TRUE))
+  })
+  #
+  if (is.list(req_results)){
+    db.binodals.index <- do.call(rbind, req_results)[, 2]
+  } else {
+    db.binodals.index <- req_results[(1 + length(req_results) / 2):length(req_results)]
+  }
+  #
+  db.binodals.index <-
+    sapply(db.binodals.index, function(idx) {
+      if (is.odd(idx)) {
+        idx
+      } else {
+        idx - 1
+      }
+    })
+  #
+  db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
   #
   return(db.binodals.index)
 }
