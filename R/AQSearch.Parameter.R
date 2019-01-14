@@ -1,14 +1,23 @@
 ####################################################################################################################
-#' @rdname AQSearch.Parameters
-#' @name AQSearch.Parameters
-#' @description This function allow the user to search the LLSR database to find any ATPS that matches the used criteria.
-#' @export
+# ' @rdname AQSearch.Parameter
+# ' @name AQSearch.Parameter
+# ' @description This function allow the user to search the LLSR database to find any ATPS that matches the used criteria.
+# ' @export
 ####################################################################################################################
-AQSearch.Parameters <- function(db = LLSR::llsr_data, db.ph = NULL, db.CompA = NULL, db.CompB = NULL,
-                     db.Temp = NULL, db.CompC = NULL, ...)
-  UseMethod("AQSearch.Parameters")
+# AQSearch.Parameter <-
+#   function(db = LLSR::llsr_data,
+#            db.CompA = NULL,
+#            db.CompB = NULL,
+#            db.CompC = NULL,
+#            db.Temp = NULL,
+#            db.ph = NULL,
+#            db.uid = NULL,
+#            stacked = FALSE,
+#            ...
+#   )
+#   UseMethod("AQSearch.Parameter")
 ####################################################################################################################
-#' @rdname AQSearch.Parameters
+#' @rdname AQSearch.Parameter
 #' @title Search function for ATPS Systems data
 #' @description This function allow the user to search the package database to find any ATPS that matches the used criteria.
 #' @details The function return the systems that matches the criteria submit by the user. 
@@ -19,16 +28,17 @@ AQSearch.Parameters <- function(db = LLSR::llsr_data, db.ph = NULL, db.CompA = N
 #' @param db.Temp A numeric variable containing the Temperature (in Kelvin) to be searched within DB.
 #' @param db.ph A numeric variable containing the pH to be searched within DB.
 #' @param db.uid An Unique md5 hash Identification. User can retrieve data for a specific system if in possesion of its UID.
+#' @param stacked A boolean variable used to return value as a nested list or a data.frame. Used internally to organize data output.
 #' @param ... Additional optional arguments. None are used at present.
-#' @method AQSearch Parameters
-#' @export
+# ' @method AQSearch.Parameter
+#' @export AQSearch.Parameter
 #' @return Returns a data.frame containing system's parameters which match searched conditions
 #' @examples
 #' \dontrun{
-#' AQSearch.Parameters(db.CompA="Ammonium")
+#' AQSearch.Parameter(db.CompA="Ammonium")
 #'}
 ####################################################################################################################
-AQSearch.Parameters <-
+AQSearch.Parameter <-
   function(db = LLSR::llsr_data,
            db.CompA = NULL,
            db.CompB = NULL,
@@ -36,43 +46,43 @@ AQSearch.Parameters <-
            db.Temp = NULL,
            db.ph = NULL,
            db.uid = NULL,
+           stacked = FALSE,
            ...) {
-    cat("  [Parameters]\n")
+    cat("  [Parameter]\n")
     # initialize db.ans
     db.ans <- list()
     db.uids <- NULL
     # create and initialise a list using the function's parameters
     db.params <- c(db.ph, db.CompA, db.CompB, db.Temp, db.CompC, db.uid)
     # if all parameters are null, the search is not valid and it triggers an error (check AQSys.err.R for details)
-    if (all(unlist(lapply(db.params, is.null))))
-      AQSys.err("6")
+    if (all(unlist(lapply(db.params, is.null)))) AQSys.err("6")
     # each conditional will return a result set that excludes no match data.
     # search a system that matchs the upper-phase component, if search parameter is not null.
     for (modelName in AQSysList()){
       # output variable is initialised with data from db.
       db.grep <- db$db.sys[[modelName]]
       if (!is.null(db.CompA)) {
-        db.CompA.names <- db$db.cas[grep(db.CompA, db$db.cas$CHEM.NAME, ignore.case = TRUE), "CHEM.NAME"]
-          db.CompA.altNames <- db$db.cas[grep(db.CompA, db$db.cas$CHEM.COMMON, ignore.case = TRUE), "CHEM.NAME"]
-          db.CompA.cas <- db$db.cas[grep(db.CompA, db$db.cas$CAS.CODE, ignore.case = TRUE), "CHEM.NAME"]
-          #
-          db.chem.names <- c(db.CompA.names, db.CompA.altNames, db.CompA.cas)
-          db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
+        db.CompA.names <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CHEM.NAME), fixed = TRUE), "CHEM.NAME"]
+        db.CompA.altNames <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CHEM.COMMON), fixed = TRUE), "CHEM.NAME"]
+        db.CompA.cas <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
+        #
+        db.chem.names <- c(db.CompA.names, db.CompA.altNames, db.CompA.cas)
+        db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
       }
       # search a system that matchs the lower-phase component, if search parameter is not null.
       if (!is.null(db.CompB)) {
-        db.CompB.names <- db$db.cas[grep(db.CompB, db$db.cas$CHEM.NAME, ignore.case = TRUE), "CHEM.NAME"]
-        db.CompB.altNames <- db$db.cas[grep(db.CompB, db$db.cas$CHEM.COMMON, ignore.case = TRUE), "CHEM.NAME"]
-        db.CompB.cas <- db$db.cas[grep(db.CompB, db$db.cas$CAS.CODE, ignore.case = TRUE), "CHEM.NAME"]
+        db.CompB.names <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CHEM.NAME), fixed = TRUE), "CHEM.NAME"]
+        db.CompB.altNames <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CHEM.COMMON), fixed = TRUE), "CHEM.NAME"]
+        db.CompB.cas <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
         #
         db.chem.names <- c(db.CompB.names, db.CompB.altNames, db.CompB.cas)
         db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
       }
       # search a system that matchs the additive component, if search parameter is not null.
       if (!is.null(db.CompC)) {
-        db.CompC.names <- db$db.cas[grep(db.CompC, db$db.cas$CHEM.NAME, ignore.case = TRUE), "CHEM.NAME"]
-        db.CompC.altNames <- db$db.cas[grep(db.CompC, db$db.cas$CHEM.COMMON, ignore.case = TRUE), "CHEM.NAME"]
-        db.CompC.cas <- db$db.cas[grep(db.CompC, db$db.cas$CAS.CODE, ignore.case = TRUE), "CHEM.NAME"]
+        db.CompC.names <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CHEM.NAME), fixed = TRUE), "CHEM.NAME"]
+        db.CompC.altNames <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CHEM.COMMON), fixed = TRUE), "CHEM.NAME"]
+        db.CompC.cas <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
         #
         db.chem.names <- c(db.CompC.names, db.CompC.altNames, db.CompC.cas)
         db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
@@ -91,8 +101,11 @@ AQSearch.Parameters <-
       }
       #
       if (nrow(db.grep) != 0) {
-        db.ans[["Parameters"]][[modelName]] <- db.grep
-        db.uids <- rbind(db.uids, db.grep[, c("UID", "REF.MD5")])
+        if (stacked) {
+          db.ans[["Parameter"]][[modelName]] <- db.grep
+        } else {
+          db.ans[[modelName]] <- db.grep
+        }
         #
         cat(paste("    [", modelName, "] ", "Your search had [", nrow(db.grep), "] results.", "\n", sep = ""))
       } else {

@@ -13,14 +13,14 @@ options(digits = 14)
 # @param CAS The user has the option to identify the component's cells in the worksheet with the CAS (CAS = TRUE) or with the row number that matches a CAS entry in the CASDB worksheet (CAS = FALSE)
 #' @examples
 #' \dontrun{
-#' AQSysDB("C:/data.xls", CAS = FALSE)
+#' AQSysDB("C:/data.xls")
 #'}
 ####################################################################################################################
 # AQSysDB() is a simple approach that is ready to use any three-parameter equation
 # and thus
 #
 # AQSysDB <- function(path, ColDis = "xy", CAS = FALSE) {
-AQSysDB <- function(path, CAS = FALSE) {
+AQSysDB <- function(path) {
   # path must point to a xlsx or xls file
   if (grepl(".xlsx", path) | grepl(".xls", path)) {
     # Clean terminal and load the specified file
@@ -105,16 +105,16 @@ AQSysDB <- function(path, CAS = FALSE) {
           }
           #
           #
-          if (CAS == TRUE) {
-            # add Component's CAS directly to sysDATA
-            sysDATA[1, TP.IDX] <- casdb[which(casdb$CAS.INDEX == CA.CAS.INDEX), 2]
-            sysDATA[1, BT.IDX] <- casdb[which(casdb$CAS.INDEX == CB.CAS.INDEX), 2]
-            # if cas field in sysdb in filled with an index refering to casdb
-          } else{
-            # Cross reference indexes and add only the Component's NAME
-            sysDATA[1, TP.IDX] <- casdb[which(casdb$CAS.INDEX == CA.CAS.INDEX), 3]
-            sysDATA[1, BT.IDX] <- casdb[which(casdb$CAS.INDEX == CB.CAS.INDEX), 3]
-          }
+          # if (CAS == TRUE) {
+          # add Component's CAS directly to sysDATA
+          # sysDATA[1, TP.IDX] <- casdb[which(casdb$CAS.INDEX == CA.CAS.INDEX), 2]
+          # sysDATA[1, BT.IDX] <- casdb[which(casdb$CAS.INDEX == CB.CAS.INDEX), 2]
+          # if cas field in sysdb in filled with an index refering to casdb
+          # } else{
+          # Cross reference indexes and add only the Component's NAME
+          sysDATA[1, TP.IDX] <- casdb[which(casdb$CAS.INDEX == CA.CAS.INDEX), 3]
+          sysDATA[1, BT.IDX] <- casdb[which(casdb$CAS.INDEX == CB.CAS.INDEX), 3]
+          # }
           # populate db with system's pH, additive, additive conc and temperature
           sysDATA[1, (db.info + 3)] <- XPData[4, COLUMN_2]
           sysDATA[1, (db.info + 4)] <- to.numeric(XPData[db.info, COLUMN_1])

@@ -25,6 +25,7 @@ AQSearch.Binodal <-
 #' @param db.temp A numeric variable containing the Temperature (in Kelvin) to be searched within DB.
 #' @param db.addtl A String variable containing either the CAS, chemical formula or name of the additive component.
 #' @param db.uid An Unique md5 hash Identification. User can retrieve data for a specific system if in possesion of its UID.
+#' @param stacked A boolean variable used to return value as a nested list or a data.frame. Used internally to organize data output.
 #' @param ... Additional optional arguments. None are used at present.
 #' @method AQSearch.Binodal default
 #' @export

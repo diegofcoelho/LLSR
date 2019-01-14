@@ -4,7 +4,7 @@
 \alias{AQSysDB}
 \title{AQSysDB}
 \usage{
-AQSysDB(path, CAS = FALSE)
+AQSysDB(path)
 }
 \arguments{
 \item{path}{String containing the full path to the XLS or XLSX file.}
@@ -14,6 +14,6 @@ Import DB data from an Excel Worksheet.
 }
 \examples{
 \dontrun{
-AQSysDB("C:/data.xls", CAS = FALSE)
+AQSysDB("C:/data.xls")
 }
 }

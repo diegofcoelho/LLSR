@@ -100,12 +100,6 @@ matchTpH<- function(TpH, BinodalMatrix, pH) {
   return(db.binodals.index)
 }
 #
-matchSlope <- function(entries, db) {
-  db.slopes <- db$db.tielines$slopes
-  db.slopes <- db.slopes[db.slopes$UID %in% unique(entries), ]
-  db.slopes
-}
-#
 matchBNDL2<- function(compNameList, BinodalMatrix) {
   #
   req_results <- sapply(compNameList, function(compName) {
@@ -130,21 +124,6 @@ matchBNDL2<- function(compNameList, BinodalMatrix) {
   db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
   #
   return(db.binodals.index)
-}
-#
-matchRefEntry <- function(db, entries) {
-  db.tielines <- db$db.tielines$data
-  db.slopes <- db$db.tielines$slopes
-  db.binodals <- db$db.data
-  #
-  db.tielines <- db.tielines[db.tielines$UID %in% unique(entries$UID), ]
-  db.slopes <- db.slopes[db.slopes$UID %in% unique(entries$UID), ]
-  #
-  db.binodals <- db$db.data[, matchBNDL(entries$UID, db.binodals)]
-  #
-  list(tielines = db.tielines,
-       binodals = db.binodals,
-       slopes = db.slopes)
 }
 #
 idx2name <- function(idx, casdb) {
@@ -241,12 +220,10 @@ SysIdxToRef <- function(refSheet, db.cas, db.data) {
   sysNum <- ncol(db.data) / 2
   for (i in seq(1, sysNum)) {
     db.data[3, i * 2] <- db.cas[db.data[3, i * 2], "CHEM.NAME"]
-    db.data[3, i * 2 - 1] <-
-      db.cas[db.data[3, i * 2 - 1], "CHEM.NAME"]
+    db.data[3, i * 2 - 1] <- db.cas[db.data[3, i * 2 - 1], "CHEM.NAME"]
     db.data[4, i * 2 - 1] <- refSheet[db.data[4, i * 2 - 1], 3]
   }
-  db.data[6:nrow(db.data),] <-
-    sapply(db.data[6:nrow(db.data),], commaReplacer)
+  db.data[6:nrow(db.data),] <- sapply(db.data[6:nrow(db.data),], commaReplacer)
   return(UIDGen(db.data))
 }
 #
@@ -603,7 +580,7 @@ UIDGen <- function(db.data) {
     UID <- sapply(paste(db.data[, "REF.MD5"],
                         db.data[, "A"],
                         db.data[, "B"],
-                        # db.data[, "PH"],
+                        db.data[, "PH"],
                         db.data[, "TEMP"],
                         sep = "_"),
                   digest,
