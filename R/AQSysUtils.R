@@ -64,18 +64,18 @@ matchUID <- function(UIDList, UIDMatrix) {
   return(db.binodals.index)
 }
 #
-matchBNDL <- function(matchingList, matchingMatrix) {
-  matchingUIDs <- as.character(unique(matchingList))
-  #
-  db.binodals.index <-
-    as.numeric(setNames(na.exclude(sapply(matchingUIDs, function(uid) {
-      which(matchingMatrix == uid, TRUE)[2]
-    })), NULL))
-  #
-  db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
-  #
-  return(db.binodals.index)
-}
+# matchBNDL <- function(matchingList, matchingMatrix) {
+#   matchingUIDs <- as.character(unique(matchingList))
+#   #
+#   db.binodals.index <-
+#     as.numeric(setNames(na.exclude(sapply(matchingUIDs, function(uid) {
+#       which(matchingMatrix == uid, TRUE)[2]
+#     })), NULL))
+#   #
+#   db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
+#   #
+#   return(db.binodals.index)
+# }
 #
 matchTpH<- function(TpH, BinodalMatrix, pH) {
   #
@@ -100,17 +100,21 @@ matchTpH<- function(TpH, BinodalMatrix, pH) {
   return(db.binodals.index)
 }
 #
-matchBNDL2<- function(compNameList, BinodalMatrix) {
+matchBNDL<- function(compNameList, BinodalMatrix) {
+  #
+  if (length(compNameList)==0){return(c())}
   #
   req_results <- sapply(compNameList, function(compName) {
     unlist(which(BinodalMatrix == compName, TRUE))
   })
   #
   if (is.list(req_results)){
-    db.binodals.index <- do.call(rbind, req_results)[, 2]
+    db.binodals.index <- as.numeric(do.call(rbind, req_results)[, 2])
   } else {
     db.binodals.index <- req_results[(1 + length(req_results) / 2):length(req_results)]
   }
+  #
+  if (length(db.binodals.index)==0){return(c())}
   #
   db.binodals.index <-
     sapply(db.binodals.index, function(idx) {

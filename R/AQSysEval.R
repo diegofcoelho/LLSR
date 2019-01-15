@@ -68,7 +68,14 @@ AQSysEval <- function(dataSET,
   # Check data.frame validity and make an array of names for the systems if none is provided
   if ((ncol(dataSET) %% 2) == 0) {
     if (is.null(seriesNames) || !(length(seriesNames) == nSys)) {
-      print(paste("The array seriesNames must have", nSys, "elements. Default names will be used instead."))
+      cat("[AQSysEval]\n")
+      cat(
+        paste(
+          "\t - The array seriesNames must have",
+          nSys,
+          "element(s). \n \t - Default names will be used instead.\n"
+        )
+      )
       seriesNames <- sapply(seq(1, nSys), function(x) paste("Series", x))
     } else {
       SysNames <- TRUE
@@ -109,6 +116,7 @@ AQSysEval <- function(dataSET,
       TL <- 0
       dt <- 1
       CrptFnd <- FALSE # Crital Point Found Logical variable
+      DivFactor <- 25
       while ((dt > tol) && !CrptFnd) {
         TL <- TL + 1
         yMAXTL <- yMAX + 1
@@ -131,8 +139,18 @@ AQSysEval <- function(dataSET,
         # Bind the calculated tieline's data.frame to the output data.frame variable
         BNDL <- rbind(BNDL,  SysL[[TL]])
         # A monod-base equation to help convergence - 
-        dt <- abs(SysL[[TL]][2, 1] - modelFn(SysL[[TL]][2, 1])) / ((5 * TL) / (xMAX / 25))
+        dt <- abs(SysL[[TL]][2, 1] - modelFn(SysL[[TL]][2, 1])) / ((5 * TL) / (xMAX / DivFactor))
         xMAX <- xMAX - dt
+        #
+        if (TL > 2500) {
+          DivFactor <- DivFactor * 0.5
+          SysL <- list()
+          TL <- 0
+          dt <- 1
+          xMAX <- ifelse(is.null(xmax), max(SysData[, seq(1, ncol(SysData), 2)]*1.1), xmax)
+          yMAX <- max(SysData[, 2]) 
+          cat("\t - Convergence not achieved. Reseting Search Factors...\n")
+        }
       }
       # data.frame holding data regarding Critical Point convergence
       output_res <- setNames(data.frame(dt, TL), c("dt", "TL"))
@@ -255,7 +273,18 @@ AQSysEval <- function(dataSET,
       SysList[[i]] <- SysL
     }
     # return silently data.frame to the user
-    invisible(list("data" = SysList, "plot" = PlotList))
+    invisible(list(
+      "data" = if (length(SysList) > 1) {
+        SysList
+      } else{
+        SysList[[1]]
+      },
+      "plot" = if (length(PlotList) > 1) {
+        SysList
+      } else{
+        PlotList[[1]]
+      }
+    ))
   } else{
     # Return an error if an invalid dataset is provided.
     AQSys.err(9)

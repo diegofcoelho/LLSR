@@ -127,17 +127,17 @@ AQSysDB <- function(path) {
           for (col in 1:summary_ncol) {
             for (row in 1:summary_nrow) {
               idx <- idx + 1
-              sysDATA[1, idx + (db.info + 8)] <- resSys$parameters[row, col]
+              sysDATA[1, idx + (db.info + 7)] <- resSys$parameters[row, col]
               sysColName <-gsub(' ', '', paste(rownames(resSys$parameters)[row], colnames(resSys$parameters)[col], sep = '-'))
               ParamNames <- c(ParamNames, sysColName)
             }
           }
           # add NLS error-related analysis data to the data.frame
-          sysDATA[1, summary_nrow * summary_ncol + (db.info + 9)] <- resSys$sigma
-          sysDATA[1, summary_nrow * summary_ncol + (db.info + 10)] <- sum(resSys$residuals ^ 2)
-          sysDATA[1, summary_nrow * summary_ncol + (db.info + 11)] <- resSys$convInfo$finTol
-          sysDATA[1, summary_nrow * summary_ncol + (db.info + 12)] <- length(db.Sys[, 1])
-          sysDATA[1, summary_nrow * summary_ncol + (db.info + 13)] <- i
+          sysDATA[1, summary_nrow * summary_ncol + (db.info + 8)] <- resSys$sigma
+          sysDATA[1, summary_nrow * summary_ncol + (db.info + 9)] <- sum(resSys$residuals ^ 2)
+          sysDATA[1, summary_nrow * summary_ncol + (db.info + 10)] <- resSys$convInfo$finTol
+          sysDATA[1, summary_nrow * summary_ncol + (db.info + 11)] <- length(db.Sys[, 1])
+          sysDATA[1, summary_nrow * summary_ncol + (db.info + 12)] <- i
           # name the above acessed parameters
           ParamNames <- c(ParamNames, "Res.Std.Err", "SSR", "Ach.Conv.Tol", "n.Points", "math.Desc")
           colnames(sysDATA) <- ParamNames

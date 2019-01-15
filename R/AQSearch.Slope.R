@@ -30,7 +30,8 @@
 #' @param stacked A boolean variable used to return value as a nested list or a data.frame. Used internally to organize data output.
 #' @param ... Additional optional arguments. None are used at present.
 # ' @method AQSearch.Slope
-#' @export AQSearch.Slope
+# ' @export AQSearch.Slope
+#' @export 
 #' @return Returns a data.frame containing system's parameters which match searched conditions
 #' @examples
 #' \dontrun{

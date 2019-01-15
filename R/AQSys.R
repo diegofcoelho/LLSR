@@ -45,6 +45,7 @@ AQSys <- function(dataSET, ...)
 #' @param modelName - Character String specifying the nonlinear empirical equation to fit data.
 #' The default method uses Merchuk's equation. Other mathematical descriptors can be listed using AQSysList().
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit
+#' @param order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
 #' @param ... Additional optional arguments. None are used at present.
 #' @method AQSys default
 #' @export
@@ -74,11 +75,11 @@ AQSys <- function(dataSET, ...)
 # XUEQIAO, X.  et al. Measurement and Correlation of the Phase Diagram Data for PPG400 + (K3PO4, K2CO3, and K2HPO4) + H2O Aqueous Two-Phase Systems at T = 298.15 K. Journal of Chemical & Engineering Data, v. 55, n. 11, p. 4741-4745, 2010/11/11 2010. ISSN 0021-9568. 
 # (\href{https://pubs.acs.org/doi/full/10.1021/je100356s?src=recsys}{ACS Publications})
 # 
-# XIE, X.  et al. Liquidb liquid equilibrium of aqueous two-phase systems of PPG400 and biodegradable salts at temperatures of (298.15, 308.15, and 318.15) K. Journal of Chemical & Engineering Data, v. 55, n. 8, p. 2857-2861,  2010. ISSN 0021-9568. 
+# XIE, X.  et al. Liquidb-liquid equilibrium of aqueous two-phase systems of PPG400 and biodegradable salts at temperatures of (298.15, 308.15, and 318.15) K. Journal of Chemical & Engineering Data, v. 55, n. 8, p. 2857-2861,  2010. ISSN 0021-9568. 
 # (\href{https://pubs.acs.org/doi/abs/10.1021/je901019t}{ACS Publications})
-AQSys.default <- function(dataSET, modelName = "merchuk", ...) {
+AQSys.default <- function(dataSET, modelName = "merchuk", order="xy", ...) {
   # arrange data and guarantee R converted it to numbers but dont switch columns to prevent incompatibility with pre-existent functions 
-  dataSET <- toNumeric(dataSET, "xy")
+  dataSET <- toNumeric(dataSET, order)
   # each switch option calls a correspondent equation to fit dataSET
   # equations are functions declared in AQSysFormulas.R
   if (modelName %in% names(AQSysList(TRUE))) {

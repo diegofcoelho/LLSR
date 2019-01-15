@@ -30,7 +30,8 @@
 #' @param stacked A boolean variable used to return value as a nested list or a data.frame. Used internally to organize data output. 
 #' @param ... Additional optional arguments. None are used at present.
 # @method AQSearch.Binodal
-#' @export AQSearch.Binodal
+# @export AQSearch.Binodal
+#' @export
 #' @return Returns a data.frame containing system's parameters which match searched conditions
 #' @examples
 #' \dontrun{
@@ -62,7 +63,7 @@ AQSearch.Binodal <-
       db.CompA.cas <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
       #
       db.chem.names <- c(db.CompA.names, db.CompA.altNames, db.CompA.cas)
-      db.grep <- db.grep[, matchBNDL2(db.chem.names, db.grep)]
+      db.grep <- db.grep[, matchBNDL(db.chem.names, db.grep)]
     }
     # search a system that matchs the lower-phase component, if search parameter is not null.
     if (!is.null(db.CompB)) {
@@ -71,7 +72,7 @@ AQSearch.Binodal <-
       db.CompB.cas <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
       #
       db.chem.names <- c(db.CompB.names, db.CompB.altNames, db.CompB.cas)
-      db.grep <- db.grep[, matchBNDL2(db.chem.names, db.grep)]
+      db.grep <- db.grep[, matchBNDL(db.chem.names, db.grep)]
     }
     # search a system that matchs the additive component, if search parameter is not null.
     if (!is.null(db.CompC)) {
@@ -80,7 +81,7 @@ AQSearch.Binodal <-
       db.CompC.cas <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
       #
       db.chem.names <- c(db.CompC.names, db.CompC.altNames, db.CompC.cas)
-      db.grep <- db.grep[, matchBNDL2(db.chem.names, db.grep)]
+      db.grep <- db.grep[, matchBNDL(db.chem.names, db.grep)]
     }
     # search a system that matchs the system's temperature, if search parameter is not null.
     if (!is.null(db.Temp)) {
@@ -92,7 +93,7 @@ AQSearch.Binodal <-
     }
     # search a system that matchs the system's UID, if search parameter is not null.
     if (!is.null(db.uid)) {
-      db.grep <- db.grep[, matchBNDL2(db.uid, db.grep)]
+      db.grep <- db.grep[, matchBNDL(db.uid, db.grep)]
     }
     if (ncol(db.grep) != 0) {
       cat(paste("    Your search had [", ncol(db.grep) / 2, "] results.", "\n",sep = ""))

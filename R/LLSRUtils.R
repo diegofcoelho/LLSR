@@ -115,15 +115,12 @@ findSlope <- function(dataSET){
       idx_PH <- dataSET[1, sys * 2 - 1]
       idx_T <- dataSET[2, sys * 2 - 1]
       #
-      # CAS_db <- llsr_data[["db.cas"]]
-      #print(c(idx_Y, idx_X, idx_PH, idx_T) )
-      #print(c(TL_db$Y, TL_db$X, TL_db$PH, TL_db$T) )
       TL_db <- LLSR::llsr_data[["db.tielines"]][["slopes"]]
       slope[sys] <- TL_db[which(
         (TL_db$PH == idx_PH | is.na(TL_db$PH)) &
-          TL_db$T == idx_T &
-          TL_db$X == idx_X &
-          TL_db$Y == idx_Y ), "TLSlope"]
+          TL_db$TEMP == idx_T &
+          (TL_db$A == idx_X | TL_db$B == idx_X) &
+          (TL_db$A == idx_Y | TL_db$B == idx_Y) ), "TLSlope"]
       #
     }
     if (length(slope)==0) {
@@ -239,4 +236,9 @@ LLSRxy <- function(FirstCol, SecondCol, ColDis = 'xy') {
   #return data silently - should it be Visible or hidden?
   invisible(XYdt)
 }
-
+#
+Name2Index <- function(chem_name) {
+  db <- LLSR::llsr_data[["db.cas"]]
+  chem_idx <- db[which(db$CHEM.NAME == chem_name), "CAS.INDEX"]
+  return(chem_idx)
+}
