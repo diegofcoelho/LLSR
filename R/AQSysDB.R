@@ -9,7 +9,8 @@ options(digits = 14)
 #' @description Import DB data from an Excel Worksheet.
 #' @export
 #' @param path String containing the full path to the XLS or XLSX file.
-# @ param ColDis Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
+# ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
+# @ param Order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
 # @param CAS The user has the option to identify the component's cells in the worksheet with the CAS (CAS = TRUE) or with the row number that matches a CAS entry in the CASDB worksheet (CAS = FALSE)
 #' @examples
 #' \dontrun{
@@ -19,7 +20,7 @@ options(digits = 14)
 # AQSysDB() is a simple approach that is ready to use any three-parameter equation
 # and thus
 #
-# AQSysDB <- function(path, ColDis = "xy", CAS = FALSE) {
+# AQSysDB <- function(path, Order = "xy", CAS = FALSE) {
 AQSysDB <- function(path) {
   # path must point to a xlsx or xls file
   if (grepl(".xlsx", path) | grepl(".xls", path)) {

@@ -197,7 +197,7 @@ AQSysTern <-
     #
     #
     #
-    CoefSET <- summary(mrchk(tern_data[1:2]))$coefficients[, 1]
+    CoefSET <- summary(merchuk(tern_data[1:2]))$coefficients[, 1]
     Fn <- AQSys.mathDesc("merchuk")
     xr <- tern_data[1]
     yr <- Fn(CoefSET, tern_data[1])

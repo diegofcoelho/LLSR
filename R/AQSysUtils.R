@@ -327,7 +327,8 @@ getTL <- function(workBook, sheets) {
 }
 #
 XLSCheck <- function(workBook, sheets) {
-  req_sheets <- c("BINODAL", "TIELINE", "PAR", "REFDB", "CAS")
+  #req_sheets <- c("BINODAL", "TIELINE", "PAR", "REFDB", "CAS")
+  req_sheets <- c("BINODAL", "TIELINE", "REFDB", "CAS")
   cat("Checking XLS file integrity...\n\n")
   for (sheet in req_sheets) {
     cat(sheet, " worksheet", ": ", sep = "")
@@ -551,9 +552,9 @@ TLAnalysis <- function(workBook, sheets) {
   return(sys.slopes)
 }
 #
-toNumeric <- function(XYData, ColDis) {
+toNumeric <- function(XYData, Order) {
   # convert and name variables accordingly into vectors
-  if (tolower(ColDis) == "xy") {
+  if (tolower(Order) == "xy") {
     xc <-
       as.vector(as.numeric(sub(",", ".", XYData[, 1], fixed = TRUE)))
     yc <-

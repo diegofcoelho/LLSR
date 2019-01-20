@@ -1,11 +1,11 @@
-#' @rdname AQSys.tielines
+#' @rdname AQSys.LevArmRule
 #' @title Merchuk's Method - tie-line's Composition Calculation
 #' @description Merchuk et al. described a very straightforward method to calculate the concentration of each component in the
 #' tieline giving only its global composition and phase's properties (such as volume and density).
 #' @details Using the binodal data, the global composition of a chosen tieline and its phases properties (more precisely each
 #' phase density and volume)
-#' @method AQSys tielines
-#' @export AQSys.tielines
+#' @method AQSys LevArmRule
+#' @export AQSys.LevArmRule
 #' @export
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit
 #' @param Xm - Component X's concentration in the tieline's global composition.
@@ -14,21 +14,23 @@
 #' @param Vb - Tieline's BOTTOM phase volume.
 #' @param dyt - Tieline's TOP phase density
 #' @param dyb - Tieline's BOTTOM phase density
-#' @param Wt - ATPS upper phase weight
-#' @param Wb - ATPS bottom phase weight
+#' @param WT - ATPS upper phase weight
+#' @param WB - ATPS bottom phase weight
 #' @param byW - Use weight (TRUE) or volume and density (FALSE) during lever arm rule calculation.
+#' @param Order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
+# ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
 #' @param ... Additional optional arguments. None are used at present.
 #' @return The function returns the Critical Point (X,Y), Tieline Length (TLL), Tieline's Equivolume point (xVRe2o,yVRe2o),
 #' and Tieline's Slope.
 #' @examples
 #' \dontrun{
-#' AQSys.tielines(dataSET, Xm, Ym, Vt, Vb, dyt, dyb, wt, wb, byW = FALSE)
+#' AQSys.LevArmRule(dataSET, Xm, Ym, Vt, Vb, dyt, dyb, WT, WB, byW = FALSE)
 #' }
 #' @references 
 #' MERCHUK, J. C.; ANDREWS, B. A.; ASENJO, J. A. Aqueous two-phase systems for protein separation: Studies on phase inversion. Journal of Chromatography B: Biomedical Sciences and Applications, v. 711, n. 1-2, p. 285-293,  1998. ISSN 0378-4347.
 #' (\href{https://www.doi.org/10.1016/s0378-4347(97)00594-x}{ScienceDIrect})
 #' 
-AQSys.tielines <-
+AQSys.LevArmRule <-
   function(dataSET,
            Xm,
            Ym,
@@ -36,10 +38,13 @@ AQSys.tielines <-
            Vb = NULL,
            dyt = NULL,
            dyb = NULL,
-           Wt = NULL,
-           Wb = NULL,
+           WT = NULL,
+           WB = NULL,
            byW = TRUE,
+           Order = 'xy',
            ...) {
+  #
+  dataSET <- toNumeric(dataSET, Order)
   # Fit dataSET data to Merchuk's equation and store it in Smmry
   Smmry <- summary(merchuk(dataSET))
   # extract regression parameters from Smmry
@@ -47,9 +52,9 @@ AQSys.tielines <-
   P2 <- Smmry$coefficients[2]
   P3 <- Smmry$coefficients[3]
   #
-  if (byW & !is.null(c(Wt, Wb))) {
+  if (byW & !is.null(c(WT, WB))) {
     # Calculate alfa for a given system composition
-    alfa <- wt / (wt + wb)
+    alfa <- WT / (WT + WB)
   } else{
     AQSys.err("13")
   }
@@ -57,14 +62,14 @@ AQSys.tielines <-
   if (!byW & !is.null(c(Vt, Vb, dyt, dyb))) {
     # Calculate alfa for a given system composition
     alfa <- Vt * dyt / (Vt * dyt + Vb * dyb)
-  } else{
+  } else if (!byW){
     AQSys.err("14")
   }
   # the system of equations below was uses the method described by Merchuk
   # in the manuscript Merchuk, J.C., B.A. Andrews, and J.A. Asenjo. (1998),
   # Aqueous two-phase systems for protein separation: Studies on phase inversion.
   # Journal of Chromatography B: Biomedical Sciences and Applications. 711(1-2):
-  #p. 285-293. to calculate tieline composition using merchuk's equation.
+  # p. 285-293. to calculate tieline composition using merchuk's equation.
   # the lines below set the equation's system
   sys <- function(x) {
     F1 <- P1 * exp(P2 * x[2] ^ 0.5 - P3 * x[2] ^ 3) - x[1]

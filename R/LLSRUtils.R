@@ -1,5 +1,5 @@
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
-##if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+# quiets concerns of R CMD check re: the .'s that appear in pipelines
+# if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
 #
 is.odd <- function(x)
   x %% 2 != 0
@@ -214,9 +214,9 @@ saveConfig <- function (plot_obj, save, HR, filename, wdir, silent) {
   return(wdir)
 }
 #
-LLSRxy <- function(FirstCol, SecondCol, ColDis = 'xy') {
+LLSRxy <- function(FirstCol, SecondCol, Order = 'xy') {
   # convert and name variables accordingly into vectors
-  if (tolower(ColDis) == "xy") {
+  if (tolower(Order) == "xy") {
     xc <- as.vector(as.numeric(sub(",", ".", FirstCol, fixed = TRUE)))
     yc <-
       as.vector(as.numeric(sub(",", ".", SecondCol, fixed = TRUE)))
@@ -241,4 +241,43 @@ Name2Index <- function(chem_name) {
   db <- LLSR::llsr_data[["db.cas"]]
   chem_idx <- db[which(db$CHEM.NAME == chem_name), "CAS.INDEX"]
   return(chem_idx)
+}
+#
+####################################################################################################################
+#' @rdname ExportTemplate
+#' @export 
+#' @title LLSR Template Exporter
+#' @description The function makes a copy of LLSR's template file and copy it to the folder pointed by the user.
+export_template <- function() {
+  llsr_path <- system.file("extdata", package = "LLSR")
+  template <- file.path(llsr_path, "template.xlsx")
+  #
+  output_dir <- dlgDir()$res
+  #
+  file.copy(
+    from = template,
+    to = output_dir,
+    copy.mode = TRUE,
+    copy.date = TRUE
+  )
+  #
+}
+#
+####################################################################################################################
+#' @rdname ExportData
+#' @export 
+#' @title LLSR Data Exporter
+#' @description The function saves a copy of a specified variable to a file in the folder pointed by the user.
+#' @param localData A variable existing in R environment and that will be saved locally.
+export_data <- function(localData = NULL) {
+  #
+  if (is.null(localData)) {
+    cat("Error: A variable containing data to be saved must be specified.")
+  } else{
+    output_dir <- dlgDir()$res
+    file_local_database <- file.path(output_dir, "local_data.rda")
+    #
+    save(localData, file = file_local_database)
+  }
+  #
 }

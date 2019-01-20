@@ -30,7 +30,7 @@ if(getRversion() >= "3.5")
 #' @seealso \itemize{
 #' \item \code{\link{AQSys.default}}
 #' \item \code{\link{AQSys.plot}}
-#' \item \code{\link{AQSys.tielines}}
+#' \item \code{\link{AQSys.LevArmRule}}
 #' \item \code{\link{AQSysOthmer}}
 #' \item \code{\link{AQSysBancroft}}
 #' }
@@ -45,7 +45,8 @@ AQSys <- function(dataSET, ...)
 #' @param modelName - Character String specifying the nonlinear empirical equation to fit data.
 #' The default method uses Merchuk's equation. Other mathematical descriptors can be listed using AQSysList().
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit
-#' @param order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
+#' @param Order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
+# ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
 #' @param ... Additional optional arguments. None are used at present.
 #' @method AQSys default
 #' @export
@@ -77,9 +78,9 @@ AQSys <- function(dataSET, ...)
 # 
 # XIE, X.  et al. Liquidb-liquid equilibrium of aqueous two-phase systems of PPG400 and biodegradable salts at temperatures of (298.15, 308.15, and 318.15) K. Journal of Chemical & Engineering Data, v. 55, n. 8, p. 2857-2861,  2010. ISSN 0021-9568. 
 # (\href{https://pubs.acs.org/doi/abs/10.1021/je901019t}{ACS Publications})
-AQSys.default <- function(dataSET, modelName = "merchuk", order="xy", ...) {
+AQSys.default <- function(dataSET, modelName = "merchuk", Order="xy", ...) {
   # arrange data and guarantee R converted it to numbers but dont switch columns to prevent incompatibility with pre-existent functions 
-  dataSET <- toNumeric(dataSET, order)
+  dataSET <- toNumeric(dataSET, Order)
   # each switch option calls a correspondent equation to fit dataSET
   # equations are functions declared in AQSysFormulas.R
   if (modelName %in% names(AQSysList(TRUE))) {
@@ -118,7 +119,7 @@ AQSys.default <- function(dataSET, modelName = "merchuk", order="xy", ...) {
 #' @param NP Number of points used to build the fitted curve. Default is 100. [type:Integer]
 #' @param xmax Maximum value for the Horizontal axis' value
 #' @param ymax Maximum value for the Vertical axis' value
-#' @param colDis Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
+#' @param Order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.
 #' @param save Save the generated plot in the disk using path and filename provided by the user. [type:Boulean]
 #' @param HR Adjust Plot's text to be compatible with High Resolution size [type:Boulean]
 #' @param filename Filename provided by the user to save a given plot. [type:String]
@@ -149,7 +150,7 @@ AQSys.plot <-
              NP = 100,
              xmax = "",
              ymax = "",
-             colDis = "xy",
+             Order = "xy",
              save = FALSE,
              HR = FALSE,
              filename = NULL,
@@ -167,7 +168,7 @@ AQSys.plot <-
       ylbl <- names(dataSET)[2]
     }
     # guarantee all lines are valid (non-na and numeric)
-    dataSET <- toNumeric(dataSET, colDis)
+    dataSET <- toNumeric(dataSET, Order)
     # Calculate aesthetically better xmax and ymax
     if ((xmax == "") | (xmax > 1) | (xmax < round(max(dataSET[1]) / 0.92, 1))) {
       xmax <- ceiling(round(max(dataSET[1]) / 0.92, 1)/5)*5

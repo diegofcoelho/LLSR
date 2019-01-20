@@ -17,6 +17,7 @@ options(digits = 14)
 #' @param nTL Number of tielines plotted for a given ATPS. Default is 3. [type:Integer]
 #' @param nPoints Number of points chosen for a given tieline. Default is 3. [type:Integer]
 #' @param tol limit of tolerance to reach to assume convergence. Default is 1e-5. [type:Integer]
+# ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
 AQSysDOE <- function(dataSET,
                      slope = NULL,
                      xmax = NULL,
@@ -31,14 +32,21 @@ AQSysDOE <- function(dataSET,
     AQSys.err("11")
   }
   #
-  SysCharData <- AQSysEval(
+  rawEvalData <- AQSysEval(
     dataSET,
     tol = tol,
     nTL = nTL,
     nPoints = nPoints,
     modelName = modelName,
     slope = slope
-  )$data
+  )
+  #
+  if (length(rawEvalData$data)==length(rawEvalData$plot)) {
+    SysCharData <- rawEvalData$data
+  } else {
+    SysCharData <- list()
+    SysCharData[[1]] <- rawEvalData$data
+  }
   #
   dataNames <- c("X", "Y", "System", "TLL", "Point")
   OUTPUT <- setNames(as.data.frame(matrix(ncol = 5)), dataNames)

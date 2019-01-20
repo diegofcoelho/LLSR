@@ -41,3 +41,11 @@ EvalData <- AQSysEval(dataSET, seriesNames = SN, xlbl = "Ammonium Sulfate", ylbl
 setwd("data")
 save(llsr_data, file = "llsr_data.rda")
 save(peg4kslt, file = "temp_data.rda")
+#
+#
+#
+#
+llsr_path <- system.file("extdata", package = "LLSR") 
+path <- gsub("/", "\\", capture.output(cat(llsr_path, "data.xlsx", sep = "/")), fixed=TRUE)
+path2 <- file.path(llsr_path, "template.xlsx")
+llsr_data <- AQSysDB(path2)

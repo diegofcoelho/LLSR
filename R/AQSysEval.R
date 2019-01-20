@@ -27,10 +27,11 @@ options(digits = 14)
 #' @param autoname Number of points used to build the fitted curve. Default is FALSE. [type:Logical]
 #' @param wdir The directory in which the plot file will be saved. [type:String]
 #' @param silent save plot file without actually showing it to the user. Default is FALSE. [type:Logical]
+# ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
 #' 
 #' @examples
 #' \dontrun{
-#' AQSysDB("C:/data.xls", ColDis = "xy", CAS = FALSE)
+#' AQSysDB("C:/data.xls")
 #'}
 #'
 #' @references 
@@ -115,6 +116,7 @@ AQSysEval <- function(dataSET,
       #
       TL <- 0
       dt <- 1
+      reset_BNDL <- BNDL
       CrptFnd <- FALSE # Crital Point Found Logical variable
       DivFactor <- 25
       while ((dt > tol) && !CrptFnd) {
@@ -147,6 +149,7 @@ AQSysEval <- function(dataSET,
           SysL <- list()
           TL <- 0
           dt <- 1
+          BNDL <- reset_BNDL
           xMAX <- ifelse(is.null(xmax), max(SysData[, seq(1, ncol(SysData), 2)]*1.1), xmax)
           yMAX <- max(SysData[, 2]) 
           cat("\t - Convergence not achieved. Reseting Search Factors...\n")

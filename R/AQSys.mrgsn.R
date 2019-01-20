@@ -2,8 +2,9 @@
 #' @rdname AQSysOthmer
 #' @title Othmer's Equation - Tieline's correlation
 #' @description Othmer's equation to correlate tieline's data applying the lever's rule.
-#' @param ... Additional optional arguments. None are used at present.
 #' @param TLdt - Tieline Experimental data that will be used in the nonlinear fit
+# ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
+#' @param ... Additional optional arguments. None are used at present.
 #' @export AQSysOthmer
 #' @return Parameters A, B and Statistical data
 #' @references 
@@ -55,8 +56,9 @@ AQSysOthmer <- function(TLdt,...) {
 #' TUBIO, G.  et al. Liquid-liquid equilibrium of the Ucon 50-HB5100/sodium citrate aqueous two-phase systems. Separation and Purification Technology, v. 65, n. 1, p. 3-8,  2009. ISSN 1383-5866. 
 #' (\href{https://www.sciencedirect.com/science/article/pii/S1383586608000361}{ScienceDirect})
 #' @export AQSysBancroft
-#' @param ... Additional optional arguments. None are used at present.
 #' @param TLdt - Tieline Experimental data that will be used in the nonlinear fit
+# ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
+#' @param ... Additional optional arguments. None are used at present.
 #' @return Parameters k1, r and Statistical data
 #' @examples
 #' # TLdt is a data.frame which contains series of Tieline's mass fraction
@@ -86,14 +88,15 @@ AQSysBancroft <- function(TLdt,...) {
     TLdt <- TLdt * 100
   }
   # the system below will calculate r and K1 for a given set of tielines
-  #suppressWarnings(
-  FFn <- nlsLM(
-    log(((100 - mfXb - mfYb) / mfXb)) ~ log(k1 * (((100 - mfXt - mfYt) / mfYt) ^ r)), 
-    start = list(r = 1, k1 = 1), 
-    data = TLdt,
-    control = nls.lm.control(maxiter = 25)
+  suppressWarnings(
+    FFn <- nlsLM(
+      log(((100 - mfXb - mfYb) / mfXb)) ~ log(k1 * (((100 - mfXt - mfYt) / mfYt
+      ) ^ r)),
+      start = list(r = 1, k1 = 1),
+      data = TLdt,
+      control = nls.lm.control(maxiter = 25)
+    )
   )
-  #)
   # return all calculated parameters
   FFn
 }

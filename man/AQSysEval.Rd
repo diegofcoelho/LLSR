@@ -51,7 +51,7 @@ Import DB data from an Excel Worksheet.
 }
 \examples{
 \dontrun{
-AQSysDB("C:/data.xls", ColDis = "xy", CAS = FALSE)
+AQSysDB("C:/data.xls")
 }
 
 }

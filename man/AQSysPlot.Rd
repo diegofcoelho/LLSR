@@ -4,8 +4,9 @@
 \alias{AQSysPlot}
 \title{This functions plot a curve based in the chosen model and its parameters.}
 \usage{
-AQSysPlot(dataSET, xlbl, ylbl, seriesNames = NULL, save = FALSE,
-  filename = NULL, HR = FALSE, wdir = NULL, silent = FALSE)
+AQSysPlot(dataSET, xlbl = "", ylbl = "", seriesNames = NULL,
+  save = FALSE, filename = NULL, HR = FALSE, wdir = NULL,
+  silent = FALSE)
 }
 \arguments{
 \item{dataSET}{- Binodal Experimental data that will be used in the nonlinear fit. It might hold multiple systems stacked side-by-side. [type:data.frame]}

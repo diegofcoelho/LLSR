@@ -15,10 +15,11 @@
 #' @param HR  Adjust Plot's text to be compatible with High Resolution size [type:Logical]
 #' @param wdir The directory in which the plot file will be saved. [type:String]
 #' @param silent save plot file without actually showing it to the user. Default is FALSE. [type:Logical]
+# ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
 #' @export AQSysPlot
 AQSysPlot <- function (dataSET,
-                       xlbl,
-                       ylbl,
+                       xlbl = "",
+                       ylbl = "",
                        seriesNames = NULL,
                        save = FALSE,
                        filename = NULL,
@@ -61,15 +62,21 @@ AQSysPlot <- function (dataSET,
 
 bndOrthPlot <- function(dataSET, xlbl = "", ylbl = "") {
   #
+  dataSET[, 1:2] <- toNumeric(dataSET, "xy")
+  #
   xmax <- ceiling(round(max(dataSET[, 1]) / 0.92, 1) / 5) * 5
   ymax <- ceiling(round(max(dataSET[, 2]) / 0.92, 1) / 5) * 5
   #
   outputPLOT <- ggplot() + scale_colour_grey() +
-    geom_line(data=dataSET, size = 1, aes_string(color = "System", x = "X", y = "Y")) +
-    geom_point(data=dataSET, size = 2, aes_string(color = "System", x = "X", y = "Y")) + 
+    geom_line(data = dataSET,
+              size = 1,
+              aes_string(color = "System", x = "X", y = "Y")) +
+    geom_point(data = dataSET,
+               size = 2,
+               aes_string(color = "System", x = "X", y = "Y")) +
     xlab(paste(xlbl,  "(%, m/m)")) +
-    ylab(paste(ylbl, "(%, m/m)")) + 
-    theme_light() + 
+    ylab(paste(ylbl, "(%, m/m)")) +
+    theme_light() +
     theme(
       validate = FALSE,
       plot.margin = unit(c(1, 1, 1, 1), "cm"),
