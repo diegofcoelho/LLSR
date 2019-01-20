@@ -15,7 +15,7 @@ Encoding: UTF-8
 LazyData: TRUE
 Depends: R (>= 3.5)
 Imports: rootSolve, XLConnect, digest, svDialogs, minpack.lm, ggplot2, svglite, dplyr
-URL: http://diegofcoelho.github.io/LLSR/
+URL: https://cran.r-project.org/web/packages/LLSR/index.html
 BugReports: https://github.com/diegofcoelho/LLSR/issues
 Suggests: testthat
 RoxygenNote: 6.1.1
