@@ -232,8 +232,8 @@ AQSys.plot <-
         data = rawdt,
         aes_string(x = "XC", y = "YC"),
         color = "red",
-        linetype = 2,
-        size = 1.1
+        linetype = "solid",
+        size = 1
       )
     #
     if (save == TRUE) {

@@ -1,4 +1,28 @@
 ####################################################################################################################
+mathDescPair <- function(modelName) {
+  #
+  switch(modelName,
+    "merchuk" = {
+      FN <- "PARs[1] * exp(PARs[2] * x[$2]^0.5 - PARs[3]*x[$2]^3) - x[$1]"
+    },
+    "murugesan" = {
+      FN <- "PARs[1] + PARs[2] * (x[$2]) ^ 0.5 + PARs[3] * x[$2] - x[$1]"
+    },
+    "tello" = {
+      FN <- "PARs[1] * log(PARs[2] + x[$2]) + PARs[3] - x[$1]"
+    },
+    "tang" = {
+      FN <- "exp(PARs[1] + PARs[2] * (x[$2] ^ (0.5)) + PARs[3] * x[$2] + PARs[4] * (x[$2] ^ 2)) - x[$1]"
+    },
+    "chen" = {
+      FN <- "exp(PARs[1] + PARs[2] * (x[$2] ^ (0.5)) + PARs[3] * x[$2] + PARs[4] * (x[$2] ^ 2)+ PARs[5] * (x[$2] ^ 3)) - x[$1]"
+    },
+    AQSys.err("0")
+  )
+  # return chosen functions
+  return(FN)
+}
+####################################################################################################################
 AQSys.mathDesc <- function(mathDesc) {
   # Each switch option provides an equation that will be available to be used to
   # make plots and calculate compositions for a system with known parameters

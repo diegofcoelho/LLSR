@@ -49,3 +49,11 @@ llsr_path <- system.file("extdata", package = "LLSR")
 path <- gsub("/", "\\", capture.output(cat(llsr_path, "data.xlsx", sep = "/")), fixed=TRUE)
 path2 <- file.path(llsr_path, "template.xlsx")
 llsr_data <- AQSysDB(path2)
+
+dataSET2 <- AQSearch.Binodal(db.uid='3776a5b13e2322c5443e8bbdcef9734e')
+AQSysAnima(dataSET2, xlbl = "Ammonium Sulphate", ylbl = "Poly(ethylene glycol) 2000", xmax = 30)
+
+# convert -loop 0 -delay 100 in1.png in2.png out.gif
+system('"D:\\Program Files\\ImageMagick-7.0.8-Q16\\convert.exe" *.png image.gif')
+file.remove(list.files(pattern=".png"))
+# ffmpeg.exe -framerate 3 -i plot_(%d).png -r 15 -f mp4 out2.mp4

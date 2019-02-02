@@ -131,7 +131,7 @@ matchBNDL<- function(compNameList, BinodalMatrix) {
 }
 #
 idx2name <- function(idx, casdb) {
-  casdb[casdb$CAS.INDEX == idx,]$CHEM.NAME
+  casdb[casdb$CAS.INDEX == idx,]$CAS.NAME
 }
 #
 commaReplacer <- function(str) {
@@ -199,7 +199,7 @@ getCAS <- function(workBook, sheets) {
     readWorksheet(workBook, grep("CASDB", sheets), header = TRUE)
   #define casdb headers
   names(casdb) <-
-    c("CAS.INDEX", "CAS.CODE", "CHEM.NAME", "CHEM.COMMON")
+    c("CAS.INDEX", "CAS.CODE", "CAS.NAME", "CAS.COMMON")
   return(casdb)
 }
 #
@@ -223,8 +223,8 @@ getREF <- function(workBook, sheets) {
 SysIdxToRef <- function(refSheet, db.cas, db.data) {
   sysNum <- ncol(db.data) / 2
   for (i in seq(1, sysNum)) {
-    db.data[3, i * 2] <- db.cas[db.data[3, i * 2], "CHEM.NAME"]
-    db.data[3, i * 2 - 1] <- db.cas[db.data[3, i * 2 - 1], "CHEM.NAME"]
+    db.data[3, i * 2] <- db.cas[db.data[3, i * 2], "CAS.NAME"]
+    db.data[3, i * 2 - 1] <- db.cas[db.data[3, i * 2 - 1], "CAS.NAME"]
     db.data[4, i * 2 - 1] <- refSheet[db.data[4, i * 2 - 1], 3]
   }
   db.data[6:nrow(db.data),] <- sapply(db.data[6:nrow(db.data),], commaReplacer)

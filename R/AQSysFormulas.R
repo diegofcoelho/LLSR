@@ -10,7 +10,7 @@ merchuk <- function(XYdt, P1 = 10, P2 = 1, P3 = 0, ...) {
     # define nonlinear system and solve it
     suppressWarnings(
       FFn <- tryCatch({
-        nls(
+        nlsLM(
           YC ~ P1 * exp(P2 * (XC ^ (0.5)) - P3 * (XC ^ 3)),
           start = list(P1 = P1, P2 = P2, P3 = P3),
           data = XYdt,

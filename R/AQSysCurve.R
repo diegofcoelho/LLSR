@@ -102,7 +102,7 @@ AQSysCurve <- function  (
     }
   }
   else{
-    AQSys.err(9)
+    AQSys.err("9")
   }
 }
 

@@ -239,7 +239,7 @@ LLSRxy <- function(FirstCol, SecondCol, Order = 'xy') {
 #
 Name2Index <- function(chem_name) {
   db <- LLSR::llsr_data[["db.cas"]]
-  chem_idx <- db[which(db$CHEM.NAME == chem_name), "CAS.INDEX"]
+  chem_idx <- db[which(db$CAS.NAME == chem_name), "CAS.INDEX"]
   return(chem_idx)
 }
 #

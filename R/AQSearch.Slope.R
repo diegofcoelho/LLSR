@@ -58,27 +58,27 @@ AQSearch.Slope <-
     # output variable is initialised with data from db.
     db.grep <- db$db.tielines$slopes
     if (!is.null(db.CompA)) {
-      db.CompA.names <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CHEM.NAME), fixed = TRUE), "CHEM.NAME"]
-      db.CompA.altNames <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CHEM.COMMON), fixed = TRUE), "CHEM.NAME"]
-      db.CompA.cas <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
+      db.CompA.names <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.NAME), fixed = TRUE), "CAS.NAME"]
+      db.CompA.altNames <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
+      db.CompA.cas <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
       #
       db.chem.names <- c(db.CompA.names, db.CompA.altNames, db.CompA.cas)
       db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
     }
     # search a system that matchs the lower-phase component, if search parameter is not null.
     if (!is.null(db.CompB)) {
-      db.CompB.names <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CHEM.NAME), fixed = TRUE), "CHEM.NAME"]
-      db.CompB.altNames <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CHEM.COMMON), fixed = TRUE), "CHEM.NAME"]
-      db.CompB.cas <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
+      db.CompB.names <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.NAME), fixed = TRUE), "CAS.NAME"]
+      db.CompB.altNames <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
+      db.CompB.cas <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
       #
       db.chem.names <- c(db.CompB.names, db.CompB.altNames, db.CompB.cas)
       db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
     }
     # search a system that matchs the additive component, if search parameter is not null.
     if (!is.null(db.CompC)) {
-      db.CompC.names <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CHEM.NAME), fixed = TRUE), "CHEM.NAME"]
-      db.CompC.altNames <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CHEM.COMMON), fixed = TRUE), "CHEM.NAME"]
-      db.CompC.cas <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CHEM.NAME"]
+      db.CompC.names <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.NAME), fixed = TRUE), "CAS.NAME"]
+      db.CompC.altNames <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
+      db.CompC.cas <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
       #
       db.chem.names <- c(db.CompC.names, db.CompC.altNames, db.CompC.cas)
       db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
