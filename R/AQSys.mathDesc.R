@@ -114,7 +114,7 @@ AQSys.mathDesc <- function(mathDesc) {
 }
 ####################################################################################################################
 #' @rdname AQSysList
-#' @export AQSysList
+#' @export
 #' @title Aqueous Systems Descriptors already implemented
 #' @description The function returns a list of all mathematical descriptors available at the time.
 #' @param npars Logic option to return a List variable containing the number of required parameters for each equation.

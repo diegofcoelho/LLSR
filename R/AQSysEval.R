@@ -9,7 +9,7 @@ options(digits = 14)
 #' @description Import DB data from an Excel Worksheet.
 #' @export AQSysEval
 #' 
-#' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit
+#' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit. [type:data.frame]
 #' @param xmax Maximum value for the Horizontal axis' value (bottom-rich component). [type:double]
 #' @param NP Number of points used to build the fitted curve. Default is 100. [type:Integer]
 #' @param slope The method assumes all tielines for a given ATPS are parallel, thus only one slope is required. [type:double]
@@ -19,8 +19,8 @@ options(digits = 14)
 #' @param nTL Number of tielines plotted for a given ATPS. Default is 3. [type:Integer]
 #' @param nPoints Number of points chosen for a given tieline. Default is 3. [type:Integer]
 #' @param tol limit of tolerance to reach to assume convergence. Default is 1e-5. [type:Integer]
-#' @param xlbl Plot's Horizontal axis label.
-#' @param ylbl Plot's Vertical axis label.
+#' @param xlbl Plot's Horizontal axis label. [type:String]
+#' @param ylbl Plot's Vertical axis label. [type:String]
 #' @param seriesNames Number of points used to build the fitted curve. Default is 100. [type:Integer]
 #' @param save Save the generated plot in the disk using path and filename provided by the user. Default is FALSE. [type:Logical]
 #' @param HR Magnify Plot's text to be compatible with High Resolution size [type:Logical]

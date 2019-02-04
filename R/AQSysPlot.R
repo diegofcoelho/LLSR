@@ -7,6 +7,8 @@
 #' to return a plot which represent the chosen model.
 #' 
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit. It might hold multiple systems stacked side-by-side. [type:data.frame]
+#' @param Order Defines how the data is organized in the Worksheet. 
+#' Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite. [type:string]
 #' @param xlbl Plot's Horizontal axis label.
 #' @param ylbl Plot's Vertical axis label.
 #' @param seriesNames A list of sequential names which will identify each system provided by the user in the dataSET variable. [type:List]
@@ -18,6 +20,7 @@
 # ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
 #' @export AQSysPlot
 AQSysPlot <- function (dataSET,
+                       Order = "xy",
                        xlbl = "",
                        ylbl = "",
                        seriesNames = NULL,
@@ -44,7 +47,7 @@ AQSysPlot <- function (dataSET,
       SysList[[i]]["System"] <- seriesNames[i]
     }
     output <- bind_rows(SysList)
-    output_plot <- bndOrthPlot(output, xlbl, ylbl)
+    output_plot <- bndOrthPlot(output, Order, xlbl, ylbl)
     #
     saveConfig(output_plot, save, HR, filename, wdir, silent)
     #
@@ -60,9 +63,9 @@ AQSysPlot <- function (dataSET,
   }
 }
 
-bndOrthPlot <- function(dataSET, xlbl = "", ylbl = "") {
+bndOrthPlot <- function(dataSET, Order, xlbl = "", ylbl = "") {
   #
-  dataSET[, 1:2] <- toNumeric(dataSET, "xy")
+  dataSET[, 1:2] <- toNumeric(dataSET, Order)
   #
   xmax <- ceiling(round(max(dataSET[, 1]) / 0.92, 1) / 5) * 5
   ymax <- ceiling(round(max(dataSET[, 2]) / 0.92, 1) / 5) * 5

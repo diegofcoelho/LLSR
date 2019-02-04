@@ -105,7 +105,6 @@ AQSys.default <- function(dataSET, modelName = "merchuk", Order="xy", ...) {
 #' @param xlbl Plot's Horizontal axis label.
 #' @param ylbl Plot's Vertical axis label.
 #' @param main Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' 
 #' @param col Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param type Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param cex Legacy from plot package. For more details, see \code{\link{plot.default}}
@@ -113,7 +112,6 @@ AQSys.default <- function(dataSET, modelName = "merchuk", Order="xy", ...) {
 #' @param cexaxis Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param cexmain Legacy from plot package. For more details, see \code{\link{plot.default}}
 #' @param cexsub Legacy from plot package. For more details, see \code{\link{plot.default}}
-#' 
 #' @param modelName - Character String specifying the nonlinear empirical equation to fit data. The default method uses
 #' Merchuk's equation. Other possibilities can be seen in AQSysList().
 #' @param NP Number of points used to build the fitted curve. Default is 100. [type:Integer]
@@ -134,29 +132,29 @@ AQSys.default <- function(dataSET, modelName = "merchuk", Order="xy", ...) {
 #' #
 #' AQSys.plot(dataSET)
 #' #
-AQSys.plot <-
-  function  (dataSET,
-             xlbl = "",
-             ylbl = "",
-             main = NULL,
-             col = "blue",
-             type = "p",
-             cex = 1,
-             cexlab = 1,
-             cexaxis = 1,
-             cexmain = 1,
-             cexsub = 1,
-             modelName = "merchuk",
-             NP = 100,
-             xmax = "",
-             ymax = "",
-             Order = "xy",
-             save = FALSE,
-             HR = FALSE,
-             filename = NULL,
-             wdir = NULL,
-             silent = FALSE,
-             ...)
+AQSys.plot <- function  (dataSET,
+                         xlbl = "",
+                         ylbl = "",
+                         main = NULL,
+                         col = "blue",
+                         type = "p",
+                         cex = 1,
+                         cexlab = 1,
+                         cexaxis = 1,
+                         cexmain = 1,
+                         cexsub = 1,
+                         modelName = "merchuk",
+                         NP = 100,
+                         xmax = "",
+                         ymax = "",
+                         Order = "xy",
+                         save = FALSE,
+                         HR = FALSE,
+                         filename = NULL,
+                         wdir = NULL,
+                         silent = FALSE,
+                         ...
+)
   {
     #
     plot_image = NULL
@@ -170,10 +168,10 @@ AQSys.plot <-
     # guarantee all lines are valid (non-na and numeric)
     dataSET <- toNumeric(dataSET, Order)
     # Calculate aesthetically better xmax and ymax
-    if ((xmax == "") | (xmax > 1) | (xmax < round(max(dataSET[1]) / 0.92, 1))) {
+    if ((xmax == "") | ((xmax > 1) & (max(dataSET[1]) <= 1)) | ((xmax > 100) & (max(dataSET[1]) <= 100) & (max(dataSET[1]) >= 10)) | (xmax < round(max(dataSET[1]) / 0.92, 1))) {
       xmax <- ceiling(round(max(dataSET[1]) / 0.92, 1)/5)*5
     }
-    if ((ymax == "") | (ymax > 1) | (ymax < round(max(dataSET[2]) / 0.92, 1))) {
+    if ((ymax == "") | ((ymax > 1) & (max(dataSET[2]) <= 1)) | ((ymax > 100) & (max(dataSET[2]) <= 100) & (max(dataSET[2]) >= 1)) | (ymax < round(max(dataSET[2]) / 0.92, 1))) {
       ymax <- ceiling(round(max(dataSET[2]) / 0.92, 1)/5)*5
     }
     # If save=TRUE adjust variables and parameters to save plot

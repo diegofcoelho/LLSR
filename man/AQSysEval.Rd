@@ -11,7 +11,7 @@ AQSysEval(dataSET, xmax = NULL, NP = 100, slope = NULL,
   wdir = NULL, silent = TRUE)
 }
 \arguments{
-\item{dataSET}{- Binodal Experimental data that will be used in the nonlinear fit}
+\item{dataSET}{- Binodal Experimental data that will be used in the nonlinear fit. [type:data.frame]}
 
 \item{xmax}{Maximum value for the Horizontal axis' value (bottom-rich component). [type:double]}
 
@@ -30,9 +30,9 @@ The default method uses Merchuk's equation. Other mathematical descriptors can b
 
 \item{tol}{limit of tolerance to reach to assume convergence. Default is 1e-5. [type:Integer]}
 
-\item{xlbl}{Plot's Horizontal axis label.}
+\item{xlbl}{Plot's Horizontal axis label. [type:String]}
 
-\item{ylbl}{Plot's Vertical axis label.}
+\item{ylbl}{Plot's Vertical axis label. [type:String]}
 
 \item{seriesNames}{Number of points used to build the fitted curve. Default is 100. [type:Integer]}
 
