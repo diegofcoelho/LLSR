@@ -211,7 +211,7 @@ AQSys.plot <- function  (dataSET,
       ) +
       scale_y_continuous(
         expand = c(0, 0),
-        limits = c(0.001, ymax),
+        limits = c(-0.5, ymax),
         breaks = seq(0, ymax, by = 5),
         labels = seq(0, ymax, by = 5)
       ) +
@@ -223,8 +223,11 @@ AQSys.plot <- function  (dataSET,
       )
     #
     # add curve generated using regression parameters
-    rawdt <- data.frame(dataSET[1], Fn(CoefSET, dataSET[1]))
-    names(rawdt) <- c("XC", "YC")
+    # print(rbind(dataSET[1], xmax))
+    # Xs <- ifelse(((xmax != "") & (is.numeric(xmax)) & (xmax != max(dataSET[1]))), rbind(dataSET[1], xmax), dataSET[1])
+    Xs <- as.data.frame(ifelse((xmax != max(dataSET[1])), rbind(dataSET[1], xmax), dataSET[1]))
+    rawdt <- setNames(data.frame(Xs, Fn(CoefSET, Xs)), c("XC", "YC"))
+    #
     plot_image <-
       plot_image + geom_line(
         data = rawdt,

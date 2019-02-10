@@ -6,21 +6,56 @@ options(digits = 14)
 #' @import rootSolve
 ####################################################################################################################
 crit_point_eqsys <- function(dataSET,
-                            modelName,
-                            xmax,
-                            xlbl,
-                            ylbl,
-                            Order,
-                            ext) {
+                             tldt,
+                             modelName,
+                             xmax,
+                             xlbl,
+                             ylbl,
+                             Order,
+                             ext) {
+  
   ###
-  dataSET <- toNumeric(dataSET, Order)
+  dataSET <- suppressWarnings(toNumeric(dataSET, Order))
   PARs <- summary(AQSys(dataSET))$coefficients[, 1]
   BnFn <- mathDescPair(modelName)
   d <- 10^-100
-  ###
+  #
+  #
+  #
+  poly_data <- setNames(data.frame(matrix(nrow = 0, ncol = 2)), c("S", "TLL"))
+  #
+  for (row in seq(1, nrow(tldt))) {
+    tldt_row <- tldt[row, ]
+    #
+    if (tolower(tldt_row["ORDER"]) == "yx") {
+      Ys <- unlist(tldt_row[c("TOP.A", "BOT.A")])
+      Xs <- unlist(tldt_row[c("TOP.B", "BOT.B")])
+    } else {
+      Xs <- unlist(tldt_row[c("TOP.A", "BOT.A")])
+      Ys <- unlist(tldt_row[c("TOP.B", "BOT.B")])
+    }
+    #
+    dY <- diff(Ys)
+    dX <- diff(Xs)
+    slope <- (dY / dX)
+    tll <- sqrt((dX ^ 2) + (dY ^ 2))
+    #
+    row_entry <- data.frame(S = slope, TLL = tll)
+    poly_data <- rbind(poly_data, row_entry)
+  }
+  rownames(poly_data) <- NULL
+  poly_model <- lm(poly_data$S ~ poly(poly_data$TLL, 3, raw = TRUE))
+  coefs <- unname(unlist(lapply(poly_model$coefficients, function(ith_coeff) {
+    ifelse(is.na(ith_coeff), 0, ith_coeff)
+  })))
+  SFn <- function(x){sum(coefs[1] + coefs[2] * x + coefs[3] * (x ^ 2) + coefs[4] * (x ^ 3))}
+  m <- SFn(0)
+  #
+  #
+  #
   EqSys <- function(x) {
     F1 <- eval(parse(text = gsub("[$]", "", BnFn)))
-    F2 <- (x[2] - x[4]) - (x[1] - x[3]) - d
+    F2 <- m*(x[2] - x[4]) - (x[1] - x[3])
     F3 <- ((x[2] - x[4]) ^ 2) + ((x[1] - x[3]) ^ 2) - d^2
     F4 <- (((0 - x[4]) ^ 2) + ((0 - x[3]) ^ 2)) - (((x[2] - 0) ^ 2) + ((x[1] - 0) ^ 2))
     #

@@ -1,14 +1,18 @@
 library(LLSR)
 library(XLConnect)
+
 path <- "E:\\Dropbox\\LABAM\\Artigos - ProduC'C#o\\D7 - GitHUB - LLSR\\Dados.xlsx"
 path <- "E:\\Dropbox\\Diego\\data.xlsx"
+setwd("..")
+getwd()
 path <- gsub("/", "\\", capture.output(cat(getwd(), "dev/data.xlsx", sep = "/")), fixed=TRUE)
-
 workBook <- loadWorkbook(path)
 sheets <- getSheets(workBook)
 
 cllsr_data <- AQSysDB(path)
 llsr_data <- AQSysDB(path)
+setwd("data")
+save(llsr_data, file = "llsr_data.rda")
 
 math_model <- "merchuk"
 

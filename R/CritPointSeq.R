@@ -84,11 +84,11 @@ crit_point_seq <- function(dataSET,
       # Bind the calculated tieline's data.frame to the output data.frame variable
       BNDL <- rbind(BNDL,  SysL[[TL]])
       # A monod-base equation to help convergence - 
-      dt <- abs(SysL[[TL]][2, 1] - modelFn(SysL[[TL]][2, 1])) / ((5 * TL) / (xMAX / DivFactor))
+      dt <- abs(SysL[[TL]][2, 1] - modelFn(SysL[[TL]][2, 1])) / ((2 * TL) / (xMAX / DivFactor))
       xMAX <- xMAX - dt
       #
       if (TL > 1000) {
-        DivFactor <- DivFactor * 0.5
+        DivFactor <- DivFactor * 0.75
         SysL <- list()
         TL <- 0
         dt <- 1

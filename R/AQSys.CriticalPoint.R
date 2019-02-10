@@ -40,7 +40,7 @@ AQSys.CritPoint <- function(dataSET,
                        modelName = "merchuk",
                        slope = NULL,
                        NP = 100,
-                       xmax = "",
+                       xmax = 30,
                        xlbl = "",
                        ylbl = "",
                        Order = "xy",
@@ -77,6 +77,7 @@ AQSys.CritPoint <- function(dataSET,
     "algebraic" = {
       OUTPUT <- crit_point_eqsys(
         dataSET = dataSET,
+        tldt = tldata,
         modelName = modelName,
         xmax = xmax,
         xlbl = xlbl,
@@ -88,5 +89,5 @@ AQSys.CritPoint <- function(dataSET,
     AQSys.err("0")
   )
   cat("\n")
-  return(OUTPUT)
+  return(suppressWarnings(OUTPUT))
 }

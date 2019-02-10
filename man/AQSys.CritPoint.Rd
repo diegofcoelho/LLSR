@@ -5,7 +5,7 @@
 \title{ATPS Critical Point Calculation}
 \usage{
 \method{AQSys}{CritPoint}(dataSET, tldata, method, modelName = "merchuk",
-  slope = NULL, NP = 100, xmax = "", xlbl = "", ylbl = "",
+  slope = NULL, NP = 100, xmax = 30, xlbl = "", ylbl = "",
   Order = "xy", ext = FALSE, ...)
 }
 \arguments{
