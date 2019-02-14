@@ -7,6 +7,7 @@ packrat/src/
 dev/*.xls
 dev/*.xlsx
 dev/imgs/*
+dev/*_private.R
 
 ### R ###
 # History files
