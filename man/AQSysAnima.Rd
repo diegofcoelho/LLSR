@@ -4,14 +4,16 @@
 \alias{AQSysAnima}
 \title{AQSysAnima}
 \usage{
-AQSysAnima(dataSET, xmax = NULL, NP = 100, slope = NULL,
-  modelName = "merchuk", convrgnceLines = FALSE, nTL = 3,
-  nPoints = 3, tol = 1e-05, xlbl = "", ylbl = "",
+AQSysAnima(dataSET, db = LLSR::llsr_data, xmax = NULL, NP = 100,
+  slope = NULL, modelName = "merchuk", convrgnceLines = FALSE,
+  nTL = 3, nPoints = 3, tol = 1e-05, xlbl = "", ylbl = "",
   seriesNames = NULL, save = FALSE, HR = FALSE, autoname = FALSE,
   wdir = NULL, silent = TRUE)
 }
 \arguments{
 \item{dataSET}{- Binodal Experimental data that will be used in the nonlinear fit}
+
+\item{db}{A highly structure db containing data from previously analised data. LLSR database is used by default but user may input his own db if formatted properly.}
 
 \item{xmax}{Maximum value for the Horizontal axis' value (bottom-rich component). [type:double]}
 

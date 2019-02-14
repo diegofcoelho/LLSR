@@ -102,7 +102,7 @@ findTL <- function(dTLL, SysTLL, BLFn, slope){
   return(OUTPUT)
 }
 #
-findSlope <- function(dataSET){
+findSlope <- function(db, dataSET){
   # iterate through multiple columns and return a list of slopes
   slope <- c()
   # check how many systems were provided
@@ -115,7 +115,7 @@ findSlope <- function(dataSET){
       idx_PH <- dataSET[1, sys * 2 - 1]
       idx_T <- dataSET[2, sys * 2 - 1]
       #
-      TL_db <- LLSR::llsr_data[["db.tielines"]][["slopes"]]
+      TL_db <- db[["db.tielines"]][["slopes"]]
       slope[sys] <- TL_db[which(
         (TL_db$PH == idx_PH | is.na(TL_db$PH)) &
           TL_db$TEMP == idx_T &

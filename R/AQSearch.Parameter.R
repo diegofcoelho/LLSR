@@ -68,6 +68,7 @@ AQSearch.Parameter <-
         db.CompA.cas <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
         #
         db.chem.names <- c(db.CompA.names, db.CompA.altNames, db.CompA.cas)
+        db.chem.names <- ifelse(length(db.chem.names) == 0, "", db.chem.names)
         db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
       }
       # search a system that matchs the lower-phase component, if search parameter is not null.
@@ -77,6 +78,7 @@ AQSearch.Parameter <-
         db.CompB.cas <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
         #
         db.chem.names <- c(db.CompB.names, db.CompB.altNames, db.CompB.cas)
+        db.chem.names <- ifelse(length(db.chem.names) == 0, "", db.chem.names)
         db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
       }
       # search a system that matchs the additive component, if search parameter is not null.
@@ -86,6 +88,7 @@ AQSearch.Parameter <-
         db.CompC.cas <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
         #
         db.chem.names <- c(db.CompC.names, db.CompC.altNames, db.CompC.cas)
+        db.chem.names <- ifelse(length(db.chem.names) == 0, "", db.chem.names)
         db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
       }
       # search a system that matchs the system's temperature, if search parameter is not null.

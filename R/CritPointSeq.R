@@ -5,6 +5,7 @@ options(digits = 14)
 #' @import rootSolve
 ####################################################################################################################
 crit_point_seq <- function(dataSET,
+                           db = LLSR::llsr_data,
                            modelName,
                            slope,
                            NP,
@@ -18,7 +19,7 @@ crit_point_seq <- function(dataSET,
   #
   tol <- 1e-5
   if (is.null(slope)){
-    slope = findSlope(dataSET)
+    slope = findSlope(db, dataSET)
   } 
   # Select which model will be used to generate the plot. Function return list of plots and respective number of parameters
   models_npars <- AQSysList(TRUE)

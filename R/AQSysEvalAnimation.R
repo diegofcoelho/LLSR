@@ -10,6 +10,7 @@ options(digits = 14)
 #' @export AQSysAnima
 #'
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit
+#' @param db A highly structure db containing data from previously analised data. LLSR database is used by default but user may input his own db if formatted properly.
 #' @param xmax Maximum value for the Horizontal axis' value (bottom-rich component). [type:double]
 #' @param NP Number of points used to build the fitted curve. Default is 100. [type:Integer]
 #' @param slope The method assumes all tielines for a given ATPS are parallel, thus only one slope is required. [type:double]
@@ -39,6 +40,7 @@ options(digits = 14)
 #' (\href{https://link.springer.com/10.1385/1-59259-028-4:11}{SpringerLink})
 #'
 AQSysAnima <- function(dataSET,
+                      db = LLSR::llsr_data,
                       xmax = NULL,
                       NP = 100,
                       slope = NULL,
@@ -57,7 +59,7 @@ AQSysAnima <- function(dataSET,
                       silent = TRUE) {
   #
   if (is.null(slope)) {
-    slope = findSlope(dataSET)
+    slope = findSlope(db, dataSET)
   } else if (!((ncol(dataSET) / 2) == length(slope))) {
     AQSys.err("11")
   }
