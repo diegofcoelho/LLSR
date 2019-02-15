@@ -609,3 +609,24 @@ UIDGen <- function(db.data) {
   }
   return(OUTPUT.DATA)
 }
+#
+ChckBndrs <- function(BNFn, slope, BNDL, xmax){
+  #
+  yMin <- BNFn(xmax)
+  Gn <- function (yMin, slope, xmax, x) {
+    yMin + slope * (x - xmax)
+  }
+  #
+  x_min_b <- min(uniroot.all(function(x) (BNFn(x) - Gn(yMin, slope, xmax, x)), c(0, xmax), tol = 0.001)) 
+  y_max_b <- max(BNDL["Y"])
+  ymax <- BNFn(x_min_b)
+  #
+  while (ymax > y_max_b) {
+    xmax <- xmax - 0.01
+    yMin <- BNFn(xmax)
+    x_min_b <- min(uniroot.all(function(x) (BNFn(x) - Gn(yMin, slope, xmax, x)), c(0, xmax), tol = 0.001)) 
+    ymax <- BNFn(x_min_b)
+  }
+  return(xmax)
+  
+}

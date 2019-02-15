@@ -102,7 +102,7 @@ bndOrthPlot <- function(dataSET, Order, xlbl = "", ylbl = "") {
     ) +
     scale_y_continuous(
       expand = c(0, 0),
-      limits = c(-5, ymax),
+      limits = c(0, ymax),
       breaks = seq(0, ymax, by = 5),
       labels = seq(0, ymax, by = 5)
     ) +

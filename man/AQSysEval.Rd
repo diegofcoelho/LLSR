@@ -4,11 +4,11 @@
 \alias{AQSysEval}
 \title{AQSysEval}
 \usage{
-AQSysEval(dataSET, db = LLSR::llsr_data, xmax = NULL, NP = 100,
-  slope = NULL, modelName = "merchuk", convrgnceLines = FALSE,
-  nTL = 3, nPoints = 3, tol = 1e-05, xlbl = "", ylbl = "",
-  seriesNames = NULL, save = FALSE, HR = FALSE, autoname = FALSE,
-  wdir = NULL, silent = TRUE)
+AQSysEval(dataSET, db = LLSR::llsr_data, xmax = NULL, ymax = NULL,
+  NP = 100, slope = NULL, modelName = "merchuk",
+  convrgnceLines = FALSE, nTL = 3, nPoints = 3, tol = 1e-05,
+  xlbl = "", ylbl = "", seriesNames = NULL, save = FALSE,
+  HR = FALSE, autoname = FALSE, wdir = NULL, silent = TRUE)
 }
 \arguments{
 \item{dataSET}{- Binodal Experimental data that will be used in the nonlinear fit. [type:data.frame]}
@@ -16,6 +16,8 @@ AQSysEval(dataSET, db = LLSR::llsr_data, xmax = NULL, NP = 100,
 \item{db}{A highly structure db containing data from previously analised data. LLSR database is used by default but user may input his own db if formatted properly.}
 
 \item{xmax}{Maximum value for the Horizontal axis' value (bottom-rich component). [type:double]}
+
+\item{ymax}{Maximum value for the vertical axis' value (bottom-rich component). [type:double]}
 
 \item{NP}{Number of points used to build the fitted curve. Default is 100. [type:Integer]}
 

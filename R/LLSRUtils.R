@@ -214,16 +214,22 @@ saveConfig <- function (plot_obj, save, HR, filename, wdir, silent) {
   return(wdir)
 }
 #
+GenPlotSeries <- function(SysData, xMAX, NP, modelFn, i, seriesNames){
+  min_x <- min(SysData[, 1])
+  x <- seq( min_x, xMAX, ((xMAX - (min_x / 1.5)) / NP))
+  BNDL <- setNames(data.frame(x, modelFn(x)), c("X", "Y"))
+  BNDL["System"] <- seriesNames[i]
+  return(BNDL)
+}
+#
 LLSRxy <- function(FirstCol, SecondCol, Order = 'xy') {
   # convert and name variables accordingly into vectors
   if (tolower(Order) == "xy") {
     xc <- as.vector(as.numeric(sub(",", ".", FirstCol, fixed = TRUE)))
-    yc <-
-      as.vector(as.numeric(sub(",", ".", SecondCol, fixed = TRUE)))
+    yc <- as.vector(as.numeric(sub(",", ".", SecondCol, fixed = TRUE)))
   } else{
     xc <- as.vector(as.numeric(sub(",", ".", SecondCol, fixed = TRUE)))
-    yc <-
-      as.vector(as.numeric(sub(",", ".", FirstCol, fixed = TRUE)))
+    yc <- as.vector(as.numeric(sub(",", ".", FirstCol, fixed = TRUE)))
   }
   # and combine them into a dataframe
   XYdt <- data.frame(XC = xc, YC = yc)

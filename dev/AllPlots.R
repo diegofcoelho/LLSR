@@ -41,6 +41,7 @@ AQSysCurve("merchuk", PARS[, 8:10], seriesNames = SN, xlbl = "Ammonium Sulfate",
 #
 #
 EvalData <- AQSysEval(dataSET, seriesNames = SN, xlbl = "Ammonium Sulfate", ylbl = "PEG Concentration")
+EvalData$plot
 #
 setwd("data")
 save(llsr_data, file = "llsr_data.rda")

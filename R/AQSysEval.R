@@ -12,6 +12,7 @@ options(digits = 14)
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit. [type:data.frame]
 #' @param db A highly structure db containing data from previously analised data. LLSR database is used by default but user may input his own db if formatted properly.
 #' @param xmax Maximum value for the Horizontal axis' value (bottom-rich component). [type:double]
+#' @param ymax Maximum value for the vertical axis' value (bottom-rich component). [type:double]
 #' @param NP Number of points used to build the fitted curve. Default is 100. [type:Integer]
 #' @param slope The method assumes all tielines for a given ATPS are parallel, thus only one slope is required. [type:double]
 #' @param modelName Character String specifying the nonlinear empirical equation to fit data.
@@ -42,6 +43,7 @@ options(digits = 14)
 AQSysEval <- function(dataSET,
                       db = LLSR::llsr_data,
                       xmax = NULL,
+                      ymax = NULL,
                       NP = 100,
                       slope = NULL,
                       modelName = "merchuk",
@@ -88,9 +90,10 @@ AQSysEval <- function(dataSET,
     for (i in seq(1, nSys)) {
       #
       RawData <- dataSET[, (i * 2 - 1):(i * 2)]
+      SysOrder <- RawData[4, 2]
       SysData <- LLSRxy(na.exclude(RawData[6:nrow(RawData), 1]),
                         na.exclude(RawData[6:nrow(RawData), 2]),
-                        RawData[4, 2])
+                        SysOrder)
       # Analyse data and return parameters
       model_pars <- summary(AQSys(SysData,  modelName))$parameters[, 1]
       # Select Model based on the user choice or standard value
@@ -107,20 +110,25 @@ AQSysEval <- function(dataSET,
       modelFn <- function(x) Fn(model_pars, x)
       modelTl <- function(x) Gn(yMin, slope[i], xMAX, x)
       # Decide whether xmax will be calculated or use the provided value
-      xMAX <- ifelse(is.null(xmax), max(SysData[, seq(1, ncol(SysData), 2)]*1.1), xmax)
-      yMAX <- max(SysData[, 2]) # get ymax from the dataset
+      yMAX <- ifelse(is.null(ymax), max(SysData[, 2])*0.9, ymax) # get ymax from the dataset
+      xMAX <- ifelse(is.null(xmax), max(SysData[, seq(1, ncol(SysData), 2)])*0.9, xmax)
       SysList[[i]] <- list()
       SysL <- list()
-      # go from xmin/1.5 to xmax in steps of 0.15
-      x <- seq(min(SysData[, 1]) / 1.5, xMAX, ((xMAX - (min(SysData[, 1]) / 1.5)) / NP))
-      BNDL <- setNames(data.frame(x, modelFn(x)), c("X", "Y"))
-      BNDL["System"] <- seriesNames[i]
+      #
+      BNDL <- GenPlotSeries(SysData, xMAX, NP, modelFn, i, seriesNames)
+      #
+      xMAX <- ChckBndrs(modelFn, slope[i], BNDL, xMAX)
+      reset_xMAX <- xMAX
+      #
+      BNDL <- GenPlotSeries(SysData, xMAX*1.15, NP, modelFn, i, seriesNames)
       #
       TL <- 0
       dt <- 1
       reset_BNDL <- BNDL
       CrptFnd <- FALSE # Crital Point Found Logical variable
       DivFactor <- 25
+      #
+      cat("\t - Calculating: [")
       while ((dt > tol) && !CrptFnd) {
         TL <- TL + 1
         yMAXTL <- yMAX + 1
@@ -128,10 +136,10 @@ AQSysEval <- function(dataSET,
         # which must be smaller than the experimental ymax.
         while (yMAXTL > yMAX) {
           yMin <- Fn(model_pars, xMAX) # EVALUATE REPLACE XMAX TO THE LIMIT OF SOLUBILITY?
-          xRoots <- uniroot.all(function(x)(modelFn(x) - modelTl(x)), c(0, xMAX), tol = 0.1) 
+          xRoots <- uniroot.all(function(x)(modelFn(x) - modelTl(x)), c(0, xMAX), tol = 0.001) 
           xMin <- min(xRoots) # As we started from the biggest root, we select the smallest
           yMAXTL <- modelFn(xMin) # calculate the y-value for the root found
-          if (yMAXTL > yMAX) { # compare to the highest value allowed (it must be smaller than the maximum experimental Y)
+          if ((yMAXTL > yMAX) | (length(xRoots) == 1)) { # compare to the highest value allowed (it must be smaller than the maximum experimental Y)
             xMAX <- (xMAX - 0.001) # if bigger than physically possible, decrease xmax and recalculate
           }
         }
@@ -146,17 +154,18 @@ AQSysEval <- function(dataSET,
         dt <- abs(SysL[[TL]][2, 1] - modelFn(SysL[[TL]][2, 1])) / ((5 * TL) / (xMAX / DivFactor))
         xMAX <- xMAX - dt
         #
-        if (TL > 2500) {
-          DivFactor <- DivFactor * 0.5
+        if (TL > 1250) {
+          DivFactor <- DivFactor * 0.9
           SysL <- list()
           TL <- 0
           dt <- 1
           BNDL <- reset_BNDL
-          xMAX <- ifelse(is.null(xmax), max(SysData[, seq(1, ncol(SysData), 2)]*1.1), xmax)
-          yMAX <- max(SysData[, 2]) 
-          cat("\t - Convergence not achieved. Reseting Search Factors...\n")
+          xMAX <- reset_xMAX
+          yMAX <- ifelse(is.null(ymax), max(SysData[, 2])*1.1, ymax)
+          cat("#")
         }
       }
+      cat("]\n")
       # data.frame holding data regarding Critical Point convergence
       output_res <- setNames(data.frame(dt, TL), c("dt", "TL"))
       # Setting up data.frame to hold data from the global points
@@ -193,7 +202,7 @@ AQSysEval <- function(dataSET,
       # add the Empirical Model's name for further use
       SysL$modelName <- modelName
       # prepare a plot with the system curve and all tielines. Convergence lines are included if requested.
-      output_plot <- bndOrthPlot(subset(BNDL, BNDL$System == seriesNames[i]), xlbl, ylbl) 
+      output_plot <- bndOrthPlot(dataSET = subset(BNDL, BNDL$System == seriesNames[i]), Order = SysOrder, xlbl = xlbl , ylbl = ylbl) 
       if (convrgnceLines){
         output_plot <- output_plot + 
           geom_line(
