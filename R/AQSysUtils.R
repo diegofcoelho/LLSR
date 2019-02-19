@@ -82,22 +82,27 @@ matchTpH<- function(TpH, BinodalMatrix, pH) {
   if (pH){RowIdx <- 1} else {RowIdx <- 2}
   #
   db.TpH.results <- which(BinodalMatrix == TpH, TRUE)
-  db.TpH.check <- which(db.TpH.results[, "row"] == RowIdx)
-  #
-  db.binodals.index <- db.TpH.results[db.TpH.check, "col"]
-  #
-  db.binodals.index <-
-    sapply(db.binodals.index, function(idx) {
-      if (is.odd(idx)) {
-        idx
-      } else {
-        idx - 1
-      }
-    })
-  #
-  db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
-  #
-  return(db.binodals.index)
+  if (length(db.TpH.results)!= 0) {
+    db.TpH.check <- which(db.TpH.results[, "row"] == RowIdx)
+    #
+    db.binodals.index <- db.TpH.results[db.TpH.check, "col"]
+    #
+    db.binodals.index <-
+      sapply(db.binodals.index, function(idx) {
+        if (is.odd(idx)) {
+          idx
+        } else {
+          idx - 1
+        }
+      })
+    #
+  } 
+  if (length(db.TpH.results)!= 0) {
+    db.binodals.index <- ifelse(length(db.binodals.index) == 0, 0, sort(c(db.binodals.index, db.binodals.index + 1)))
+    return(BinodalMatrix[, db.binodals.index])
+  } else{
+    return(data.frame())
+  }
 }
 #
 matchBNDL<- function(compNameList, BinodalMatrix) {
@@ -149,10 +154,8 @@ getBNDL <- function(workBook, sheets) {
   # and determine which system in the workbook have bigger dataset (mrow)
   for (SheetIndex in grep("BINODAL", sheets)) {
     # determine the number of row and columns in the worksheet
-    sys.nrow <-
-      nrow(readWorksheet(workBook, SheetIndex, header = FALSE))
-    sys.ncol <-
-      ncol(readWorksheet(workBook, SheetIndex, header = FALSE))
+    sys.nrow <- nrow(readWorksheet(workBook, SheetIndex, header = FALSE))
+    sys.ncol <- ncol(readWorksheet(workBook, SheetIndex, header = FALSE))
     # initialize variables for first run only
     if (is.null(sys.mrow))
       sys.mrow <- sys.nrow
@@ -182,8 +185,7 @@ getBNDL <- function(workBook, sheets) {
     } else {
       # but if sys.data have data, convert it to list and concatenate it with data
       # from the current sheet. Then convert it to dataframe and store it.
-      sys.data <-
-        bindDATA(list("SET1" = sys.data, "SET2" = sys.temp))
+      sys.data <- bindDATA(list("SET1" = sys.data, "SET2" = sys.temp))
       #sys.data <- as.data.frame(c(sys.data, sys.temp), stringsAsFactors = FALSE)
     }
   }
@@ -600,7 +602,7 @@ UIDGen <- function(db.data) {
         digest(paste(db.data[4, 2 * IDX - 1],
                      db.data[3, 2 * IDX - 1],
                      db.data[3, 2 * IDX],
-                     # db.data[1, 2 * IDX - 1],
+                     db.data[1, 2 * IDX - 1],
                      db.data[2, 2 * IDX - 1],
                      sep = "_"),
                algo = "md5")

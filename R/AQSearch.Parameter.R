@@ -93,11 +93,11 @@ AQSearch.Parameter <-
       }
       # search a system that matchs the system's temperature, if search parameter is not null.
       if (!is.null(db.Temp)) {
-        db.grep <- db.grep[db.grep$TEMP == db.Temp, ]
+        db.grep <- db.grep[(!is.na(db.grep$TEMP) & db.grep$TEMP == db.Temp), ]
       }
       # search a system that matchs the system's pH, if search parameter is not null.
       if (!is.null(db.ph)) {
-        db.grep <- db.grep[db.grep$PH == db.ph, ]
+        db.grep <- db.grep[(!is.na(db.grep$PH) & db.grep$PH == db.ph), ]
       }
       # search a system that matchs the system's UID, if search parameter is not null.
       if (!is.null(db.uid)) {

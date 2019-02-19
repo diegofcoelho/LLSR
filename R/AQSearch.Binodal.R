@@ -88,11 +88,11 @@ AQSearch.Binodal <-
     }
     # search a system that matchs the system's temperature, if search parameter is not null.
     if (!is.null(db.Temp)) {
-      db.grep <- db.grep[, matchTpH(db.Temp, db.grep, FALSE)]
+      db.grep <- matchTpH(db.Temp, db.grep, FALSE)
     }
     # search a system that matchs the system's pH, if search parameter is not null.
     if (!is.null(db.ph)) {
-      db.grep <- db.grep[, matchTpH(db.ph, db.grep, TRUE)]
+      db.grep <- matchTpH(db.ph, db.grep, TRUE)
     }
     # search a system that matchs the system's UID, if search parameter is not null.
     if (!is.null(db.uid)) {
