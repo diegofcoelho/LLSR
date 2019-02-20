@@ -62,9 +62,9 @@ AQSearch.Tieline <-
       db.CompA.altNames <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
       db.CompA.cas <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
       #
-      db.chem.names <- c(db.CompA.names, db.CompA.altNames, db.CompA.cas)
+      db.chem.names <- list(db.CompA.names, db.CompA.altNames, db.CompA.cas)
       db.chem.names <- ifelse(length(db.chem.names) == 0, "", db.chem.names)
-      db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
+      db.grep <- db.grep[matchComp(db.chem.names, db.grep), ]
     }
     # search a system that matchs the lower-phase component, if search parameter is not null.
     if (!is.null(db.CompB)) {
@@ -72,9 +72,9 @@ AQSearch.Tieline <-
       db.CompB.altNames <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
       db.CompB.cas <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
       #
-      db.chem.names <- c(db.CompB.names, db.CompB.altNames, db.CompB.cas)
+      db.chem.names <- list(db.CompB.names, db.CompB.altNames, db.CompB.cas)
       db.chem.names <- ifelse(length(db.chem.names) == 0, "", db.chem.names)
-      db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
+      db.grep <- db.grep[matchComp(db.chem.names, db.grep), ]
     }
     # search a system that matchs the additive component, if search parameter is not null.
     if (!is.null(db.CompC)) {
@@ -82,9 +82,9 @@ AQSearch.Tieline <-
       db.CompC.altNames <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
       db.CompC.cas <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
       #
-      db.chem.names <- c(db.CompC.names, db.CompC.altNames, db.CompC.cas)
+      db.chem.names <- list(db.CompC.names, db.CompC.altNames, db.CompC.cas)
       db.chem.names <- ifelse(length(db.chem.names) == 0, "", db.chem.names)
-      db.grep <- db.grep[which(db.chem.names == db.grep, TRUE)[, "row"],]
+      db.grep <- db.grep[matchComp(db.chem.names, db.grep), ]
     }
     # search a system that matchs the system's temperature, if search parameter is not null.
     if (!is.null(db.Temp)) {
@@ -96,7 +96,7 @@ AQSearch.Tieline <-
     }
     # search a system that matchs the system's UID, if search parameter is not null.
     if (!is.null(db.uid)) {
-      db.grep <- db.grep[matchUID(db.uid, db.grep),]
+      db.grep <- db.grep[matchUID(db.uid, db.grep), ]
     }
     #
     if (ncol(db.grep) != 0) {

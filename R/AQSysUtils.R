@@ -98,7 +98,8 @@ matchTpH<- function(TpH, BinodalMatrix, pH) {
     #
   } 
   if (length(db.TpH.results)!= 0) {
-    db.binodals.index <- ifelse(length(db.binodals.index) == 0, 0, sort(c(db.binodals.index, db.binodals.index + 1)))
+    db.binodals.seq <- sort(c(db.binodals.index, db.binodals.index + 1))
+    db.binodals.index <- unlist(ifelse(length(db.binodals.index) == 0, 0, list(db.binodals.seq)))
     return(BinodalMatrix[, db.binodals.index])
   } else{
     return(data.frame())
@@ -107,7 +108,7 @@ matchTpH<- function(TpH, BinodalMatrix, pH) {
 #
 matchBNDL<- function(compNameList, BinodalMatrix) {
   #
-  if (length(compNameList)==0){return(c())}
+  if (length(compNameList)==0){return(c())} else (compNameList <- unlist(compNameList))
   #
   req_results <- sapply(compNameList, function(compName) {
     unlist(which(BinodalMatrix == compName, TRUE))
@@ -133,6 +134,20 @@ matchBNDL<- function(compNameList, BinodalMatrix) {
   db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
   #
   return(db.binodals.index)
+}
+#
+matchComp <- function(compNameList, db.matrix){
+  #
+  if (length(compNameList)==0){return(c())} else (compNameList <- unlist(compNameList))
+  #
+  ans <- unique(unname(unlist(sapply(compNameList, function(x) {
+    c(
+      grep(x, db.matrix$A, ignore.case = TRUE, value = FALSE),
+      grep(x, db.matrix$B, ignore.case = TRUE, value = FALSE),
+      grep(x, db.matrix$C, ignore.case = TRUE, value = FALSE)
+    )
+  }))))
+  return(ans)
 }
 #
 idx2name <- function(idx, casdb) {
