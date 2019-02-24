@@ -165,7 +165,7 @@ AQSysEval <- function(dataSET,
           cat("#")
         }
       }
-      cat("]\n")
+      cat("#]\n")
       # data.frame holding data regarding Critical Point convergence
       output_res <- setNames(data.frame(dt, TL), c("dt", "TL"))
       # Setting up data.frame to hold data from the global points

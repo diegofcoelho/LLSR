@@ -57,7 +57,10 @@ AQSearch.Tieline <-
     if (all(unlist(lapply(db.params, is.null)))) AQSys.err("6")
     # output variable is initialised with data from db.
     db.grep <- db$db.tielines$data
-    if (!is.null(db.CompA)) {
+    #
+    if ((nrow(db.grep)==0)&(ncol(db.grep)==0)) {db.ph = db.CompA = db.CompB = db.Temp = db.CompC = db.uid = NULL}
+    #
+    if (is.valid(db.CompA)) {
       db.CompA.names <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.NAME), fixed = TRUE), "CAS.NAME"]
       db.CompA.altNames <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
       db.CompA.cas <- db$db.cas[grep(tolower(db.CompA), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
@@ -67,7 +70,7 @@ AQSearch.Tieline <-
       db.grep <- db.grep[matchComp(db.chem.names, db.grep), ]
     }
     # search a system that matchs the lower-phase component, if search parameter is not null.
-    if (!is.null(db.CompB)) {
+    if (is.valid(db.CompB)) {
       db.CompB.names <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.NAME), fixed = TRUE), "CAS.NAME"]
       db.CompB.altNames <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
       db.CompB.cas <- db$db.cas[grep(tolower(db.CompB), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
@@ -77,7 +80,7 @@ AQSearch.Tieline <-
       db.grep <- db.grep[matchComp(db.chem.names, db.grep), ]
     }
     # search a system that matchs the additive component, if search parameter is not null.
-    if (!is.null(db.CompC)) {
+    if (is.valid(db.CompC)) {
       db.CompC.names <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.NAME), fixed = TRUE), "CAS.NAME"]
       db.CompC.altNames <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.COMMON), fixed = TRUE), "CAS.NAME"]
       db.CompC.cas <- db$db.cas[grep(tolower(db.CompC), tolower(db$db.cas$CAS.CODE), fixed = TRUE), "CAS.NAME"]
@@ -87,20 +90,20 @@ AQSearch.Tieline <-
       db.grep <- db.grep[matchComp(db.chem.names, db.grep), ]
     }
     # search a system that matchs the system's temperature, if search parameter is not null.
-    if (!is.null(db.Temp)) {
+    if (is.valid(db.Temp)) {
       db.grep <- db.grep[(!is.na(db.grep$TEMP) & db.grep$TEMP == db.Temp), ]
     }
     # search a system that matchs the system's pH, if search parameter is not null.
-    if (!is.null(db.ph)) {
+    if (is.valid(db.ph)) {
       db.grep <- db.grep[(!is.na(db.grep$PH) & db.grep$PH == db.ph), ]
     }
     # search a system that matchs the system's UID, if search parameter is not null.
-    if (!is.null(db.uid)) {
+    if (is.valid(db.uid)) {
       db.grep <- db.grep[matchUID(db.uid, db.grep), ]
     }
     #
     if (ncol(db.grep) != 0) {
-      cat(paste("    Your search had [", nrow(db.grep), "] results.", "\n",sep = ""))
+      cat(paste("    Your search had [", red(nrow(db.grep)), "] results.", "\n",sep = ""))
       if (stacked) {
         db.ans[["TieLines"]] <- db.grep
       } else {

@@ -1,15 +1,11 @@
 Package: LLSR
 Type: Package
-Title: Data Analysis of Liquid-Liquid Systems
-Version: 0.0.2.14
+Title: Data Analysis of Liquid-Liquid Systems using R
+Version: 0.0.2.17
 Date: 2019-03-01
 Author: Diego F Coelho <diegofcoelho@gmail.com> [aut, cre], Pedro Vitor Oliveira Menezes <pedrod841@hotmail.com> [dtc], Carla Corina dos Santos Porto <carlacorina@hotmail.com.br> [dtc], Jon George Huddleston <Jonathan.Huddleston@brunel.ac.uk> [rev], Elias Basile Tambourgi <eliastam@feq.unicamp.br> [rev]
 Maintainer: Diego F Coelho <diegofcoelho@gmail.com>
-Description: Analyses experimental data from liquid-liquid phase diagrams and
-    provide a simple way to obtain its parameters, producing a simplified report. Designed
-    initially to analyse Aqueous Two-Phases Systems, the package will include (every
-    other update) new functions in order to comprise useful tools in liquid-liquid
-    analysis.
+Description: Originally design to characterise Aqueous Two Phase Systems, LLSR provide a simple way to analyse experimental data and obtain phase diagram parameters, among other properties, systematically. The package will include (every other update) new functions in order to comprise useful tools in liquid-liquid extraction research.
 License: GPL-3
 Encoding: UTF-8
 LazyData: TRUE

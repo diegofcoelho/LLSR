@@ -9,8 +9,6 @@ AQSysOthmer(dataSET, Order, ...)
 \arguments{
 \item{dataSET}{- Tieline Experimental data that will be used in the nonlinear fit}
 
-\item{Order}{Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite.}
-
 \item{...}{Additional optional arguments. None are used at present.}
 }
 \value{
