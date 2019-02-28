@@ -6,7 +6,8 @@ options(digits = 14)
 #' @rdname AQSysDOE
 #' @name AQSysDOE
 #' @title AQSysDOE
-#' @description XXX.
+#' @description The function uses a ATPS characterization data to build a Design Of Experiments (DOE) matrix based on Tie-Line Length (TLL) and Volume Ratio. 
+#' see \code{\link{AQSysEval}} for more details.
 #' @export AQSysDOE
 #' 
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit.
@@ -19,6 +20,14 @@ options(digits = 14)
 #' @param nPoints Number of points chosen for a given tieline. Default is 3. [type:Integer]
 #' @param tol limit of tolerance to reach to assume convergence. Default is 1e-5. [type:Integer]
 # ' @param maxiter	- A positive integer specifying the maximum number of iterations allowed.
+#' @examples
+#' # dataSET is a data.frame which contains series of Tieline's mass fraction and information from both components and extraction conditions (T, pH)
+#' # The function perform a system characterizaion based on data stored in LLSR's database (or provided by the user) and then calculate a DOE based on the input.
+#' \dontrun{
+#' dataSET <- AQSearch.Binodal(db.uid='56b53a50f500c502fa4a65d197fc6d84')
+#' ans <- AQSysDOE(dataSET2, nTL = 5, nPoints = 5)
+#' View(ans$DOE)
+#'}
 AQSysDOE <- function(dataSET,
                      db = LLSR::llsr_data,
                      slope = NULL,

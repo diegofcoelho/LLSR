@@ -1,25 +1,10 @@
 ####################################################################################################################
-# ' @rdname AQSearch.Tieline
-# ' @name AQSearch.Tieline
-# ' @description This function allow the user to search the LLSR database to find any ATPS that matches the used criteria.
-# ' @export
-####################################################################################################################
-# AQSearch.Tieline <-
-#   function(db = LLSR::llsr_data,
-#            db.CompA = NULL,
-#            db.CompB = NULL,
-#            db.CompC = NULL,
-#            db.Temp = NULL,
-#            db.ph = NULL,
-#            db.uid = NULL,
-#            stacked = FALSE,
-#            ...)
-#     UseMethod("AQSearch.Tieline")
+#' @importFrom crayon red bold
 ####################################################################################################################
 #' @rdname AQSearch.Tieline
 #' @title Search function for ATPS Systems data
-#' @description This function allow the user to search the package database to find any ATPS that matches the used criteria.
-#' @details The function return the systems that matches the criteria submit by the user.
+#' @description This function allow the user to search the package database to find any ATPS that matches the available criteria.
+#' @details The function return the systems that matches the criteria submitted by the user.
 #' @param db A highly structure db containing data from previously analised data. LLSR database is used by default but user may input his own db if formatted properly.
 #' @param db.CompA A String variable containing either the CAS, chemical formula or name of the upper phase enriched component..
 #' @param db.CompB A String variable containing either the CAS, chemical formula or name of the lower phase component.
@@ -110,7 +95,7 @@ AQSearch.Tieline <-
         db.ans <- db.grep
       }
       #
-      invisible(db.ans)
+      invisible(RevREF(db.ans, db))
     } else {
       # Triggers an "no results" error
       AQSys.err("5")

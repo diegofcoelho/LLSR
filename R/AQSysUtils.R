@@ -64,19 +64,6 @@ matchUID <- function(UIDList, UIDMatrix) {
   return(db.binodals.index)
 }
 #
-# matchBNDL <- function(matchingList, matchingMatrix) {
-#   matchingUIDs <- as.character(unique(matchingList))
-#   #
-#   db.binodals.index <-
-#     as.numeric(setNames(na.exclude(sapply(matchingUIDs, function(uid) {
-#       which(matchingMatrix == uid, TRUE)[2]
-#     })), NULL))
-#   #
-#   db.binodals.index <- sort(c(db.binodals.index, db.binodals.index + 1))
-#   #
-#   return(db.binodals.index)
-# }
-#
 matchTpH<- function(TpH, BinodalMatrix, pH) {
   #
   if (pH){RowIdx <- 1} else {RowIdx <- 2}
@@ -634,4 +621,40 @@ ChckBndrs <- function(BNFn, slope, BNDL, xmax){
   }
   return(xmax)
   
+}
+#
+RevMD5 <- function(table, db.data){
+    BY.ROW <- ("REF.MD5" %in% colnames(table))
+    if (BY.ROW) {
+      REF.MD5 <- table[["REF.MD5"]]
+      table[["REF.MD5"]] <- sapply(REF.MD5, function(x){db.data$db.ref[db.data$db.ref$REF.MD5 == x, "REF.NAME"]})
+      names(table)[grep("REF.MD5", names(table))] <- "REF"
+    } else {
+      DATA.LENGTH <- ncol(table)
+      DATA.NSYS <- DATA.LENGTH / 2
+      for (IDX in seq(1, DATA.NSYS)) {
+        REF.MD5 <- table[4, 2 * IDX - 1]
+        table[4, 2 * IDX - 1] <- db.data$db.ref[db.data$db.ref$REF.MD5 == REF.MD5, "REF.NAME"]
+      }
+    }
+    return(table)
+}
+#
+RevREF <- function(db.tables, db.data) {
+  tables <- names(db.tables)
+  if (!is.data.frame(db.tables)) {
+    for (table in tables) {
+      if (!is.data.frame(db.tables[[table]])) {
+        nested_tables <-  names(db.tables[[table]])
+        for (nested_table in nested_tables) {
+          db.tables[[table]][[nested_table]] <- RevMD5(db.tables[[table]][[nested_table]], db.data)
+        }
+      } else {
+        db.tables[[table]] <- RevMD5(db.tables[[table]], db.data)
+      }
+    }
+  } else {
+    db.tables <- RevMD5(db.tables, db.data)
+  }
+  return(db.tables)
 }

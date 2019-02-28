@@ -3,12 +3,11 @@ options(digits = 14)
 ####################################################################################################################
 #' @import rootSolve
 ####################################################################################################################
-#' @rdname AQSysAnima
-#' @name AQSysAnima
-#' @title AQSysAnima
+#' @rdname AQSysAnimation
+#' @name AQSysAnimation
+#' @title AQSysAnimation
 #' @description Import DB data from an Excel Worksheet.
-#' @export AQSysAnima
-#'
+#' @export AQSysAnimation
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear fit
 #' @param db A highly structure db containing data from previously analised data. LLSR database is used by default but user may input his own db if formatted properly.
 #' @param xmax Maximum value for the Horizontal axis' value (bottom-rich component). [type:double]
@@ -39,7 +38,7 @@ options(digits = 14)
 #' KAUL, A. The Phase Diagram. In: HATTI-KAUL, R. (Ed.). Aqueous Two-Phase Systems: Methods and Protocols: Humana Press, v.11, 2000. cap. 2, p.11-21.  (Methods in Biotechnology). ISBN 978-0-89603-541-6.
 #' (\href{https://link.springer.com/10.1385/1-59259-028-4:11}{SpringerLink})
 #'
-AQSysAnima <- function(dataSET,
+AQSysAnimation <- function(dataSET,
                       db = LLSR::llsr_data,
                       xmax = NULL,
                       NP = 100,

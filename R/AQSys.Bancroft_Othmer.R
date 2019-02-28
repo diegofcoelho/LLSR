@@ -23,7 +23,7 @@
 #' # bottom phases.
 #' # Then you just need to load the data.frame in the function:
 #' \dontrun{
-#' AQSysOthmer(dataSET)
+#' AQSysOthmer(dataSET, Order = "xy")
 #'}
 AQSysOthmer <- function(dataSET, Order, ...) {
   # store tieline data into a dataframe variable. It might be a better approach check if
@@ -73,7 +73,7 @@ AQSysOthmer <- function(dataSET, Order, ...) {
 #' # bottom phases and W for water.
 #' # Then you just need to load the data.frame in the function:
 #' \dontrun{
-#' AQSysBancroft(dataSET)
+#' AQSysBancroft(dataSET, Order = "xy")
 #'}
 AQSysBancroft <- function(dataSET, ...) {
   # store tie-line data into a dataframe variable. It might be a better approach check if
