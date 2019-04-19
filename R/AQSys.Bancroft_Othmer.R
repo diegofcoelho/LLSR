@@ -25,7 +25,7 @@
 #' \dontrun{
 #' AQSysOthmer(dataSET, Order = "xy")
 #'}
-AQSysOthmer <- function(dataSET, Order, ...) {
+AQSysOthmer <- function(dataSET, ...) {
   # store tieline data into a dataframe variable. It might be a better approach check if
   # user stored it in a dataframe and if not trigger an error.
   dataSET <- as.data.frame(na.exclude(apply(dataSET, 1:2, as.numeric)))

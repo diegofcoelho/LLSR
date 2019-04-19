@@ -4,7 +4,7 @@
 \alias{AQSysOthmer}
 \title{Othmer's Equation - Tieline's correlation}
 \usage{
-AQSysOthmer(dataSET, Order, ...)
+AQSysOthmer(dataSET, ...)
 }
 \arguments{
 \item{dataSET}{- Tieline Experimental data that will be used in the nonlinear fit}

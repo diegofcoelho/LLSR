@@ -5,7 +5,7 @@
 \title{Dataset and Fitted Function plot}
 \usage{
 \method{AQSys}{data}(dataSET, modelName = "merchuk", Order = "xy",
-  xmax = "", ymax = "")
+  xmax = "", ymax = "", ...)
 }
 \arguments{
 \item{dataSET}{- Binodal Experimental data that will be used in the nonlinear fit. It might hold multiple systems stacked side-by-side. [type:data.frame]}
@@ -18,6 +18,8 @@ The default method uses Merchuk's equation. Other mathematical descriptors can b
 \item{xmax}{Maximum value for the Horizontal axis' value - optional [type:double]}
 
 \item{ymax}{Maximum value for the Vertical axis' value - optional [type:double]}
+
+\item{...}{Additional optional arguments. None are used at present.}
 }
 \value{
 return a data.frame with data fitted using the chosen mathematical descriptor.

@@ -15,11 +15,8 @@
 #' @examples
 #' #
 #' XYdt <- llsr_data[["db.data"]][, 1:2]
-#' #
 #' Xdt <- llsr_data[["db.data"]][, 1]
-#' #
 #' Ydt <- llsr_data[["db.data"]][, 2]
-#' View(llsr_data)
 NULL
 #'
 #' Dataset of experimental binodal data of an ATPS

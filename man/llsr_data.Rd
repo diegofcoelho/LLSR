@@ -21,9 +21,6 @@ A database is a highly structured collection of data generally stored and access
 \examples{
 #
 XYdt <- llsr_data[["db.data"]][, 1:2]
-#
 Xdt <- llsr_data[["db.data"]][, 1]
-#
 Ydt <- llsr_data[["db.data"]][, 2]
-View(llsr_data)
 }

@@ -107,7 +107,7 @@ AQSys.default <- function(dataSET, modelName = "merchuk", Order="xy", ...) {
 #' @param Order Defines how the data is organized in the Worksheet. Use "xy" whether the first column corresponds to the lower phase fraction and "yx" whether the opposite. [type:String]
 #' @param xmax Maximum value for the Horizontal axis' value - optional [type:double]
 #' @param ymax Maximum value for the Vertical axis' value - optional [type:double]
-#' 
+#' @param ... Additional optional arguments. None are used at present.
 #' @return return a data.frame with data fitted using the chosen mathematical descriptor.
 #' @examples
 #' # Populating variable dataSET with binodal data
@@ -118,7 +118,8 @@ AQSys.data <- function (dataSET,
                         modelName = "merchuk",
                         Order = "xy",
                         xmax = "",
-                        ymax = ""
+                        ymax = "",
+                        ...
 ) {
   # guarantee all lines are valid (non-na and numeric)
   dataSET <- toNumeric(dataSET, Order)
