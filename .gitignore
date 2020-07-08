@@ -4,6 +4,7 @@ packrat/lib*/
 *.lock
 packrat/
 packrat/src/
+dev/*
 dev/*.xls
 dev/*.xlsx
 dev/imgs/*
