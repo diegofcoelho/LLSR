@@ -13,12 +13,11 @@ RnwWeave: Sweave
 LaTeX: XeLaTeX
 
 AutoAppendNewline: Yes
-LineEndingConversion: Native
 
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
-PackageCheckArgs: --as-cran
+PackageCheckArgs: --no-examples --no-tests --no-manual
 PackageRoxygenize: rd,collate,namespace,vignette
 
 QuitChildProcessesOnExit: Yes

@@ -88,5 +88,5 @@ plotIt <- function(DOE, AnalysisData){
   }
 }
 #data <- AQSysDOE(dataSET, nTL = 3, nPoints = 3)
-data <- AQSysDOE(dataSET, slope = vllsr_data[["db.tielines"]]$TLSlope, nTL = 2, nPoints = 2, tol = 1e-3)
-plotIt(data$DOE, data$data)
+#data <- AQSysDOE(dataSET, slope = vllsr_data[["db.tielines"]]$TLSlope, nTL = 2, nPoints = 2, tol = 1e-3)
+#plotIt(data$DOE, data$data)
