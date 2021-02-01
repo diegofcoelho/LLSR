@@ -47,15 +47,15 @@ AQSearch.Tieline <-
     cat("  [Tieline]\n")
     # initialize db.ans
     db.ans <- list()
-    # create and initialise a list using the function's parameters
+    # create and initialize a list using the function's parameters
     db.params <- c(db.ph, db.CompA, db.CompB, db.Temp, db.CompC, db.uid)
     # if all parameters are null, the search is not valid and it triggers an
     #  error (check AQSys.err.R for details)
     if (all(unlist(lapply(db.params, is.null)))) AQSys.err("6")
-    # output variable is initialised with data from db.
+    # output variable is initialized with data from db.
     db.grep <- db$db.tielines$data
     #
-    if ((nrow(db.grep)==0)&(ncol(db.grep)==0)) 
+    if ((nrow(db.grep) == 0) & (ncol(db.grep) == 0)) 
       {db.ph = db.CompA = db.CompB = db.Temp = db.CompC = db.uid = NULL}
     #
     if (is.valid(db.CompA)) {

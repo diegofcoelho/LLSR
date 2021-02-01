@@ -85,17 +85,15 @@ AQSysPlot <- function (dataSET,
 
 bndOrthPlot <- function(dataSET, Order, xlbl = "", ylbl = "") {
   #
-  dataSET[, 1:2] <- toNumeric(dataSET, Order)
+  # dataSET[, 1:2] <- toNumeric(dataSET, Order)
   #
   xmax <- ceiling(round(max(dataSET[, 1]) / 0.92, 1) / 5) * 5
   ymax <- ceiling(round(max(dataSET[, 2]) / 0.92, 1) / 5) * 5
   #
   outputPLOT <- ggplot() + scale_colour_grey() +
-    geom_line(data = dataSET,
-              size = 1,
+    geom_line(data = dataSET, size = 1, 
               aes_string(color = "System", x = "X", y = "Y")) +
-    geom_point(data = dataSET,
-               size = 2,
+    geom_point(data = dataSET, size = 2,
                aes_string(color = "System", x = "X", y = "Y")) +
     xlab(paste(xlbl,  "(%, m/m)")) +
     ylab(paste(ylbl, "(%, m/m)")) +

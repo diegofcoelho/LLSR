@@ -11,7 +11,7 @@ options(digits = 14)
 #' @export AQSysEval
 #' @param dataSET - Binodal Experimental data that will be used in the nonlinear
 #'  fit. [type:data.frame]
-#' @param db A highly structure db containing data from previously analised 
+#' @param db A highly structure db containing data from previously analyzed 
 #' data. LLSR database is used by default but user may input his own db if 
 #' formatted properly.
 #' @param xmax Maximum value for the Horizontal axis' value (bottom-rich
@@ -73,7 +73,7 @@ AQSysEval <- function(dataSET,
                       convrgnceLines = FALSE,
                       nTL = 3,
                       nPoints = 3,
-                      tol = 1e-5,
+                      tol = 1e-4,
                       xlbl = "",
                       ylbl = "",
                       seriesNames = NULL,
@@ -83,9 +83,9 @@ AQSysEval <- function(dataSET,
                       wdir = NULL,
                       silent = TRUE) {
   #
-  if (is.null(slope)){
-    slope = findSlope(db, dataSET)
-  } else if (!((ncol(dataSET) / 2) == length(slope))){
+  if (is.null(slope)) {
+    slope = as.numeric(findSlope(db, dataSET))
+  } else if (!((ncol(dataSET) / 2) == length(slope))) {
     AQSys.err("11")
   }
   # Select which model will be used to generate the plot. Function return list
@@ -129,7 +129,7 @@ AQSysEval <- function(dataSET,
           AQSys.err("0")
         )
       # define a straight line EQUATION
-      Gn <- function (yMin, AngCoeff, xMAX, x) {
+      Gn <- function(yMin, AngCoeff, xMAX, x) {
           yMin + AngCoeff * (x - xMAX)
         }
       # Add constant variable values to the equations
@@ -153,10 +153,10 @@ AQSysEval <- function(dataSET,
       TL <- 0
       dt <- 1
       reset_BNDL <- BNDL
-      CrptFnd <- FALSE # Crital Point Found Logical variable
+      CrptFnd <- FALSE # Critical Point Found Logical variable
       DivFactor <- 25
       #
-      cat("\t - Calculating: [")
+      cat(paste0("\t - Calculating System #",  i," ["))
       while ((dt > tol) && !CrptFnd) {
         TL <- TL + 1
         yMAXTL <- yMAX + 1
@@ -186,16 +186,15 @@ AQSysEval <- function(dataSET,
         SysL[[TL]]["System"] <- paste(seriesNames[i], "TL", TL, sep = "-")
         # check if compositions of both phases, as well as the global 
         # composition, are equal. If so, critical point was found.
-        CrptFnd <- is.equal(SysL[[TL]], tol)
+        CrptFnd <- is.equal(SysL[[TL]], 1e-3)
         # Bind the calculated tieline's data.frame to the output data.frame 
         # variable
         BNDL <- rbind(BNDL,  SysL[[TL]])
         # A monod-base equation to help convergence - 
-        dt <- abs(SysL[[TL]][2, 1] - modelFn(SysL[[TL]][2, 1])) / 
-          ((5 * TL) / (xMAX / DivFactor))
-        xMAX <- xMAX - dt
+        dt <- abs(SysL[[TL]][2, 1] - modelFn(SysL[[TL]][2, 1])) 
+        xMAX <- xMAX - (dt / ((5 * TL) / (xMAX / DivFactor)))
         #
-        if (TL > 1250) {
+        if (TL == 1250) {
           DivFactor <- DivFactor * 0.9
           SysL <- list()
           TL <- 0
@@ -210,9 +209,9 @@ AQSysEval <- function(dataSET,
       # data.frame holding data regarding Critical Point convergence
       output_res <- setNames(data.frame(dt, TL), c("dt", "TL"))
       # Setting up data.frame to hold data from the global points
-      GlobalPoints <- setNames(data.frame(matrix(ncol = 2, 
-                                                 nrow = length(SysL))),
-                               c("XG", "YG"))
+      GlobalPoints <- setNames(
+        data.frame(matrix(ncol = 2, nrow = length(SysL))), c("XG", "YG")
+        )
       # transfer data to specific globalpoint data.frame. It will be used to
       #  calculate other system compositions for a given tieline.
       for (TL in seq(1, length(SysL))) {
@@ -224,8 +223,8 @@ AQSysEval <- function(dataSET,
       # essentially satisfy the definition of critical point. The lines below
       #  add such point in a specific dataframe for the system
       # under study/calculation
-      XC <- SysL[[length(SysL) - 1]][["X"]][1]
-      YC <- SysL[[length(SysL) - 1]][["Y"]][1]
+      XC <- SysL[[length(SysL) - 1]][["X"]][2]
+      YC <- SysL[[length(SysL) - 1]][["Y"]][2]
       SysCvP <- setNames(data.frame(XC, YC), c("XC", "YC"))
       SysL$CriticalPoint <- SysCvP
       # Print tieline's convergence data for the system
@@ -259,7 +258,7 @@ AQSysEval <- function(dataSET,
       output_plot <- bndOrthPlot(dataSET = subset(
         BNDL, BNDL$System == seriesNames[i]), Order = SysOrder, xlbl = xlbl ,
         ylbl = ylbl) 
-      if (convrgnceLines){
+      if (convrgnceLines) {
         output_plot <- output_plot + 
           geom_line(
             data = subset(BNDL, BNDL$System != seriesNames[i]),

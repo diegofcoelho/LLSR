@@ -305,7 +305,8 @@ getTL <- function(workBook, sheets) {
               xlsxFile = workBook,
               sheet = SheetIndex,
               cols = seq(1, 17),
-              colNames = TRUE
+              colNames = TRUE,
+              skipEmptyCols = FALSE
             ))
   }
   #
@@ -555,8 +556,8 @@ AQSys.merge <- function(wrbk, sheets) {
 #
 TLAnalysis <- function(workBook, sheets) {
   #
-  ColNum <- 8 # Number of COlumns
-  # path must point to a xlsx or xls file
+  ColNum <- 8 # Number of Columns
+  # 
   TLData <- getTL(workBook, sheets)
   uniqeKeys <- TLData[["uniqeKeys"]]
   sys.temp <- TLData[["systems"]]
@@ -590,15 +591,11 @@ TLAnalysis <- function(workBook, sheets) {
 toNumeric <- function(XYData, Order) {
   # convert and name variables accordingly into vectors
   if (tolower(Order) == "xy") {
-    xc <-
-      as.vector(as.numeric(sub(",", ".", XYData[, 1], fixed = TRUE)))
-    yc <-
-      as.vector(as.numeric(sub(",", ".", XYData[, 2], fixed = TRUE)))
+    xc <- as.vector(as.numeric(sub(",", ".", XYData[, 1], fixed = TRUE)))
+    yc <- as.vector(as.numeric(sub(",", ".", XYData[, 2], fixed = TRUE)))
   } else{
-    xc <-
-      as.vector(as.numeric(sub(",", ".", XYData[, 2], fixed = TRUE)))
-    yc <-
-      as.vector(as.numeric(sub(",", ".", XYData[, 1], fixed = TRUE)))
+    xc <- as.vector(as.numeric(sub(",", ".", XYData[, 2], fixed = TRUE)))
+    yc <- as.vector(as.numeric(sub(",", ".", XYData[, 1], fixed = TRUE)))
   }
   # and combine them into a dataframe
   XYdt <- data.frame(XC = xc, YC = yc)

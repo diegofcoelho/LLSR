@@ -77,14 +77,14 @@ AQSys.LevArmRule <-
   if (byW & !is.null(c(WT, WB))) {
     # Calculate alfa for a given system composition
     alfa <- WT / (WT + WB)
-  } else{
+  } else if (byW) {
     AQSys.err("13")
   }
   #
   if (!byW & !is.null(c(Vt, Vb, dyt, dyb))) {
     # Calculate alfa for a given system composition
     alfa <- Vt * dyt / (Vt * dyt + Vb * dyb)
-  } else if (!byW){
+  } else if (!byW) {
     AQSys.err("14")
   }
   #
@@ -105,7 +105,7 @@ AQSys.LevArmRule <-
   #
   sysres <- multiroot(
     f = sys,
-    start = c(10, 10, 10, 10),
+    start = c(10, 1, 10, 1),
     positive = TRUE
   )
   # Calculate the tieline length and store it in sysres under the TLL alias

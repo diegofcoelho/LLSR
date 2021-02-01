@@ -8,7 +8,7 @@ AQSysDOE(
   dataSET,
   db = LLSR::llsr_data,
   slope = NULL,
-  xmax = NULL,
+  xmax = 100,
   modelName = "merchuk",
   nTL = 3,
   nPoints = 3,

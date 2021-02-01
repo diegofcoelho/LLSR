@@ -92,8 +92,12 @@ AQSysCurve <- function(
                  AQSys.err("0"))
     #
     if (is.null(seriesNames) || !(length(seriesNames) == nSys)) {
-      print(paste("The array seriesNames must have", nSys, "elements. Default 
-                  names will be used instead."))
+      cat(
+        paste(
+          "\nThe array seriesNames must have", nSys, 
+          "element(s). Default names will be used instead.\n\n"
+          )
+        )
       seriesNames <- sapply(seq(1, nSys), function(x) paste("Series", x))
     } else {
       SysNames <- TRUE

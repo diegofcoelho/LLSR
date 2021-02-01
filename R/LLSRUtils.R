@@ -59,7 +59,7 @@ FindMinTL <- function(SysCP, maxGP, xMax, slope, BLFn, tol, dfr = 0.05){
   TLFn <- function(x) { Y + slope * (x - X) }
   # find the intersections between the minTL and the binodal
   xRoots <- uniroot.all(function(x) (BLFn(x) - TLFn(x)), c(0, xMax * 1.5), 
-                        tol = 0.1) # REPLACE XMAX TO THE LIMIT OF SOLUBILITY?
+                        tol = 1e-3) # REPLACE XMAX TO THE LIMIT OF SOLUBILITY?
   # Creates an array containing all Xs which characterizes minTL
   xTL <- c(min(xRoots), sum(xRoots) / 2, max(xRoots))
   # return a data.frame containing all Xs and Ys for minTL
@@ -102,10 +102,15 @@ findTL <- function(dTLL, SysTLL, BLFn, slope){
   OUTPUT <- list()
   dt <- 1
   #
-  while (dt > 1e-4) {
+  whl_idx <- 1
+  while ((dt > 1e-4) & (whl_idx < 30000)) {
     Y <- BLFn(X)
     TLFn <- function(x) { Y + slope * (x - X) }
-    xRoots <- uniroot.all(function(x) (BLFn(x) - TLFn(x)), c(0, X), tol = 0.1) 
+    xRoots <- uniroot.all(function(x) (BLFn(x) - TLFn(x)), c(0, X), tol = 1e-3)
+    if (identical(xRoots, numeric(0))) {
+      X <- X - dt * (-(TLL - dTLL) / abs(TLL - dTLL)) / 10
+      break
+    }
     #
     TL[1, 1] <- min(xRoots)
     TL[3, 1] <- max(xRoots)
@@ -113,9 +118,10 @@ findTL <- function(dTLL, SysTLL, BLFn, slope){
     TL[3, 2] <- unname(BLFn(TL[3, 1]))
     #
     TLL <- dPoints(TL[1, ], TL[3, ])
-    dt <- abs(TLL - dTLL)
+    dt <- (abs(TLL - dTLL))^2
     #
-    X <- X + dt * (-(TLL - dTLL) / abs(TLL - dTLL)) / 10
+    X <- X + dt * (-(TLL - dTLL) / abs(TLL - dTLL)) / 100
+    whl_idx <- whl_idx + 1
   }
   TL[2, 1] <- (TL[1, 1] + TL[3, 1]) / 2
   TL[2, 2] <- (TL[1, 2] + TL[3, 2]) / 2
@@ -134,10 +140,10 @@ findSlope <- function(db, dataSET){
   if ((ncol(dataSET) %% 2) == 0) {
     for (sys in seq(1, nSys)) {
       # Get the system characterization variables
-      idx_Y <- dataSET[3, sys * 2 - 1]
-      idx_X <- dataSET[3, sys * 2]
+      idx_Y <- idx2name(dataSET[3, sys * 2 - 1], db$db.cas)
+      idx_X <- idx2name(dataSET[3, sys * 2], db$db.cas)
       idx_PH <- dataSET[1, sys * 2 - 1]
-      idx_T <- dataSET[2, sys * 2 - 1]
+      idx_T <- round(as.numeric(dataSET[2, sys * 2 - 1]),2)
       #
       TL_db <- db[["db.tielines"]][["slopes"]]
       slope[sys] <- TL_db[which(
@@ -150,7 +156,7 @@ findSlope <- function(db, dataSET){
     if (length(slope) == 0) {
       AQSys.err("12")
     } else {
-      return(slope)
+      return(as.numeric(slope))
     }
   } else{
     # Return an error if an invalid dataset is provided.
@@ -322,6 +328,7 @@ export_data <- function(localData = NULL) {
 }
 #
 ###############################################################################
+# Recursive function to ensure that data on every data.frame is ASCII compliant 
 to.ascii <- function(x) {
   if (class(x) == 'list') {
     for (nm in names(x)) {

@@ -48,7 +48,6 @@ AQSysDB <- function(path) {
     # details.
     bndlDATA <- getBNDL(workBook, sheets)
     #
-    #
     # EXTRAPOLATE TIELINES INTO BINODAL CURVES
     # tlDATA <- toBNDL(workBook, sheets)
     # BINDS EXTRAPOLATED TIE-LINES AND BINODAL DATA
@@ -171,13 +170,16 @@ AQSysDB <- function(path) {
       #
     }
     # return silently all data obtained from the worksheet in a list of three 
-    # dataframes
+    # data-frames
+    #
     invisible(
       to.ascii(
         list(
           "db.ref" = refdb,
           "db.sys" = llsr_db,
           "db.cas" = casdb,
+          "tldbl" = tldb,
+          "tldb.raw" = tldb.raw,
           "db.data" = SysIdxToRef(refdb, casdb, XPData),
           "db.tielines" = list(
             "data" = IdxToRef(refdb, tldb.raw, casdb),

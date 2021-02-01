@@ -15,7 +15,7 @@ AQSysEval(
   convrgnceLines = FALSE,
   nTL = 3,
   nPoints = 3,
-  tol = 1e-05,
+  tol = 1e-04,
   xlbl = "",
   ylbl = "",
   seriesNames = NULL,
@@ -30,7 +30,7 @@ AQSysEval(
 \item{dataSET}{- Binodal Experimental data that will be used in the nonlinear
 fit. [type:data.frame]}
 
-\item{db}{A highly structure db containing data from previously analised 
+\item{db}{A highly structure db containing data from previously analyzed 
 data. LLSR database is used by default but user may input his own db if 
 formatted properly.}
 

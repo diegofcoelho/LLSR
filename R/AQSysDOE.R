@@ -49,15 +49,15 @@ options(digits = 14)
 AQSysDOE <- function(dataSET,
                      db = LLSR::llsr_data,
                      slope = NULL,
-                     xmax = NULL,
+                     xmax = 100,
                      modelName = "merchuk",
                      nTL = 3,
                      nPoints = 3,
                      tol = 1e-5) {
   #
-  if (is.null(slope)){
-    slope = findSlope(db, dataSET)
-  } else if (!((ncol(dataSET) / 2) == length(slope))){
+  if (is.null(slope)) {
+    slope = as.numeric(findSlope(db, dataSET))
+  } else if (!((ncol(dataSET) / 2) == length(slope))) {
     AQSys.err("11")
   }
   #
@@ -67,10 +67,11 @@ AQSysDOE <- function(dataSET,
     nTL = nTL,
     nPoints = nPoints,
     modelName = modelName,
-    slope = slope
+    slope = slope,
+    xmax = xmax
   )
   #
-  if (length(rawEvalData$data)==length(rawEvalData$plot)) {
+  if (length(rawEvalData$data) == length(rawEvalData$plot)) {
     SysCharData <- rawEvalData$data
   } else {
     SysCharData <- list()
@@ -80,13 +81,23 @@ AQSysDOE <- function(dataSET,
   dataNames <- c("X", "Y", "System", "TLL", "Point")
   OUTPUT <- setNames(as.data.frame(matrix(ncol = 5)), dataNames)
   TLLs <- as.data.frame(matrix(ncol = 2, nrow = length(SysCharData)))
-  for (idx in seq(1, length(SysCharData))){
-    TLLs [idx, 1:2] <- as.data.frame(SysCharData[[idx]]$TLL)
+  for (idx in seq(1, length(SysCharData))) {
+    TLLs[idx, 1:2] <- as.data.frame(SysCharData[[idx]]$TLL)
   }
   # values are rounded 1% to make sure they are within the method boundaries
-  seqTLL <- seq(round(max(TLLs[, 1]), 2), round(min(TLLs[which(
-    TLLs$V2 > max(TLLs$V1)), names(TLLs)][, 2]), 2)*0.99, length.out = nTL)
-  #return(list(A=TLLs, B=seqTLL))
+  # seqTLL <- seq(round(max(TLLs[, 1]), 2), 
+  #               round(min(TLLs[ifelse(max(TLLs$V2) == min(TLLs$V2),
+  #                                     which(TLLs$V1 == min(TLLs$V1)),
+  #                                     which(TLLs$V2 > max(TLLs$V1))
+  #               ), 
+  #                              names(TLLs)][, 2]), 2)*0.99, 
+  #               length.out = nTL)
+  #
+  seqTLL <- seq(round(max(TLLs[, 1]), 2), round(min(
+    TLLs[which(TLLs$V2 > max(TLLs$V1)), names(TLLs)][, 2]), 2) * 0.99, 
+    length.out = nTL)
+  #
+  # return(list(A = TLLs, B = seqTLL))
   # Select which model will be used to generate the plot. Function return list
   #  of plots and respective number of parameters
   models_npars <- AQSysList(TRUE)
