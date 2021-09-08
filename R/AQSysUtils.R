@@ -268,6 +268,7 @@ insertRow <- function(existingDF, newrow, r) {
   existingDF
 }
 #
+#
 saveDATA <- function(path, data) {
   workBook <- loadWorkbook(path)
   sheets <- getSheetNames(path)
@@ -275,9 +276,8 @@ saveDATA <- function(path, data) {
   if (any(grepl("results", sheets))) {
     res_idx <- grep("results", sheets)
     removeWorksheet(workBook, sheet = res_idx)
-  } else {
-    addWorksheet(workBook, sheetName = "results")
   }
+  addWorksheet(workBook, sheetName = "results")
   #
   writeData(
     wb = workBook,
@@ -286,8 +286,8 @@ saveDATA <- function(path, data) {
     startRow = 1,
     startCol = 1
   )
-  saveWorkbook(workBook)
-  #return()
+  saveWorkbook(workBook, path, overwrite = TRUE)
+  # return()
 }
 #
 getTL <- function(workBook, sheets) {
