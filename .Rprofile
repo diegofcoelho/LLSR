@@ -1,3 +1,4 @@
+# source("renv/activate.R")
 #### CHECK --as-cran
 #(x <- strptime(c("2006-01-08 10:07:52", "2006-08-07 19:33:02"),
 #               "%Y-%m-%d %H:%M:%S", tz = "America/Sao_Paulo"))
@@ -12,9 +13,6 @@
 #update) new functions in order to comprise useful functions in liquid-liquid
 #analysis
 #
-#### -- Packrat Autoloader (version 0.4.9-3) -- ####
-source("packrat/init.R")
-#### -- End Packrat Autoloader -- ####
 #### -- LLSR data Update ####
 #library(LLSR)
 #path <- "E:\\dfcoelho\\Documents\\GitHub\\LLSR\\dev\\data.xlsx"

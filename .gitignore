@@ -1,9 +1,8 @@
 # original ignores
 .Rproj.user
 packrat/lib*/
+packrat/src*/
 *.lock
-packrat/
-packrat/src/
 dev/*
 dev/*.xls
 dev/*.xlsx
