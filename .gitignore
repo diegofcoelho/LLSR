@@ -116,3 +116,4 @@ vignettes/*.pdf
 *.3dm
 *.max
 
+.Rhistory
