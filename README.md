@@ -1,4 +1,4 @@
-[![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/LLSR?color=red)](https://cran.r-project.org/package=LLSR) [![metacran downloads](https://www.r-pkg.org/badges/version/LLSR)](https://cran.r-project.org/package=LLSR) [![metacran downloads](https://www.r-pkg.org/badges/ago/LLSR)](https://cran.r-project.org/package=LLSR)
+[![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/LLSR)](https://cran.r-project.org/package=LLSR) [![metacran downloads](https://cranlogs.r-pkg.org/badges/last-week/LLSR)](https://cran.r-project.org/package=LLSR) [![metacran downloads](https://www.r-pkg.org/badges/version/LLSR)](https://cran.r-project.org/package=LLSR) [![metacran downloads](https://www.r-pkg.org/badges/ago/LLSR)](https://cran.r-project.org/package=LLSR)
 
 
 
