@@ -89,10 +89,9 @@ TLL <- function(minTL, maxTL){
 #
 findTL <- function(dTLL, SysTLL, BLFn, slope){
   # If the target TLL is smaller than the minimum calculated TLL,
-  # throw an error.
+  # or greater than the maximum, trigger a clear error.
   if ((dTLL < SysTLL$TLL$MinTLL) | (dTLL > SysTLL$TLL$MaxTLL)) {
-    # AQSys.err("10")
-    print(c(dTLL, SysTLL$TLL$MinTLL, SysTLL$TLL$MaxTLL))
+    AQSys.err("10")
   }
   # Initial guess for the tieline, calculated using the tieline length
   # proportions
