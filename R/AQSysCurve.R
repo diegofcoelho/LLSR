@@ -83,8 +83,8 @@ AQSysCurve <- function(
   models_npars <- AQSysList(TRUE)
   #
   if ((ncol(modelPars) == models_npars[[modelName]]) && (nSys >= 1 )) {
-    # mass fraction range of bottom-rich component (min is 0, max is 1)
-    x <- sort(runif(NP, 0.1, xmax))
+    # mass fraction range of bottom-rich component (deterministic grid)
+    x <- seq(0, xmax, length.out = NP)
     # select which model will be used to generate the plot
     # if user selects an option not available, it triggers an error
     # (check AQSys.err.R for details)
