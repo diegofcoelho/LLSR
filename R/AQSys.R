@@ -111,6 +111,13 @@ AQSys <- function(dataSET, ...)
 #  ISSN 0021-9568. 
 # (\href{https://pubs.acs.org/doi/abs/10.1021/je901019t}{ACS Publications})
 AQSys.default <- function(dataSET, modelName = "merchuk", Order="xy", ...) {
+  # basic input validation
+  if (!is.data.frame(dataSET)) {
+    AQSys.err("3", "dataSET")
+  }
+  if (ncol(dataSET) < 2) {
+    AQSys.err("9")
+  }
   # arrange data and guarantee R converted it to numbers but dont switch 
   # columns to prevent incompatibility with pre-existent functions 
   dataSET <- toNumeric(dataSET, Order)

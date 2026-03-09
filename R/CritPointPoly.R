@@ -128,7 +128,8 @@ crit_point_poly <- function(dataSET,
     }
     return(OUTPUT[2:1])
   } else {
-    # trigger error
+    stop("tldt is missing required fields for critical-point polynomial method.",
+         call. = FALSE)
   }
 }
 ###############################################################################
