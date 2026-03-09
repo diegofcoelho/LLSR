@@ -2,11 +2,11 @@ library(LLSR)
 
 test_that("search helpers return consistent CAS names", {
   cas_db <- LLSR::llsr_data$db.cas
-  cas_search_db <- build_cas_search_db(cas_db)
+  cas_search_db <- LLSR:::build_cas_search_db(cas_db)
   # Pick a known substring from the dataset (first CAS.NAME)
   first_name <- cas_db$CAS.NAME[1]
   substr_query <- substr(first_name, 1, min(5, nchar(first_name)))
-  matches <- search_component_names(substr_query, cas_search_db)
+  matches <- LLSR:::search_component_names(substr_query, cas_search_db)
   expect_true(first_name %in% matches)
 })
 
