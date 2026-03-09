@@ -12,7 +12,7 @@ test_that("findTL errors clearly when requested TLL is out of bounds", {
   # dTLL greater than MaxTLL should trigger an informative error
   expect_error(
     findTL(SysTLL$TLL$MaxTLL * 1.5, SysTLL, BLFn, slope = 1),
-    "Unable to find tieline"
+    "Target-TLL must be BIGGER"
   )
 })
 

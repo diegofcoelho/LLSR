@@ -1,10 +1,11 @@
+^renv/
 ^renv$
 ^renv\.lock$
 ^\.travis\.yml$
 
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^packrat/
+^packrat
 ^dev/
 ^\.Rprofile$
 ^\.github$
