@@ -28,14 +28,12 @@ AQSys.err <- function (err, ...) {
     "5" = {
       errmsg <- paste0("       Search had no results. Try removing a few",
       " parameters and search again.\n")
-      cat(errmsg)
-      #stop(errmsg, call. = FALSE)
+      stop(errmsg, call. = FALSE)
     },
     "6" = {
       errmsg <- paste0("      At least one of the parameters (UID, pH, Temp,",
                        " CompA, CompB or CompC) must be not NULL.\n")
-      cat(errmsg)
-      #stop(errmsg, call. = FALSE)
+      stop(errmsg, call. = FALSE)
     },
     "7" = {
       errmsg <- paste0("Input variable db must be a list coontaining three",
@@ -44,8 +42,7 @@ AQSys.err <- function (err, ...) {
     },
     "8" = {
       errmsg <- "Your search had no results.\n"
-      cat(errmsg)
-      #stop(errmsg, call. = FALSE)
+      stop(errmsg, call. = FALSE)
     },
     "9" = {
       errmsg <- paste0("A valid data set has multiple two-columns data for ",
