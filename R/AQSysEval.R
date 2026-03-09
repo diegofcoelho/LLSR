@@ -348,12 +348,12 @@ AQSysEval <- function(dataSET,
     invisible(list(
       "data" = if (length(SysList) > 1) {
         SysList
-      } else{
+      } else {
         SysList[[1]]
       },
       "plot" = if (length(PlotList) > 1) {
-        SysList
-      } else{
+        PlotList
+      } else {
         PlotList[[1]]
       }
     ))

@@ -370,8 +370,8 @@ AQSys.plot <- function(dataSET,
       scale_x_continuous(
         expand = c(0, 0),
         limits = c(0, xmax),
-        breaks = seq(0, ymax, by = xmax / 10),
-        labels = seq(0, ymax, by = xmax / 10)
+        breaks = seq(0, xmax, by = xmax / 10),
+        labels = seq(0, xmax, by = xmax / 10)
       )
     #
     # add curve generated using regression parameters
