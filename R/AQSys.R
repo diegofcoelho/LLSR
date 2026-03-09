@@ -339,10 +339,10 @@ AQSys.plot <- function(dataSET,
     CoefSET <- summary(AQSys(dataSET, modelName))$coefficients[, 1]
     # plot phase diagram using experimental data and with previously calculated
     #  parameters
-    plot_image <- ggplot(data = dataSET, aes_string(x = "XC", y = "YC")) + 
+    plot_image <- ggplot(data = dataSET, aes(x = .data[["XC"]], y = .data[["YC"]])) +
       geom_point(shape = 8, size = 2) +
-      theme_light() + xlab(paste(xlbl, "(%, m/m)")) + 
-      ylab(paste(ylbl, "(%, m/m)")) + 
+      theme_light() + xlab(paste(xlbl, "(%, m/m)")) +
+      ylab(paste(ylbl, "(%, m/m)")) +
       theme(
         validate = FALSE,
         plot.margin = unit(c(1, 1, 1, 1), "cm"),
@@ -350,12 +350,12 @@ AQSys.plot <- function(dataSET,
         legend.position = "top",
         axis.title.y = element_text(vjust = 5),
         axis.title.x = element_text(vjust = -2),
-        panel.grid.major = element_line(size = .70, colour = "black"),
-        panel.grid.minor = element_line(size = .70),
-        panel.border = element_rect(size = .5, colour = "white"),
+        panel.grid.major = element_line(linewidth = .70, colour = "black"),
+        panel.grid.minor = element_line(linewidth = .70),
+        panel.border = element_rect(linewidth = .5, colour = "white"),
         axis.text.x = element_text(size = 15),
         axis.text.y = element_text(size = 15),
-        axis.line = element_line(colour = 'black', size = 1.25),
+        axis.line = element_line(colour = 'black', linewidth = 1.25),
         legend.title = element_text(
           colour = "black",
           size = 12,
@@ -389,10 +389,10 @@ AQSys.plot <- function(dataSET,
     plot_image <-
       plot_image + geom_line(
         data = rawdt,
-        aes_string(x = "XC", y = "YC"),
+        aes(x = .data[["XC"]], y = .data[["YC"]]),
         color = "red",
         linetype = "solid",
-        size = 1
+        linewidth = 1
       )
     #
     if (save == TRUE) {

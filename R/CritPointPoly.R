@@ -100,13 +100,13 @@ crit_point_poly <- function(dataSET,
         # ) +
         geom_line(
           data = dataTL,
-          aes_string(x = "X", y = "Y", group = "TL"),
+          aes(x = .data[["X"]], y = .data[["Y"]], group = .data[["TL"]]),
           colour = "red",
           alpha = 0.4
         ) +
         geom_point(
           data = dataTL,
-          aes_string(x = "X", y = "Y", group = "TL"),
+          aes(x = .data[["X"]], y = .data[["Y"]], group = .data[["TL"]]),
           colour = "black",
           bg = "red",
           shape = 21,

@@ -7,5 +7,6 @@
 ^\.Rproj\.user$
 ^packrat
 ^dev/
+^run_tests\.R$
 ^\.Rprofile$
 ^\.github$

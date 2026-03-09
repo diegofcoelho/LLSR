@@ -257,61 +257,61 @@ AQSysEval <- function(dataSET,
         BNDL, BNDL$System == seriesNames[i]), Order = SysOrder, xlbl = xlbl ,
         ylbl = ylbl) 
       if (convrgnceLines) {
-        output_plot <- output_plot + 
+        output_plot <- output_plot +
           geom_line(
             data = subset(BNDL, BNDL$System != seriesNames[i]),
-            aes_string(x = "X", y = "Y", group = "System"),
+            aes(x = .data[["X"]], y = .data[["Y"]], group = .data[["System"]]),
             colour = "red",
             alpha = 0.4
           ) +
           geom_point(
             data = subset(BNDL, BNDL$System != seriesNames[i]),
-            aes_string(x = "X", y = "Y"),
+            aes(x = .data[["X"]], y = .data[["Y"]]),
             colour = "black",
             size = 1,
             alpha = 1
-          ) 
-      } else 
+          )
+      } else
         {
         output_plot <- output_plot  +
           geom_point(
             data = SysL$minTL,
-            aes_string(x = "X", y = "Y"),
+            aes(x = .data[["X"]], y = .data[["Y"]]),
             colour = "red",
             size = 2,
             alpha = 1
           ) +
           geom_line(
             data = SysL$minTL,
-            aes_string(x = "X", y = "Y"),
+            aes(x = .data[["X"]], y = .data[["Y"]]),
             colour = "red",
-            size = 1, 
+            linewidth = 1,
             alpha = 1
           ) +
           geom_point(
             data = maxTL,
-            aes_string(x = "X", y = "Y"),
+            aes(x = .data[["X"]], y = .data[["Y"]]),
             colour = "red",
             size = 2,
             alpha = 1
           ) +
           geom_line(
             data = maxTL,
-            aes_string(x = "X", y = "Y"),
+            aes(x = .data[["X"]], y = .data[["Y"]]),
             colour = "red",
-            size = 1,
+            linewidth = 1,
             alpha = 1
-          ) + 
+          ) +
           geom_line(
             data = subset(SysL$DOE, SysL$DOE$Point %in% c("T", "M", "B")),
-            aes_string(x = "X", y = "Y", group = "System"),
+            aes(x = .data[["X"]], y = .data[["Y"]], group = .data[["System"]]),
             colour = "#d11141",
-            size = 3,
+            linewidth = 3,
             alpha = 0.4
           ) +
           geom_point(
             data = subset(SysL$DOE, SysL$DOE$Point %in% "S"),
-            aes_string(x = "X", y = "Y"),
+            aes(x = .data[["X"]], y = .data[["Y"]]),
             colour = "black",
             shape = 17,
             size = 3,

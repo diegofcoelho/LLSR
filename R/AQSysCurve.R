@@ -137,9 +137,9 @@ BLOPlot <- function(dataSET, xlbl = "", ylbl = "") {
   xmax <- ceiling(round(max(dataSET$X) / 0.92, 1) / 5) * 5
   ymax <- ceiling(round(max(dataSET$Y) / 0.92, 1) / 5) * 5
   # Plot data
-  output_plot <- ggplot(dataSET, aes_string(x = "X", y = "Y", color = "System",
-                                            shape = "System"))  +
-    geom_line(size = 1) + 
+  output_plot <- ggplot(dataSET, aes(x = .data[["X"]], y = .data[["Y"]], color = .data[["System"]],
+                                    shape = .data[["System"]])) +
+    geom_line(linewidth = 1) +
     geom_point(size = 2) +
     theme_light() +  
     scale_color_llsr(palette = "mixed") +
@@ -152,12 +152,12 @@ BLOPlot <- function(dataSET, xlbl = "", ylbl = "") {
       legend.position = "top",
       axis.title.y = element_text(vjust = 5),
       axis.title.x = element_text(vjust = -2),
-      panel.grid.major = element_line(size = .70, colour = "black"),
-      panel.grid.minor = element_line(size = .70),
-      panel.border = element_rect(size = .5, colour = "white"),
+      panel.grid.major = element_line(linewidth = .70, colour = "black"),
+      panel.grid.minor = element_line(linewidth = .70),
+      panel.border = element_rect(linewidth = .5, colour = "white"),
       axis.text.x = element_text(size = 15),
       axis.text.y = element_text(size = 15),
-      axis.line = element_line(colour = 'black', size = 1.25),
+      axis.line = element_line(colour = 'black', linewidth = 1.25),
       legend.title = element_blank(),
       legend.text = element_text(
         colour = "black",
