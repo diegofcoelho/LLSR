@@ -21,7 +21,7 @@ if (getRversion() >= "3.5")
     )
   )
 ###############################################################################
-#' @import rootSolve graphics stats svDialogs ggplot2 svglite
+#' @import rootSolve graphics stats svDialogs ggplot2
 #' @importFrom grDevices dev.off
 #' @importFrom grDevices png
 # options(warn = 1)

@@ -245,7 +245,8 @@ saveConfig <- function(plot_obj, save, HR, filename, wdir, silent) {
       filename = dir_and_file,
       plot = plot_obj,
       width = 21.14 / 2,
-      height = 14.39 / 2
+      height = 14.39 / 2,
+      device = if (image_format == ".svg") "svg" else NULL
     )
   }
   return(wdir)

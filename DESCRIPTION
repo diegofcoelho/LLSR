@@ -10,7 +10,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: TRUE
 Depends: R (>= 3.5)
-Imports: rootSolve, openxlsx, digest, svDialogs, minpack.lm, ggplot2, svglite, dplyr, nleqslv, crayon
+Imports: rootSolve, openxlsx, digest, svDialogs, minpack.lm, ggplot2, dplyr, nleqslv, crayon
 URL: https://CRAN.R-project.org/package=LLSR
 BugReports: https://github.com/diegofcoelho/LLSR/issues
 Suggests: testthat
