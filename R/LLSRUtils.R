@@ -332,12 +332,12 @@ export_data <- function(localData = NULL) {
 ###############################################################################
 # Recursive function to ensure that data on every data.frame is ASCII compliant
 to.ascii <- function(x) {
-  if (class(x) == "list") {
+  if (inherits(x, "list")) {
     for (nm in names(x)) {
       x[[nm]] <- to.ascii(x[[nm]])
     }
   } else
-    if (class(x) == "data.frame") {
+    if (inherits(x, "data.frame")) {
       for (col in colnames(x)) {
         x[, col] <- iconv(x[, col], from = "UTF-8", to = "ASCII", sub = "")
         }

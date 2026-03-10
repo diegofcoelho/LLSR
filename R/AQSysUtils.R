@@ -495,8 +495,10 @@ toBNDL <- function(workBook, sheets) {
   return(sys.block[, 0:-1])
 }
 #
-AQSys.merge <- function(wrbk, sheets) {
-  # merges data contained in all sheets from the same workbook which are named 
+AQSys.merge <- function(dataSET, ...) {
+  wrbk <- dataSET
+  sheets <- list(...)[[1]]
+  # merges data contained in all sheets from the same workbook which are named
   # using the pattern datasource_sheetname_YX in its name. the order in the end
   # is optional by now but will soon be part of the main function
   #

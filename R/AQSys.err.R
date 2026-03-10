@@ -1,5 +1,6 @@
 # Each number used as argument triggers an error with its respective message
-AQSys.err <- function (err, ...) {
+AQSys.err <- function(dataSET, ...) {
+  err <- dataSET
   switch(
     err,
     "0" = {
